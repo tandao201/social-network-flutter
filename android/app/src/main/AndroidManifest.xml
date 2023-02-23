@@ -2,6 +2,7 @@
     package="com.example.chat_app_flutter">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
+        android:requestLegacyExternalStorage="true"
         android:label="Mystargram"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

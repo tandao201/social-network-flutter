@@ -12,6 +12,7 @@ class ThemeTextStyle {
   static const TextStyle heading12 = BaseTextStyle(fontSize: 12, fontWeight: FontWeight.w600);
 
   static const TextStyle body16 = BaseTextStyle(fontSize: 16, fontWeight: FontWeight.w400);
+  static const TextStyle body15 = BaseTextStyle(fontSize: 15, fontWeight: FontWeight.w400);
   static const TextStyle body14 = BaseTextStyle(fontSize: 14, fontWeight: FontWeight.w400);
   static const TextStyle body13 = BaseTextStyle(fontSize: 13, fontWeight: FontWeight.w400);
   static const TextStyle body13Bold = BaseTextStyle(fontSize: 13, fontWeight: FontWeight.w600);

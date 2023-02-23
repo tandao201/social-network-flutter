@@ -28,7 +28,7 @@ class AccountPage extends BaseView<AccountCtl> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // SizedBox(),
-              Text('Tan', style: ThemeTextStyle.heading18,),
+              Text(controller.username.value, style: ThemeTextStyle.heading18,),
               GestureDetector(
                 onTap: () {
                   print('Click menu account.............');
@@ -94,11 +94,20 @@ class AccountPage extends BaseView<AccountCtl> {
                             ],
                           ),
                           const SizedBox(height: 12,),
-                          Text('Tan tan', style: ThemeTextStyle.heading12,),
+                          Text(controller.name.value, style: ThemeTextStyle.heading12,),
+                          if (controller.bio.value.isNotEmpty)
+                            Text(controller.bio.value, style: ThemeTextStyle.body11,),
                           const SizedBox(height: 15,),
                           GestureDetector(
                             onTap: () {
-                              controller.toPage(routeUrl: RouteNames.editProfile);
+                              controller.toPage(
+                                  routeUrl: RouteNames.editProfile,
+                                  arguments: {
+                                      "username" : controller.username,
+                                      "name" : controller.name,
+                                      "bio" : controller.bio
+                                  }
+                              );
                             },
                             child: Container(
                               width: double.infinity,
