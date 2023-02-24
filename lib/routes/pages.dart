@@ -9,6 +9,8 @@ import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:get/get.dart';
 
 import '../pages/auth/login/login_bindings.dart';
+import '../pages/comment_post/comment_post_bindings.dart';
+import '../pages/comment_post/comment_post_page.dart';
 
 class Pages {
   static List<GetPage> pages() {
@@ -38,6 +40,13 @@ class Pages {
           page: () => const EditProfilePage(),
           binding: EditProfileBindings(),
           transition: Transition.downToUp
+      ),
+
+      GetPage(
+          name: RouteNames.commentPost,
+          page: () => const CommentPostPage(),
+          binding: CommentPostBindings(),
+          transition: Transition.rightToLeft
       ),
     ];
   }

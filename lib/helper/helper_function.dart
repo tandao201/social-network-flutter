@@ -2,12 +2,52 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HelperFunctions {
   //keys
-  static String userLoggedInKey = "LOGGEDINKEY";
-  static String userNameKey = "USERNAMEKEY";
-  static String userEmailKey = "USEREMAILKEY";
+  static const String userLoggedInKey = "LOGGEDINKEY";
+  static const String userNameKey = "USERNAMEKEY";
+  static const String userEmailKey = "USEREMAILKEY";
+  static const String loginKey = "userKey";
+  static const String isLoginKey = "isLoginKey";
+  static const String tokenKey = "tokenKey";
 
-  // saving the data to SF
+  // init singleton
+  static Future<SharedPreferences> get _instance async => _prefsInstance ??= await SharedPreferences.getInstance();
+  static SharedPreferences? _prefsInstance;
 
+  // call this method from iniState() function of mainApp().
+  static Future<SharedPreferences?> init() async {
+    _prefsInstance = await _instance;
+    return _prefsInstance;
+  }
+
+  static String getString(String key) {
+    String value = _prefsInstance?.getString(key) ?? "";
+    print('Get string: $key with value: $value');
+    return value;
+  }
+
+  static Future<bool> setString(String key, String value) async {
+    print('Save String: $key with value: $value');
+    var prefs = await _instance;
+    return prefs.setString(key, value);
+  }
+
+  static bool getBool(String key) {
+    bool value = _prefsInstance?.getBool(key) ?? false;
+    print('Get bool: $key with value: $value');
+    return value;
+  }
+
+  static Future<bool> setBool(String key, bool value) async {
+    print('Save bool: $key with value: $value');
+    var prefs = await _instance;
+    return prefs.setBool(key, value);
+  }
+  static Future<bool> deleteData(String key) async {
+    print('Delete data key: $key');
+    var prefs = await _instance;
+    return prefs.remove(key);
+  }
+  // --------------- Test -----------
   static Future<bool> saveUserLoggedInStatus(bool isUserLoggedIn) async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     return await sf.setBool(userLoggedInKey, isUserLoggedIn);

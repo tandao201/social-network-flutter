@@ -1,9 +1,10 @@
 import 'package:chat_app_flutter/base/base_repo.dart';
 import 'package:chat_app_flutter/base/global_ctl.dart';
 import 'package:chat_app_flutter/helper/utilities.dart';
+import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';
 import 'package:get/get.dart';
 
-class BaseCtl<T extends BaseRepo> extends GetxController with Utilities {
+class BaseCtl<T extends BaseRepo> extends GetxController with Utilities, WidgetUtils {
   T get api => Get.find<T>();
   GlobalController? globalController;
   RxBool isLoading = false.obs;

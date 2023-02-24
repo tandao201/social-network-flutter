@@ -9,10 +9,10 @@ class SplashCtl extends BaseCtl {
   void onInit() async {
     super.onInit();
     Future.delayed(const Duration(milliseconds: 1000),(){
-      if (true) {
-        toPage(routeUrl: RouteNames.login);
+      if (globalController!.isLogin.value) {
+        toPagePopUtil(routeUrl: RouteNames.home);
       } else {
-        toPage(routeUrl: RouteNames.login);
+        toPagePopUtil(routeUrl: RouteNames.login);
       }
     });
 

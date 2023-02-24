@@ -35,7 +35,7 @@ class WidgetUtils {
     String? hintText,
     TextEditingController? controller,
     double? borderRadius,
-    Function? onTextChange,
+    Function(String value)? onTextChange,
     bool obscureText = false,
   }) {
     return TextFormField(
@@ -76,12 +76,42 @@ class WidgetUtils {
   TextFormField editTextChangeProfile({
     String? hintText,
     TextEditingController? controller,
+    FocusNode? focusNode,
+    double? borderRadius,
+    Function(String value)? onTextChange,
+    bool obscureText = false,
+    bool enabled = true,
+    TextInputType textInputType = TextInputType.text,
+    int? maxLines = 1,
+  }) {
+    return TextFormField(
+      maxLines: maxLines,
+      enabled: enabled,
+      controller: controller,
+      focusNode: focusNode,
+      onChanged: (value) {
+        onTextChange?.call(value);
+      },
+      obscureText: obscureText,
+      keyboardType: textInputType,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.zero,
+          hintText: hintText ?? "",
+          hintStyle: ThemeTextStyle.hintText14,
+          border: InputBorder.none,
+          isDense: true),
+    );
+  }
+
+  TextFormField editTextComment({
+    String? hintText,
+    TextEditingController? controller,
     double? borderRadius,
     Function? onTextChange,
     bool obscureText = false,
     bool enabled = true,
     TextInputType textInputType = TextInputType.text,
-    int maxLines = 1,
+    int? maxLines = 1,
   }) {
     return TextFormField(
       maxLines: maxLines,
@@ -93,10 +123,23 @@ class WidgetUtils {
       obscureText: obscureText,
       keyboardType: textInputType,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.zero,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           hintText: hintText ?? "",
           hintStyle: ThemeTextStyle.hintText14,
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(
+              color: AppColor.black,
+              width: 1
+            )
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+              borderSide: const BorderSide(
+                  color: AppColor.black,
+                  width: 1
+              )
+          ),
           isDense: true),
     );
   }
@@ -144,6 +187,7 @@ class WidgetUtils {
   }
 
   Widget avatar({
+    bool isShowBorder = false,
     double width = 56,
     double height = 56,
     String imgUrl = "",
@@ -151,7 +195,8 @@ class WidgetUtils {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Container(
+        if (isShowBorder)
+          Container(
           decoration: BoxDecoration(
             gradient: AppColor.gradientReaded ,
             borderRadius: BorderRadius.circular(60),
@@ -160,14 +205,16 @@ class WidgetUtils {
           height: height+11,
         ),
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(60),
-            border: Border.all(
-              width: 5,
-              color: AppColor.white,
-            ) ,
-            color: AppColor.grey,
-          ),
+          decoration: isShowBorder
+            ? BoxDecoration(
+                borderRadius: BorderRadius.circular(60),
+                border: Border.all(
+                  width: 5,
+                  color: AppColor.white,
+                ),
+                color: AppColor.grey,
+              )
+            : null,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(60),
             child: cacheImage(
@@ -283,6 +330,24 @@ class WidgetUtils {
           ),
         );
       }
+    );
+  }
+
+  void showSnackBar(context, color, message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(fontSize: 14),
+        ),
+        backgroundColor: color,
+        duration: const Duration(seconds: 2),
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: () {},
+          textColor: Colors.white,
+        ),
+      ),
     );
   }
 }

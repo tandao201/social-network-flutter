@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../models/commons/user.dart';
+import '../../../routes/route_names.dart';
 import '../../../utils/shared/assets.dart';
 import '../../../utils/shared/colors.dart';
 import '../../../utils/shared/constants.dart';
@@ -272,7 +273,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
         ),
         GestureDetector(
           onTap: () {
-            print('See comment');
+            controller.toPage(routeUrl: RouteNames.commentPost);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -300,7 +301,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                               duration: const Duration(microseconds: 50),
                               child: !isLike.value
                                   ? SvgPicture.asset(Assets.like)
-                                  : Icon(Icons.favorite_rounded, color: AppColor.red,) ,
+                                  : Icon(Icons.favorite_rounded, color: AppColor.red,size: 28,) ,
                             ),
                           ),
                           const SizedBox(width: 17,),

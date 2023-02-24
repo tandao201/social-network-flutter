@@ -19,6 +19,7 @@ class ThemeTextStyle {
   static const TextStyle body13Tag = BaseTextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: AppColor.blueTag);
   static const TextStyle body12 = BaseTextStyle(fontSize: 12, fontWeight: FontWeight.w400);
   static const TextStyle body12White = BaseTextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: AppColor.white);
+  static const TextStyle body12Red = BaseTextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: AppColor.red);
   static const TextStyle body11 = BaseTextStyle(fontSize: 11, fontWeight: FontWeight.w400);
 
   static TextStyle hintText14 = BaseTextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: AppColor.black.withOpacity(0.2));

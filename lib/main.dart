@@ -1,4 +1,5 @@
 import 'package:chat_app_flutter/base/global_ctl.dart';
+import 'package:chat_app_flutter/helper/helper_function.dart';
 import 'package:chat_app_flutter/routes/pages.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
@@ -8,9 +9,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+String initialRoute = RouteNames.login;
+Future findRoute () async {
+  var isLogin = HelperFunctions.getBool(HelperFunctions.isLoginKey);
+  if (isLogin) initialRoute = RouteNames.home;
+}
+
 Future initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await HelperFunctions.init();
+  await findRoute();
   Get.put(GlobalController());
 }
 
@@ -49,7 +58,7 @@ class MyApp extends StatelessWidget {
             ],
             debugShowCheckedModeBanner: false,
             // builder: EasyLoading.init(),
-            initialRoute: RouteNames.login,
+            initialRoute: initialRoute,
             locale: const Locale("vi"),
             theme: ThemeData(
                 primaryColor: AppColor.white,

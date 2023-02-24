@@ -6,10 +6,11 @@ enum Method { POST, GET, PUT, DELETE, PATCH }
 
 class BaseRepo {
   final dio = AppApi.dio;
-  Future<dynamic> request(
-      String url,
-      Method method,
-      Map<String, dynamic>? params,) async {
+  Future<dynamic> request({
+    required String url,
+    required Method method,
+    Map<String, dynamic>? params,
+  }) async {
     Response response;
 
     try {

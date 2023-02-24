@@ -8,7 +8,7 @@ class AppColor {
   static const Color blueDark = Color(0xff121212);
   static Color lightGrey = black.withOpacity(0.1);
   static Color transparent = Colors.transparent;
-  static Color red = Colors.red;
+  static const Color red = Colors.red;
   static Color grey = black.withOpacity(0.5);
 
   static const gradientPrimary = LinearGradient(colors: [

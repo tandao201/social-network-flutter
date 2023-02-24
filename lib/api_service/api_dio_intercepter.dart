@@ -1,8 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:chat_app_flutter/api_service/api_urls.dart';
+import 'package:chat_app_flutter/utils/shared/constants.dart';
+import 'package:chat_app_flutter/utils/widgets/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../helper/helper_function.dart';
+import '../models/responses/auth_responses/login_response.dart';
+import '../utils/shared/colors.dart';
 
 class AppApi {
   static Dio? _dio;
@@ -28,7 +34,13 @@ class AppInterceptor extends InterceptorsWrapper {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // TODO: implement onRequest
     super.onRequest(options, handler);
-    options.baseUrl = ApiUrls.baseUrl;
+    String data = HelperFunctions.getString(HelperFunctions.loginKey);
+    if (data.isNotEmpty) {
+      LoginData loginData = LoginData.fromJson(jsonDecode(data));
+      options.headers['Authorization'] = "Bearer ${loginData.token}";
+    }
+    options.baseUrl = Constants.baseUrl;
+    options.headers['Content-Type'] = "application/json";
     debugPrint("🚀️ApiInterceptor-options--START🚀️");
     debugPrint("${options.method}: ${options.baseUrl}${options.path}");
     debugPrint("Headers: ${options.headers}");
@@ -44,9 +56,9 @@ class AppInterceptor extends InterceptorsWrapper {
     debugPrint("☘️ApiInterceptor-response--START☘️");
     debugPrint("${response.requestOptions.method}: ${response.requestOptions.baseUrl}${response.requestOptions.path}");
     debugPrint("Status code: ${response.statusCode}");
-    debugPrint("${response.headers}");
-    debugPrint(jsonEncode(response.data));
     debugPrint("Status message: ${response.statusMessage}");
+    // debugPrint("Headers: ${response.headers}");
+    debugPrint('Data response: ${jsonEncode(response.data)}');
     debugPrint("☘️ApiInterceptor-response--END☘️");
   }
 
@@ -56,8 +68,8 @@ class AppInterceptor extends InterceptorsWrapper {
     super.onError(err, handler);
     debugPrint("🔥ApiInterceptor-err--START🔥");
     debugPrint("${err.requestOptions.method}: ${err.requestOptions.baseUrl}${err.requestOptions.path}");
-    debugPrint("${err.response}");
-    debugPrint("${err.message}");
+    debugPrint("Error response: ${err.response}");
+    debugPrint("Error message: ${err.message}");
     debugPrint("🔥ApiInterceptor-err--END🔥");
   }
 }

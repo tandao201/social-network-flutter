@@ -31,6 +31,7 @@ class AccountPage extends BaseView<AccountCtl> {
               Text(controller.username.value, style: ThemeTextStyle.heading18,),
               GestureDetector(
                 onTap: () {
+                  controller.logout();
                   print('Click menu account.............');
                 },
                 child: SvgPicture.asset(Assets.menu),

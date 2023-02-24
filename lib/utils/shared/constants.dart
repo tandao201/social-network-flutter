@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Constants {
-  static String appId = "1:650834177592:android:06c8de7f00d2479f2480cd";
-  static String apiKey = "AIzaSyDo5YAEIZeX2YI-YxTQlbaCaycWEoem878";
-  static String messagingSenderId = "634480644405";
-  static String projectId = "chatappflutter-13318";
-  final primaryColor = const Color(0xFFee7b64);
+  // --------------- Screen size ----------------
   static double widthScreen = MediaQuery.of(Get.context!).size.width;
   static double heightScreen = MediaQuery.of(Get.context!).size.height;
+
+  // ---------------- Api base url and path ---------------
+
+  static const String baseUrl = "https://project-api-4222.onrender.com";
+
+  static const String login = "/auth/login";
+  static const String register = "/auth/register";
+  static const String updateInfo = "/auth/update";
 }

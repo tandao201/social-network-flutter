@@ -3,4 +3,5 @@ class RouteNames {
   static const home = "/home";
   static const login = "/login";
   static const editProfile = "/account/edit-profile";
+  static const commentPost = "/post/comment";
 }
