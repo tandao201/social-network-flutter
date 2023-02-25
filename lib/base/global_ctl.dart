@@ -20,6 +20,10 @@ class GlobalController extends GetxController {
     }
   }
 
+  void saveUser(UserInfo userInfo) {
+    this.userInfo.value = userInfo;
+  }
+
   void clearUserAndLoginState() {
     isLogin.value = false;
     userInfo.value = UserInfo();

@@ -121,7 +121,7 @@ class AccountPage extends BaseView<AccountCtl> {
                                       width: 1
                                   )
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
                               child: const Text("Chỉnh sửa", style: ThemeTextStyle.heading13,),
                             ),
                           ),
@@ -180,6 +180,32 @@ class AccountPage extends BaseView<AccountCtl> {
               top: BorderSide(color: AppColor.white, width: 1),
               right: BorderSide(color: AppColor.white, width: 1),
             )
+          ),
+          child: cacheImage(
+              imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
+              width: (Constants.widthScreen-36)/3,
+              height: (Constants.widthScreen-36)/3
+          ),
+        ),
+        Container(
+          decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: AppColor.white, width: 1),
+                right: BorderSide(color: AppColor.white, width: 1),
+              )
+          ),
+          child: cacheImage(
+              imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
+              width: (Constants.widthScreen-36)/3,
+              height: (Constants.widthScreen-36)/3
+          ),
+        ),
+        Container(
+          decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: AppColor.white, width: 1),
+                right: BorderSide(color: AppColor.white, width: 1),
+              )
           ),
           child: cacheImage(
               imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',

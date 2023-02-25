@@ -11,8 +11,10 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
 
   TabController? tabController;
   PageController pageController = PageController();
+  UserInfo? userInfo;
   Rx<int> currentTab = 0.obs;
   Rx<String> username = "Username".obs;
+  Rx<String> avatarUrlImg = "".obs;
   Rx<String> name = "Tên".obs;
   Rx<String> bio = "Tiểu sử".obs;
 
@@ -20,6 +22,11 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    userInfo = globalController?.userInfo.value;
+    if (userInfo != null) {
+      username.value = userInfo!.username ?? "Người dùng";
+      avatarUrlImg.value = userInfo!.avatar ?? "";
+    }
     tabController = TabController(
         length: 2,
         vsync: this,

@@ -7,6 +7,8 @@ class HelperFunctions {
   static const String userEmailKey = "USEREMAILKEY";
   static const String loginKey = "userKey";
   static const String isLoginKey = "isLoginKey";
+  static const String passwordKey = "passwordKey";
+  static const String usernameKey = "usernameKey";
   static const String tokenKey = "tokenKey";
 
   // init singleton

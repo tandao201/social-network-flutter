@@ -11,7 +11,7 @@ class BaseRepo {
     required Method method,
     Map<String, dynamic>? params,
   }) async {
-    Response response;
+    Response? response;
 
     try {
       if (method == Method.POST) {
@@ -26,21 +26,13 @@ class BaseRepo {
           queryParameters: params,
         );
       }
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return response;
-      } else if (response.statusCode == 401) {
-        throw Exception("Unauthorized");
-      } else if (response.statusCode == 500) {
-        throw Exception("Server Error");
-      } else {
-        throw Exception("Something Went Wrong");
-      }
+      return response;
     } on SocketException catch(e) {
       throw Exception("No Internet Connection");
     } on FormatException {
       throw Exception("Bad Response Format!");
     } on DioError catch (e){
-      throw Exception(e);
+      return e.response;
     } catch (e) {
       throw Exception("Something Went Wrong");
     }
