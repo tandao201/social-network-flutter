@@ -40,10 +40,7 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
                 ],
               ),
             ),
-            Divider(
-              color: AppColor.lightGrey,
-              height: 1,
-            ),
+            divider(),
             Expanded(
               child: controller.isLoading.value
                   ? Container()
@@ -57,10 +54,7 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
                       },
                     ),
             ),
-            Divider(
-              color: AppColor.lightGrey,
-              height: 1,
-            ),
+            divider(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -229,10 +223,7 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
             ),
           ),
           if (!isShowLike)
-            Divider(
-              color: AppColor.lightGrey,
-              height: 1,
-            ),
+            divider(),
         ],
       ),
     );

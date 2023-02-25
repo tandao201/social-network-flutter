@@ -83,7 +83,8 @@ class LoginPage extends BaseView<LoginCtl> {
             controller: controller.usernameCtl,
             onTextChange: (value) {
               controller.errorInfoLogin.value = "";
-            }
+            },
+            leadingIcon: const Icon(Icons.supervisor_account_rounded)
         ),
         SizedBox(height: 12.h,),
         PasswordEditText(controller: controller),
@@ -128,17 +129,11 @@ class LoginPage extends BaseView<LoginCtl> {
         SizedBox(height: 40.h,),
         Row(
           children: [
-            Expanded(child: Divider(
-              height: 1,
-              color: AppColor.lightGrey,
-            )),
+            Expanded(child: divider()),
             SizedBox(width: 30.w,),
             Text('HOẶC', style: TextStyle(fontSize: 12, color: AppColor.grey, fontWeight: FontWeight.bold),),
             SizedBox(width: 30.w,),
-            Expanded(child: Divider(
-              height: 1,
-              color: AppColor.lightGrey,
-            )),
+            Expanded(child: divider()),
           ],
         ),
         SizedBox(height: 40.h,),
@@ -188,7 +183,8 @@ class _PasswordEditTextState extends State<PasswordEditText> {
           obscureText: !isShowPass,
           onTextChange: (value) {
             widget.controller.errorInfoLogin.value = "";
-          }
+          },
+          leadingIcon: const Icon(Icons.password_rounded)
         ),
         Positioned(
           top: 12,

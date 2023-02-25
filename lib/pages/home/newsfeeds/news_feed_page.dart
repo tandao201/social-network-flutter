@@ -78,10 +78,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                       ),
                     ),
                   ),
-                  const Divider(
-                    height: 1,
-                    color: AppColor.lightGrey1,
-                  ),
+                  divider(),
                   _itemNewsFeed(
                       context: context,
                       width: Constants.widthScreen

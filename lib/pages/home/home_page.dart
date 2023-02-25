@@ -54,12 +54,7 @@ class HomePage extends BaseView<HomeCtl> {
         selectedItemColor: AppColor.blueTag,
         elevation: 3,
         onTap: (index) {
-          controller.pageIndex.value = index;
-          controller.pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeIn
-          );
+          controller.clickBottomNavItem(index);
         },
         showSelectedLabels: false,
         showUnselectedLabels: false,

@@ -9,7 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-String initialRoute = RouteNames.login;
+String initialRoute = RouteNames.home;
 Future findRoute () async {
   var isLogin = HelperFunctions.getBool(HelperFunctions.isLoginKey);
   if (isLogin) initialRoute = RouteNames.home;

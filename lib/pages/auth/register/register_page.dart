@@ -21,7 +21,8 @@ class RegisterPage extends BaseView<LoginCtl> {
             controller: controller.usernameRegisCtl!,
             onTextChange: (value) {
               controller.errorInfoRegister.value = "";
-            }
+            },
+            leadingIcon: const Icon(Icons.supervisor_account_rounded)
         ),
         SizedBox(height: 12.h,),
         textFormFieldLogin(
@@ -29,7 +30,8 @@ class RegisterPage extends BaseView<LoginCtl> {
             controller: controller.usernameInAppRegisCtl!,
             onTextChange: (value) {
               controller.errorInfoRegister.value = "";
-            }
+            },
+            leadingIcon: const Icon(Icons.account_circle)
         ),
         SizedBox(height: 12.h,),
         PasswordEditText(controller: controller, hintText: "Mật khẩu", editingController: controller.passwordRegisCtl!,),
@@ -95,7 +97,8 @@ class _PasswordEditTextState extends State<PasswordEditText> {
             obscureText: !isShowPass,
             onTextChange: (value) {
               widget.controller.errorInfoRegister.value = "";
-            }
+            },
+            leadingIcon: const Icon(Icons.password_rounded)
         ),
         Positioned(
           top: 12,

@@ -47,10 +47,7 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
                 ],
               ),
             ),
-            Divider(
-              color: AppColor.lightGrey,
-              height: 1,
-            ),
+            divider(),
             Expanded(
               child: controller.isLoading.value
                   ? Container()
@@ -100,10 +97,7 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
                         ],
                       ),
                     ),
-                    Divider(
-                      color: AppColor.lightGrey,
-                      height: 1,
-                    ),
+                    divider(),
                     Column(
                       children: [
                         _itemInfo(title: 'Tên', editCtl: controller.nameCtl),
@@ -111,10 +105,7 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
                         _itemInfo(title: 'Tiểu sử', editCtl: controller.bioCtl, isShowBorder: false, maxLines: 4),
                       ],
                     ),
-                    Divider(
-                      color: AppColor.lightGrey,
-                      height: 1,
-                    ),
+                    divider(),
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -180,10 +171,7 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
           TableRow(
               children: [
                 const SizedBox(),
-                Divider(
-                  color: AppColor.lightGrey,
-                  height: 1,
-                ),
+                divider(),
               ]
           ),
         ],

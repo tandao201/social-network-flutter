@@ -32,19 +32,23 @@ class WidgetUtils {
   }
 
   TextFormField textFormFieldLogin({
+    Icon? leadingIcon,
     String? hintText,
     TextEditingController? controller,
+    FocusNode? focusNode,
     double? borderRadius,
     Function(String value)? onTextChange,
     bool obscureText = false,
   }) {
     return TextFormField(
       controller: controller,
+      focusNode: focusNode,
       onChanged: (value) {
         onTextChange?.call(value);
       },
       obscureText: obscureText,
       decoration: InputDecoration(
+          prefixIcon: leadingIcon,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 13.5, horizontal: 15),
           hintText: hintText ?? "",
@@ -271,9 +275,7 @@ class WidgetUtils {
               const SizedBox(height: 13),
               Text(content),
               const SizedBox(height: 18),
-              const Divider(
-                height: 1,
-              ),
+              divider(),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 48,
@@ -297,9 +299,7 @@ class WidgetUtils {
                   ),
                 ),
               ),
-              const Divider(
-                height: 1,
-              ),
+              divider(),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 48,
@@ -348,6 +348,13 @@ class WidgetUtils {
           textColor: Colors.white,
         ),
       ),
+    );
+  }
+
+  Widget divider() {
+    return Divider(
+      color: AppColor.lightGrey,
+      height: 1,
     );
   }
 }
