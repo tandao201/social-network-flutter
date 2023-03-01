@@ -9,10 +9,14 @@ class Constants {
   // ---------------- Api base url and path ---------------
 
   static const String baseUrl = "https://project-api-4222.onrender.com";
+  static const String imageUploadUrl = "https://api.imgbb.com/1/upload";
+  static const String keyImageUpload = "f044fa8f4cb65404a2affe6334d7fef5";
 
   static const String login = "/auth/login";
   static const String register = "/auth/register";
   static const String updateInfo = "/auth/update";
+  static const String createPost = "/posts/create";
+
 }
 
 class ErrorCode {

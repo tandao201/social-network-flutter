@@ -66,22 +66,26 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: List.generate(controller.listStory.length, (index) {
-                          if (index == controller.listStory.length) {
-                            return _itemStory(
-                                user: controller.listStory[index], isLast: true
-                            );
-                          }
-                          return _itemStory(
-                            user: controller.listStory[index],
+                          return InkWell(
+                            onTap: () => controller.toPage(routeUrl: RouteNames.story),
+                            child: Hero(
+                              tag: "tag$index",
+                              child: _itemStory(
+                                user: controller.listStory[index],
+                              ),
+                            ),
                           );
                         }).toList(),
                       ),
                     ),
                   ),
                   divider(),
-                  _itemNewsFeed(
-                      context: context,
-                      width: Constants.widthScreen
+                  Column(
+                    children: List.generate(controller.newsFeeds.length, (index) => _itemNewsFeed(
+                        context: context,
+                        width: Constants.widthScreen,
+                        imgUrl: controller.newsFeeds[index]
+                    )),
                   ),
                   _itemNewsFeed(
                       context: context,
@@ -188,6 +192,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
 
   Widget _itemNewsFeed({
     required BuildContext context,
+    String imgUrl = 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
     double width = 375,
   }) {
     Rx<bool> isShowHeart = false.obs;
@@ -206,7 +211,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: cacheImage(
-                        imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
+                        imgUrl: imgUrl,
                         height: 32.w,
                         width: 32.w
                     ),
@@ -239,21 +244,10 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
           child: Stack(
             children: [
               cacheImage(
-                  imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
+                  imgUrl: imgUrl,
                   height: width,
-                  width: width
-              ),
-              Positioned(
-                top: 14,
-                right: 14,
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(13),
-                      color: AppColor.blueDark
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                  child: Text('1/3', style: ThemeTextStyle.body12White,),
-                ),
+                  width: width,
+                  isAvatar: false
               ),
               Visibility(
                 visible: isShowHeart.value,

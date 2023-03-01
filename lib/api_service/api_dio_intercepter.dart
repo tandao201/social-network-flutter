@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chat_app_flutter/utils/shared/constants.dart';
 import 'package:chat_app_flutter/utils/widgets/widgets.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -18,12 +19,12 @@ class AppApi {
       dio?.interceptors.addAll([
         AppInterceptor()
       ]);
-      // (_dio?.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-      //     (HttpClient dioClient) {
-      //   dioClient.badCertificateCallback =
-      //   ((X509Certificate cert, String host, int port) => true);
-      //   return dioClient;
-      // };
+      (dio?.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+            client.badCertificateCallback =
+                (X509Certificate cert, String host, int port) => true;
+            return client;
+          };
     }
     return _dio;
   }

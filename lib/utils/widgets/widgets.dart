@@ -22,7 +22,7 @@ void nextScreenReplace(context, page) {
       context, MaterialPageRoute(builder: (context) => page));
 }
 
-void showSnackbar(context, color, message) {
+void showSnackbar(context, color, message, [Duration duration = const Duration(seconds: 2)]) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
@@ -30,7 +30,7 @@ void showSnackbar(context, color, message) {
         style: const TextStyle(fontSize: 14),
       ),
       backgroundColor: color,
-      duration: const Duration(seconds: 2),
+      duration: duration,
       action: SnackBarAction(
         label: "OK",
         onPressed: () {},

@@ -153,6 +153,7 @@ class WidgetUtils {
     double height = 56,
     double width = 56,
     BoxFit fit = BoxFit.fill,
+    bool isAvatar = true,
   }) {
     return CachedNetworkImage(
       imageUrl: imgUrl,
@@ -167,7 +168,7 @@ class WidgetUtils {
           borderRadius: BorderRadius.circular(60)
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(60),
+          borderRadius: BorderRadius.circular(isAvatar ? 60 : 0) ,
           child: Image.asset(Assets.defaultImage, fit: BoxFit.fill,),
         ),
       ),
@@ -237,12 +238,13 @@ class WidgetUtils {
     double borderRadius = 0,
     double width = 36,
     double height = 36,
+    BoxFit fit = BoxFit.fill,
   }) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
       child: file != null
-        ? Image.file(file, width: width, height: height,fit: BoxFit.fill,)
-        : Image.asset(Assets.defaultImage, fit: BoxFit.fill,),
+        ? Image.file(file, width: width, height: height,fit: fit,)
+        : Image.asset(Assets.defaultImage, fit: fit,),
     );
   }
   

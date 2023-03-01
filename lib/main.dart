@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_app_flutter/base/global_ctl.dart';
 import 'package:chat_app_flutter/helper/helper_function.dart';
 import 'package:chat_app_flutter/routes/pages.dart';
@@ -9,7 +11,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-String initialRoute = RouteNames.home;
+String initialRoute = RouteNames.login;
 Future findRoute () async {
   var isLogin = HelperFunctions.getBool(HelperFunctions.isLoginKey);
   if (isLogin) initialRoute = RouteNames.home;
@@ -21,6 +23,7 @@ Future initApp() async {
   await HelperFunctions.init();
   await findRoute();
   Get.put(GlobalController());
+  HttpOverrides.global = MyHttpOverrides();
 }
 
 void main() async {
@@ -71,4 +74,12 @@ class MyApp extends StatelessWidget {
     );
   }
 
+}
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
 }

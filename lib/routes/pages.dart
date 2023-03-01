@@ -1,10 +1,14 @@
 import 'package:chat_app_flutter/pages/auth/login/login_page.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_bindings.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_page.dart';
+import 'package:chat_app_flutter/pages/home/create_post/create_post_bindings.dart';
+import 'package:chat_app_flutter/pages/home/create_post/create_post_page.dart';
 import 'package:chat_app_flutter/pages/home/home_bindings.dart';
 import 'package:chat_app_flutter/pages/home/home_page.dart';
 import 'package:chat_app_flutter/pages/splash/splash_bindings.dart';
 import 'package:chat_app_flutter/pages/splash/splash_page.dart';
+import 'package:chat_app_flutter/pages/story_view/story_bindings.dart';
+import 'package:chat_app_flutter/pages/story_view/story_view_page.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:get/get.dart';
 
@@ -47,6 +51,18 @@ class Pages {
           page: () => const CommentPostPage(),
           binding: CommentPostBindings(),
           transition: Transition.rightToLeft
+      ),
+      GetPage(
+          name: RouteNames.story,
+          page: () => const StoryViewPage(),
+          binding: StoryViewBindings(),
+          transition: Transition.zoom
+      ),
+      GetPage(
+          name: RouteNames.createPost,
+          page: () => const CreatePostPage(),
+          binding: CreatePostBindings(),
+          transition: Transition.rightToLeftWithFade
       ),
     ];
   }

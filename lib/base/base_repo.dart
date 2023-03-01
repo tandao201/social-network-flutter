@@ -1,6 +1,10 @@
 import 'dart:io';
+import 'package:chat_app_flutter/models/commons/upload_image_response.dart';
+
 import '../api_service/api_dio_intercepter.dart';
 import 'package:dio/dio.dart';
+
+import '../utils/shared/constants.dart';
 
 enum Method { POST, GET, PUT, DELETE, PATCH }
 
@@ -9,7 +13,7 @@ class BaseRepo {
   Future<dynamic> request({
     required String url,
     required Method method,
-    Map<String, dynamic>? params,
+    var params,
   }) async {
     Response? response;
 
@@ -36,5 +40,23 @@ class BaseRepo {
     } catch (e) {
       throw Exception("Something Went Wrong");
     }
+  }
+
+  Future sendImageStore({required File imageFile}) async {
+    UploadImageResponse? uploadImageResponse;
+    var formData = FormData.fromMap({
+      'image': await MultipartFile.fromFile(imageFile.path)
+    });
+    try {
+      Response response = await request(
+          url: '${Constants.imageUploadUrl}?key=${Constants.keyImageUpload}',
+          method: Method.POST,
+          params: formData
+      );
+      uploadImageResponse = UploadImageResponse.fromJson(response.data);
+    } catch (e) {
+      print('Request failed: $e}');
+    }
+    return uploadImageResponse;
   }
 }

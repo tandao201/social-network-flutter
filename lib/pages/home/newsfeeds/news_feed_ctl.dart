@@ -6,7 +6,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import '../../../models/commons/user.dart';
 
 class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
-  List<User> listStory = [
+  RxList<User> listStory = [
     User(
         name: 'Tan',
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSays4neq3I-N262WtjmR7PwKEvtbX0yp4eClmWCDLI&s',
@@ -42,7 +42,13 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSays4neq3I-N262WtjmR7PwKEvtbX0yp4eClmWCDLI&s',
         stories: [1]
     ),
-  ];
+  ].obs;
+
+  RxList<String> newsFeeds = <String>[
+    'https://i.ibb.co/jz9g5Gf/P-20230223-161322.jpg',
+    'https://i.ibb.co/FqmyYfz/316273937-6379883785360930-7684004965072663389-n.jpg',
+    'https://i.ibb.co/DbMDGFv/5923902.jpg'
+  ].obs;
 
   Rx<bool> isCommentInFeed = false.obs;
   TextEditingController commentCtl = TextEditingController();
