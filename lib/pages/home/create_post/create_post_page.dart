@@ -15,8 +15,10 @@ class CreatePostPage extends BaseView<CreatePostCtl> {
   Widget viewBuilder(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: controller.isLoading.value
-          ? Container()
+        child: controller.isLoading.value || controller.selectedImage.value.path.isEmpty
+          ? const Center(
+              child: Loading(),
+            )
           : Column(
           children: [
             Container(
@@ -42,7 +44,7 @@ class CreatePostPage extends BaseView<CreatePostCtl> {
                       fontWeight: FontWeight.w600
                     ),),
                     onTap: () {
-                      Get.to(() => createDone());
+                      Get.to(() => createDone(), transition: Transition.rightToLeftWithFade);
                     },
                   )
                 ],

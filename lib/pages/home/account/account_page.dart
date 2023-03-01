@@ -58,7 +58,7 @@ class AccountPage extends BaseView<AccountCtl> {
                               avatar(
                                 width: 86.w,
                                 height: 86.w,
-                                imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg'
+                                imgUrl: controller.avatarUrlImg.value
                               ),
                               SizedBox(width: 30.w,),
                               Expanded(
@@ -106,7 +106,8 @@ class AccountPage extends BaseView<AccountCtl> {
                                   arguments: {
                                       "username" : controller.username,
                                       "name" : controller.name,
-                                      "bio" : controller.bio
+                                      "bio" : controller.bio,
+                                      "avatar" : controller.avatarUrlImg
                                   }
                               );
                             },
@@ -184,7 +185,8 @@ class AccountPage extends BaseView<AccountCtl> {
           child: cacheImage(
               imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
               width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3
+              height: (Constants.widthScreen-36)/3,
+              isAvatar: false
           ),
         ),
         Container(
@@ -197,7 +199,8 @@ class AccountPage extends BaseView<AccountCtl> {
           child: cacheImage(
               imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
               width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3
+              height: (Constants.widthScreen-36)/3,
+              isAvatar: false
           ),
         ),
         Container(
@@ -210,7 +213,8 @@ class AccountPage extends BaseView<AccountCtl> {
           child: cacheImage(
               imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
               width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3
+              height: (Constants.widthScreen-36)/3,
+              isAvatar: false
           ),
         ),
         Container(
@@ -223,7 +227,8 @@ class AccountPage extends BaseView<AccountCtl> {
           child: cacheImage(
               imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
               width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3
+              height: (Constants.widthScreen-36)/3,
+              isAvatar: false
           ),
         ),
         Container(
@@ -236,7 +241,8 @@ class AccountPage extends BaseView<AccountCtl> {
           child: cacheImage(
               imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
               width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3
+              height: (Constants.widthScreen-36)/3,
+              isAvatar: false
           ),
         ),
         Container(
@@ -249,7 +255,8 @@ class AccountPage extends BaseView<AccountCtl> {
           child: cacheImage(
               imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
               width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3
+              height: (Constants.widthScreen-36)/3,
+              isAvatar: false
           ),
         ),
         Container(
@@ -262,7 +269,8 @@ class AccountPage extends BaseView<AccountCtl> {
           child: cacheImage(
               imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
               width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3
+              height: (Constants.widthScreen-36)/3,
+              isAvatar: false
           ),
         ),
       ],

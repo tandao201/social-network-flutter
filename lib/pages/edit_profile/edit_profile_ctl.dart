@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:chat_app_flutter/base/base_ctl.dart';
+import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_repo.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:chat_app_flutter/utils/shared/constants.dart';
@@ -9,6 +12,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../../models/commons/upload_image_response.dart';
+import '../../models/responses/auth_responses/edit_profile_response.dart';
 import 'edit_profile_page.dart';
 
 class EditProfileCtl extends BaseCtl<EditProfileRepo> {
@@ -30,6 +35,7 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
   ];
   int indexGender = 0;
   Rx<String> avatarUrl = "".obs;
+  Rx<String> avatarUrlMain = "".obs;
 
   @override
   void onInit() {
@@ -43,6 +49,8 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
     username = Get.arguments['username'];
     name = Get.arguments['name'];
     bio = Get.arguments['bio'];
+    avatarUrlMain = Get.arguments['avatar'];
+    avatarUrl.value = avatarUrlMain.value;
 
     userNameCtl.text = username.value;
     nameCtl.text = name.value;
@@ -78,11 +86,56 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
   }
 
   Future changeProfile() async {
+    isLoading.value = true;
     print('Change profile................');
-    username.value = userNameCtl.text;
-    name.value = nameCtl.text;
-    bio.value = bioCtl.text;
-    Get.back();
+    Map<String, dynamic> bodyData = {
+      "email": globalController?.userInfo.value.email,
+      "username": userNameCtl.text.trim(),
+      "mobile": phoneCtl.text.trim(),
+    };
+
+    if (avatarUrlMain.value != avatarUrl.value) {
+      UploadImageResponse? uploadImage = await api.sendImageStore(imageFile: File(avatarUrl.value));
+      if (uploadImage == null ) {
+        debugPrint('Response null');
+        isLoading.value = false;
+        showSnackBar(Get.context! , AppColor.red, 'Đã có lỗi xảy ra.');
+        return ;
+      }
+      bodyData['avatar'] = uploadImage.data!.url!;
+    }
+
+    try {
+      EditProfileResponse? editProfileResponse = await api.editProfile(bodyData: bodyData);
+      if (editProfileResponse == null) {
+        debugPrint('Response null');
+        isLoading.value = false;
+        showSnackBar(Get.context! , AppColor.red, 'Đã có lỗi xảy ra.');
+        return ;
+      }
+      if (editProfileResponse.errorCode!.isEmpty) {
+        showSnackBar(
+            Get.context!,
+            AppColor.green,
+            "Chỉnh sửa thành công."
+        );
+        username.value = userNameCtl.text.trim();
+        name.value = nameCtl.text.trim();
+        bio.value = bioCtl.text.trim();
+        avatarUrl.value = editProfileResponse.data!.avatar!;
+      } else {
+        showSnackBar(
+            Get.context!,
+            AppColor.red,
+            ErrorCode.getMessageByError(editProfileResponse.errorCode!)
+        );
+      }
+      isLoading.value = false;
+      Get.back();
+    } catch (e) {
+      isLoading.value = false;
+      print('Exception');
+    }
   }
 
   @override

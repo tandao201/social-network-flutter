@@ -42,6 +42,7 @@ class AppInterceptor extends InterceptorsWrapper {
     }
     options.baseUrl = Constants.baseUrl;
     options.headers['Content-Type'] = "application/json";
+    options.headers['Accept'] = "application/json";
     debugPrint("🚀️ApiInterceptor-options--START🚀️");
     debugPrint("${options.method}: ${options.baseUrl}${options.path}");
     debugPrint("Headers: ${options.headers}");

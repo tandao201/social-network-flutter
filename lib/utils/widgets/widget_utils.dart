@@ -159,13 +159,13 @@ class WidgetUtils {
       imageUrl: imgUrl,
       height: height,
       width: width,
-      placeholder: (context, url) => ClipRRect(borderRadius: BorderRadius.circular(40),child: loadingImage(width: height, height: width),),
+      placeholder: (context, url) => ClipRRect(borderRadius: BorderRadius.circular(isAvatar ? 60 : 0),child: loadingImage(width: height, height: width),),
       errorWidget: (context, url, error) => Container(
         height: height,
         width: width,
         decoration: BoxDecoration(
           color: AppColor.lightGrey1,
-          borderRadius: BorderRadius.circular(60)
+          borderRadius: BorderRadius.circular(isAvatar ? 60 : 0)
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(isAvatar ? 60 : 0) ,

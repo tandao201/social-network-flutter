@@ -4,16 +4,15 @@ import 'package:chat_app_flutter/pages/edit_profile/edit_profile_ctl.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../base/base_view.dart';
 import '../../utils/shared/assets.dart';
 import '../../utils/shared/constants.dart';
 import '../../utils/themes/text_style.dart';
+import '../../utils/widgets/loading.dart';
 
 class EditProfilePage extends BaseView<EditProfileCtl> {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -23,111 +22,119 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
     // TODO: implement viewBuilder
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              width: double.infinity,
-              height: AppBar().preferredSize.height-8,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // SizedBox(),
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: const Text('Hủy', style: ThemeTextStyle.body16,),
-                  ),
-                  const Text('Chỉnh sửa', style: ThemeTextStyle.heading16,),
-                  GestureDetector(
-                    onTap: () {
-                      controller.changeProfile();
-                    },
-                    child: const Text('Xong', style: BaseTextStyle(fontSize: 16, color: AppColor.blueTag, fontWeight: FontWeight.w600),),
-                  )
-                ],
-              ),
-            ),
-            divider(),
-            Expanded(
-              child: controller.isLoading.value
-                  ? Container()
-                  : SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              controller.pickImage();
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(50.w),
-                              child: controller.avatarUrl.value.isNotEmpty
-                                ? imageFile(
-                                    height: 95.w,
-                                    width: 95.w,
-                                    borderRadius: 60,
-                                    file: File(controller.avatarUrl.value)
-                                  )
-                                : cacheImage(
-                                      imgUrl: "",
-                                      width: 95.w,
-                                      height: 95.w
-                                  ),
-                            )
-                          ),
-                          const SizedBox(height: 12,),
-                          GestureDetector(
-                            onTap: () {
-                              // controller.pickImage();
-                              showDialogCustom(
-                                onClickAction: () {
-                                  print('Click');
-                                      }
-                              );
-
-                            },
-                            child: const Text("Thay đổi ảnh đại diện", style: ThemeTextStyle.heading13Blue,)
-                          ),
-                        ],
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  width: double.infinity,
+                  height: AppBar().preferredSize.height-8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // SizedBox(),
+                      GestureDetector(
+                        onTap: () => Get.back(),
+                        child: const Text('Hủy', style: ThemeTextStyle.body16,),
                       ),
-                    ),
-                    divider(),
-                    Column(
+                      const Text('Chỉnh sửa', style: ThemeTextStyle.heading16,),
+                      GestureDetector(
+                        onTap: () {
+                          controller.changeProfile();
+                        },
+                        child: const Text('Xong', style: BaseTextStyle(fontSize: 16, color: AppColor.blueTag, fontWeight: FontWeight.w600),),
+                      )
+                    ],
+                  ),
+                ),
+                divider(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        _itemInfo(title: 'Tên', editCtl: controller.nameCtl),
-                        _itemInfo(title: 'Username', editCtl: controller.userNameCtl),
-                        _itemInfo(title: 'Tiểu sử', editCtl: controller.bioCtl, isShowBorder: false, maxLines: 4),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                  onTap: () {
+                                    controller.pickImage();
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50.w),
+                                    child: !controller.avatarUrl.value.contains("http")
+                                        ? imageFile(
+                                        height: 95.w,
+                                        width: 95.w,
+                                        borderRadius: 60,
+                                        file: File(controller.avatarUrl.value)
+                                    )
+                                        : cacheImage(
+                                        imgUrl: controller.avatarUrl.value,
+                                        width: 95.w,
+                                        height: 95.w
+                                    ),
+                                  )
+                              ),
+                              const SizedBox(height: 12,),
+                              GestureDetector(
+                                  onTap: () {
+                                    // controller.pickImage();
+                                    showDialogCustom(
+                                        onClickAction: () {
+                                          print('Click');
+                                        }
+                                    );
+
+                                  },
+                                  child: const Text("Thay đổi ảnh đại diện", style: ThemeTextStyle.heading13Blue,)
+                              ),
+                            ],
+                          ),
+                        ),
+                        divider(),
+                        Column(
+                          children: [
+                            _itemInfo(title: 'Tên', editCtl: controller.nameCtl),
+                            _itemInfo(title: 'Username', editCtl: controller.userNameCtl),
+                            _itemInfo(title: 'Tiểu sử', editCtl: controller.bioCtl, isShowBorder: false, maxLines: 4),
+                          ],
+                        ),
+                        divider(),
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(14, 14, 14, 0),
+                            child: Text('Thông tin cá nhân', style: BaseTextStyle(
+                                fontSize: 15, color: AppColor.blueTag, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ),
+                        _itemInfo(title: 'Email', editCtl: controller.emailCtl, textInputType: TextInputType.emailAddress),
+                        _itemInfo(title: 'Điện thoại', editCtl: controller.phoneCtl, textInputType: TextInputType.number),
+                        GestureDetector(
+                          onTap: () {
+                            print('Change giới tính.......');
+                            controller.selectGender();
+                          },
+                          child: _itemInfo(title: 'Giới tính', editCtl: controller.genderCtl, enabled: false),
+                        ),
                       ],
                     ),
-                    divider(),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(14, 14, 14, 0),
-                        child: Text('Thông tin cá nhân', style: BaseTextStyle(
-                            fontSize: 15, color: AppColor.blueTag, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    _itemInfo(title: 'Email', editCtl: controller.emailCtl, textInputType: TextInputType.emailAddress),
-                    _itemInfo(title: 'Điện thoại', editCtl: controller.phoneCtl, textInputType: TextInputType.number),
-                    GestureDetector(
-                      onTap: () {
-                        print('Change giới tính.......');
-                        controller.selectGender();
-                      },
-                      child: _itemInfo(title: 'Giới tính', editCtl: controller.genderCtl, enabled: false),
-                    ),
-                  ],
-                ),
+                  ),
+                )
+              ],
+            ),
+            Obx(() => Visibility(
+              visible: controller.isLoading.value,
+              child: const Center(
+                child: Loading(),
               ),
-            )
+            ),)
           ],
         ),
       ),

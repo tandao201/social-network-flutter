@@ -20,6 +20,8 @@ class BaseRepo {
     try {
       if (method == Method.POST) {
         response = await dio!.post(url, data: params);
+      } else if (method == Method.PUT) {
+        response = await dio!.put(url, data: params);
       } else if (method == Method.DELETE) {
         response = await dio!.delete(url);
       } else if (method == Method.PATCH) {

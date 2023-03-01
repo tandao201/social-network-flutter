@@ -8,6 +8,7 @@ import 'package:chat_app_flutter/pages/home/create_post/create_post_page.dart';
 import 'package:chat_app_flutter/pages/home/home_page.dart';
 import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_ctl.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
+import 'package:chat_app_flutter/utils/shared/assets.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -32,6 +33,7 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
   }
 
   Future initData() async {
+    isLoading.value = true;
     print('Initial data.......');
     await findAlbumAllImage();
     getImageByPage();
@@ -56,9 +58,7 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
       imageFiles.add(await image.getFile());
     }
     selectedImage.value = imageFiles[0];
-    for(var image in imageFiles) {
-      print('Image: ${image}');
-    }
+    isLoading.value = false;
   }
 
   Future createPost() async {
