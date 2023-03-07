@@ -1,6 +1,7 @@
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:chat_app_flutter/utils/widgets/widgets.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -38,6 +39,18 @@ class Utilities {
           const Duration(seconds: 3)
       );
     }
+  }
+
+  String getName(String res) {
+    return res.substring(res.indexOf("_") + 1);
+  }
+
+  String getId(String res) {
+    return res.substring(0, res.indexOf("_"));
+  }
+
+  String getCurrentUid() {
+    return FirebaseAuth.instance.currentUser!.uid;
   }
 
 }

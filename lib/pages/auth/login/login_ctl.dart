@@ -4,6 +4,7 @@ import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/helper/helper_function.dart';
 import 'package:chat_app_flutter/models/commons/common_response.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
+import 'package:chat_app_flutter/service/auth_service.dart';
 import 'package:chat_app_flutter/utils/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ class LoginCtl extends BaseCtl<LoginRepo> with GetSingleTickerProviderStateMixin
   final RoundedLoadingButtonController btnController = RoundedLoadingButtonController();
   TabController? tabController;
   PageController pageController = PageController();
+  AuthService authService = AuthService();
 
   final TextEditingController usernameCtl = TextEditingController();
   final TextEditingController passwordCtl = TextEditingController();
@@ -69,6 +71,10 @@ class LoginCtl extends BaseCtl<LoginRepo> with GetSingleTickerProviderStateMixin
         return ;
       }
       if (loginResponse.errorCode!.isEmpty) {
+        authService.loginWithUserNameandPassword(
+            usernameCtl.text.trim(),
+            passwordCtl.text.trim()
+        );
         showSnackBar(
             Get.context!,
             AppColor.green,
@@ -131,6 +137,11 @@ class LoginCtl extends BaseCtl<LoginRepo> with GetSingleTickerProviderStateMixin
         return ;
       }
       if (commonResponse.errorCode!.isEmpty) {
+        authService.registerUserWithEmailandPassword(
+            usernameInAppRegisCtl!.text.trim(),
+            usernameRegisCtl!.text.trim(),
+            passwordRegisCtl!.text.trim()
+        );
         showSnackBar(
             Get.context!,
             AppColor.green,

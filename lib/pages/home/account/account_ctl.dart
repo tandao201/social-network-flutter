@@ -1,6 +1,7 @@
 import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/pages/home/account/account_repo.dart';
+import 'package:chat_app_flutter/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_ticket_provider_mixin.dart';
@@ -11,6 +12,7 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
 
   TabController? tabController;
   PageController pageController = PageController();
+  AuthService authService = AuthService();
   UserInfo? userInfo;
   Rx<int> currentTab = 0.obs;
   Rx<String> username = "Username".obs;
@@ -49,6 +51,7 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
 
   void logout() {
     globalController?.clearUserAndLoginState();
+    authService.signOut();
     toPagePopUtil(routeUrl: RouteNames.login);
   }
 

@@ -7,6 +7,7 @@ class AppColor {
   static const Color blueTag = Color(0xff3797EF);
   static const Color blueDark = Color(0xff121212);
   static const Color red = Colors.red;
+  static const Color pink = Colors.pinkAccent;
   static const Color green = Colors.green;
   static Color lightGrey = black.withOpacity(0.1);
   static Color transparent = Colors.transparent;
@@ -23,4 +24,12 @@ class AppColor {
     Color(0xff8a8a8a),
     Color(0xffbebebe),
   ]);
+
+  static List<Color> colors = [
+    const Color(0xff3797EF),
+    const Color(0xfff3023a),
+    const Color(0xffff00db),
+    const Color(0xff22f800),
+    const Color(0xffff6a00),
+  ];
 }

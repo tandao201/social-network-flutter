@@ -1,4 +1,6 @@
 import 'package:chat_app_flutter/base/base_view.dart';
+import 'package:chat_app_flutter/pages/chat/chat_home_page.dart';
+import 'package:chat_app_flutter/pages/chat/chat_page.dart';
 import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_ctl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +22,11 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
   Widget viewBuilder(BuildContext context) {
 
     return PageView(
+      controller: controller.pageController,
       physics: const BouncingScrollPhysics(),
       children: [
         homeNewsFeed(context),
-        homeNewsFeed(context),
+        const ChatHomePage(),
       ],
     );
   }
@@ -40,7 +43,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
               SvgPicture.asset(Assets.svgLogo, width: 95.w,),
               GestureDetector(
                 onTap: () {
-                  print('to message page........');
+                  controller.animateToIndex(1);
                 },
                 child: SvgPicture.asset(Assets.message, ),
               )

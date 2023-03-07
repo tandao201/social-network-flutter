@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/responses/auth_responses/login_response.dart';
 
 class HelperFunctions {
   //keys
@@ -49,6 +53,23 @@ class HelperFunctions {
     var prefs = await _instance;
     return prefs.remove(key);
   }
+
+  static Future readLoginData() async {
+    String data = getString(HelperFunctions.loginKey);
+    if (data.isNotEmpty) {
+      return LoginData.fromJson(jsonDecode(data));
+    }
+    return null;
+  }
+
+  static Future saveUserInfo(UserInfo data) async {
+    LoginData? loginData = await readLoginData();
+    if (loginData == null) return null;
+    loginData.userInfo = data;
+    setString(loginKey, jsonEncode(loginData.toJson()));
+  }
+
+
   // --------------- Test -----------
   static Future<bool> saveUserLoggedInStatus(bool isUserLoggedIn) async {
     SharedPreferences sf = await SharedPreferences.getInstance();

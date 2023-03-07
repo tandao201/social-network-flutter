@@ -6,4 +6,5 @@ class RouteNames {
   static const commentPost = "/post/comment";
   static const createPost = "/post/create";
   static const story = "/story";
+  static const searchChat = "/search/chat";
 }

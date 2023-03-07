@@ -34,12 +34,14 @@ class DatabaseService {
   }
 
   // creating a group
-  Future createGroup(String userName, String id, String groupName) async {
+  Future createGroup(String userName, String id, String groupName, String partnerId) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
       "groupIcon": "",
       "admin": "${id}_$userName",
-      "members": [],
+      "members": [
+        "${partnerId}_$groupName"
+      ],
       "groupId": "",
       "recentMessage": "",
       "recentMessageSender": "",
@@ -51,10 +53,18 @@ class DatabaseService {
     });
 
     DocumentReference userDocumentReference = userCollection.doc(uid);
-    return await userDocumentReference.update({
-      "groups":
-      FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
-    });
+    DocumentReference userDocumentReferencePartner = userCollection.doc(partnerId);
+    return [
+      await userDocumentReference.update({
+        "groups":
+        FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
+      }),
+      await userDocumentReferencePartner.update({
+        "groups":
+        FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
+      }),
+      groupDocumentReference.id,
+    ];
   }
 
   // getting the chats
@@ -132,5 +142,6 @@ class DatabaseService {
       "recentMessageSender": chatMessageData['sender'],
       "recentMessageTime": chatMessageData['time'].toString(),
     });
+    print('Send message: $chatMessageData');
   }
 }

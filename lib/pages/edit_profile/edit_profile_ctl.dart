@@ -55,6 +55,7 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
     userNameCtl.text = username.value;
     nameCtl.text = name.value;
     bioCtl.text = bio.value;
+    phoneCtl.text = globalController!.userInfo.value.mobile!;
   }
 
   void ctlDispose() {
@@ -123,6 +124,8 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
         name.value = nameCtl.text.trim();
         bio.value = bioCtl.text.trim();
         avatarUrl.value = editProfileResponse.data!.avatar!;
+        avatarUrlMain.value = editProfileResponse.data!.avatar!;
+        globalController?.saveUser(editProfileResponse.data!);
       } else {
         showSnackBar(
             Get.context!,

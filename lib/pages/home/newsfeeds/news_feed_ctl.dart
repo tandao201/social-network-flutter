@@ -6,6 +6,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import '../../../models/commons/user.dart';
 
 class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
+  PageController pageController = PageController();
   RxList<User> listStory = [
     User(
         name: 'Tan',
@@ -68,5 +69,20 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
 
   Future commentInFeed(BuildContext context) async {
     FocusScope.of(context).requestFocus(commentFocus);
+  }
+
+  void animateToIndex(int index) {
+    pageController.animateToPage(
+      index,
+      curve: Curves.easeInOut,
+      duration: const Duration(milliseconds: 500)
+    );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    pageController.dispose();
   }
 }

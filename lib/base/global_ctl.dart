@@ -10,18 +10,19 @@ class GlobalController extends GetxController {
   Rx<UserInfo> userInfo = UserInfo().obs;
 
   @override
-  void onInit(){
+  void onInit() async {
     // TODO: implement onInit
     super.onInit();
     isLogin.value = HelperFunctions.getBool(HelperFunctions.isLoginKey);
-    String data = HelperFunctions.getString(HelperFunctions.loginKey);
-    if (data.isNotEmpty) {
-      userInfo.value = LoginData.fromJson(jsonDecode(data)).userInfo!;
+    LoginData? loginData = await HelperFunctions.readLoginData();
+    if (loginData != null) {
+      userInfo.value = loginData.userInfo!;
     }
   }
 
   void saveUser(UserInfo userInfo) {
     this.userInfo.value = userInfo;
+    HelperFunctions.saveUserInfo(userInfo);
   }
 
   void clearUserAndLoginState() {

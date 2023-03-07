@@ -1,4 +1,7 @@
 import 'package:chat_app_flutter/pages/auth/login/login_page.dart';
+import 'package:chat_app_flutter/pages/chat/search_chat/search_chat_bindings.dart';
+import 'package:chat_app_flutter/pages/chat/search_chat/search_chat_ctl.dart';
+import 'package:chat_app_flutter/pages/chat/search_chat/search_chat_page.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_bindings.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_page.dart';
 import 'package:chat_app_flutter/pages/home/create_post/create_post_bindings.dart';
@@ -63,6 +66,12 @@ class Pages {
           page: () => const CreatePostPage(),
           binding: CreatePostBindings(),
           transition: Transition.rightToLeftWithFade
+      ),
+      GetPage(
+          name: RouteNames.searchChat,
+          page: () => const SearchChatPage(),
+          binding: SearchChatBindings(),
+          transition: Transition.downToUp
       ),
     ];
   }

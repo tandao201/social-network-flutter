@@ -4,6 +4,7 @@ import 'package:chat_app_flutter/base/global_ctl.dart';
 import 'package:chat_app_flutter/helper/helper_function.dart';
 import 'package:chat_app_flutter/routes/pages.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
+import 'package:chat_app_flutter/service/auth_service.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,12 @@ import 'package:get/get.dart';
 String initialRoute = RouteNames.login;
 Future findRoute () async {
   var isLogin = HelperFunctions.getBool(HelperFunctions.isLoginKey);
-  if (isLogin) initialRoute = RouteNames.home;
+  if (isLogin) {
+    initialRoute = RouteNames.home;
+    String username = HelperFunctions.getString(HelperFunctions.userNameKey);
+    String password = HelperFunctions.getString(HelperFunctions.passwordKey);
+    AuthService().loginWithUserNameandPassword(username, password);
+  }
 }
 
 Future initApp() async {

@@ -38,6 +38,7 @@ class WidgetUtils {
     FocusNode? focusNode,
     double? borderRadius,
     Function(String value)? onTextChange,
+    Function(String value)? onFieldSubmitted,
     bool obscureText = false,
   }) {
     return TextFormField(
@@ -45,6 +46,9 @@ class WidgetUtils {
       focusNode: focusNode,
       onChanged: (value) {
         onTextChange?.call(value);
+      },
+      onFieldSubmitted: (value) {
+        onFieldSubmitted?.call(value);
       },
       obscureText: obscureText,
       decoration: InputDecoration(

@@ -1,15 +1,19 @@
+import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:flutter/material.dart';
 
 class MessageTile extends StatefulWidget {
   final String message;
   final String sender;
   final bool sentByMe;
+  final Color colorPage;
 
   const MessageTile(
       {Key? key,
         required this.message,
         required this.sender,
-        required this.sentByMe})
+        required this.sentByMe,
+        required this.colorPage,
+      })
       : super(key: key);
 
   @override
@@ -45,23 +49,11 @@ class _MessageTileState extends State<MessageTile> {
               bottomRight: Radius.circular(20),
             ),
             color: widget.sentByMe
-                ? Theme.of(context).primaryColor
+                ? widget.colorPage
                 : Colors.grey[700]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.sender.toUpperCase(),
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  letterSpacing: -0.5),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
             Text(widget.message,
                 textAlign: TextAlign.start,
                 style: const TextStyle(fontSize: 16, color: Colors.white))
