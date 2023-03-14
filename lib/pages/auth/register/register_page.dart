@@ -13,63 +13,65 @@ class RegisterPage extends BaseView<LoginCtl> {
 
   @override
   Widget viewBuilder(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        textFormFieldLogin(
-            hintText: "Tài khoản",
-            controller: controller.usernameRegisCtl!,
-            onTextChange: (value) {
-              controller.errorInfoRegister.value = "";
-            },
-            leadingIcon: const Icon(Icons.supervisor_account_rounded)
-        ),
-        SizedBox(height: 12.h,),
-        textFormFieldLogin(
-            hintText: "Username",
-            controller: controller.usernameInAppRegisCtl!,
-            onTextChange: (value) {
-              controller.errorInfoRegister.value = "";
-            },
-            leadingIcon: const Icon(Icons.account_circle)
-        ),
-        SizedBox(height: 12.h,),
-        PasswordEditText(controller: controller, hintText: "Mật khẩu", editingController: controller.passwordRegisCtl!,),
-        SizedBox(height: 12.h,),
-        PasswordEditText(controller: controller, hintText: "Nhập lại mật khẩu", editingController: controller.rePasswordRegisCtl!,),
-        SizedBox(height: 20.h,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ExpandedSection(
-              axis: Axis.vertical,
-              expand: controller.errorInfoRegister.value.isNotEmpty,
-              child: Text(controller.errorInfoRegister.value, style: ThemeTextStyle.body12Red,),
-            ),
-          ],
-        ),
-        SizedBox(height: 30.h,),
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: 50.h,
-          child: RoundedLoadingButton(
-              borderRadius: 5,
-              width: MediaQuery.of(context).size.width,
-              color: AppColor.black,
-              controller: controller.btnController,
-              onPressed: () {
-                if (controller.isValidateInfoRegister()) {
-                  controller.register();
-                }
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          textFormFieldLogin(
+              hintText: "Tài khoản",
+              controller: controller.usernameRegisCtl!,
+              onTextChange: (value) {
+                controller.errorInfoRegister.value = "";
               },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 14),
-                child: Text('Đăng kí', style: ThemeTextStyle.heading14White,),
-              )
+              leadingIcon: const Icon(Icons.supervisor_account_rounded)
           ),
-        ),
-        SizedBox(height: 40.h,),
-      ],
+          SizedBox(height: 12.h,),
+          textFormFieldLogin(
+              hintText: "Username",
+              controller: controller.usernameInAppRegisCtl!,
+              onTextChange: (value) {
+                controller.errorInfoRegister.value = "";
+              },
+              leadingIcon: const Icon(Icons.account_circle)
+          ),
+          SizedBox(height: 12.h,),
+          PasswordEditText(controller: controller, hintText: "Mật khẩu", editingController: controller.passwordRegisCtl!,),
+          SizedBox(height: 12.h,),
+          PasswordEditText(controller: controller, hintText: "Nhập lại mật khẩu", editingController: controller.rePasswordRegisCtl!,),
+          SizedBox(height: 20.h,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ExpandedSection(
+                axis: Axis.vertical,
+                expand: controller.errorInfoRegister.value.isNotEmpty,
+                child: Text(controller.errorInfoRegister.value, style: ThemeTextStyle.body12Red,),
+              ),
+            ],
+          ),
+          SizedBox(height: 30.h,),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 50.h,
+            child: RoundedLoadingButton(
+                borderRadius: 5,
+                width: MediaQuery.of(context).size.width,
+                color: AppColor.black,
+                controller: controller.btnController,
+                onPressed: () {
+                  if (controller.isValidateInfoRegister()) {
+                    controller.register();
+                  }
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  child: Text('Đăng kí', style: ThemeTextStyle.heading14White,),
+                )
+            ),
+          ),
+          SizedBox(height: 40.h,),
+        ],
+      ),
     );
   }
 

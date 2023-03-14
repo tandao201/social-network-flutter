@@ -40,6 +40,17 @@ class AuthService {
     }
   }
 
+  Future changePassword(String password) async {
+    try {
+      User user = firebaseAuth.currentUser!;
+      user.updatePassword(password).then((_) {
+        print('Change password Firebase successfully');
+      });
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
+
   // signout
   Future signOut() async {
     try {

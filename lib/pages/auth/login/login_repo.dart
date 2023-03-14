@@ -35,4 +35,19 @@ class LoginRepo extends BaseRepo {
     }
     return commonResponse;
   }
+
+  Future changePass({required Map<String, dynamic> bodyData}) async {
+    CommonResponse? commonResponse;
+    try {
+      Response response = await request(
+          url: Constants.changePassword,
+          method: Method.POST,
+          params: bodyData
+      );
+      commonResponse = CommonResponse.fromJson(response.data);
+    } catch (e) {
+      debugPrint('Request failed: $e}');
+    }
+    return commonResponse;
+  }
 }

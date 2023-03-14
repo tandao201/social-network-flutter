@@ -22,10 +22,10 @@ class LoginCtl extends BaseCtl<LoginRepo> with GetSingleTickerProviderStateMixin
 
   final TextEditingController usernameCtl = TextEditingController();
   final TextEditingController passwordCtl = TextEditingController();
-  TextEditingController? usernameRegisCtl;
-  TextEditingController? usernameInAppRegisCtl;
-  TextEditingController? passwordRegisCtl;
-  TextEditingController? rePasswordRegisCtl;
+  TextEditingController? usernameRegisCtl = TextEditingController();
+  TextEditingController? usernameInAppRegisCtl = TextEditingController();
+  TextEditingController? passwordRegisCtl = TextEditingController();
+  TextEditingController? rePasswordRegisCtl = TextEditingController();
 
   RxString errorInfoLogin = "".obs;
   RxString errorInfoRegister = "".obs;
@@ -181,6 +181,63 @@ class LoginCtl extends BaseCtl<LoginRepo> with GetSingleTickerProviderStateMixin
       return false;
     }
     return true;
+  }
+
+  bool isValidateInfoChangePass() {
+    if (passwordRegisCtl!.text.isEmpty || rePasswordRegisCtl!.text.isEmpty) {
+      errorInfoRegister.value = ErrorCode.inputFullInfo;
+      btnController.stop();
+      return false;
+    }
+    if (passwordRegisCtl!.text.length < 8) {
+      errorInfoRegister.value = ErrorCode.passwordSmall;
+      btnController.stop();
+      return false;
+    }
+    if (passwordRegisCtl!.text != rePasswordRegisCtl!.text) {
+      errorInfoRegister.value = ErrorCode.rePasswordFalse;
+      btnController.stop();
+      return false;
+    }
+    return true;
+  }
+
+  Future changePass() async {
+    Map<String, String> bodyData = {
+      'password': passwordCtl.text.trim(),
+      'new_password' : passwordRegisCtl!.text.trim(),
+    };
+    try {
+      CommonResponse? commonResponse = await api.changePass(bodyData: bodyData);
+      if (commonResponse == null) {
+        debugPrint('Response null');
+        btnController.stop();
+        return ;
+      }
+      if (commonResponse.errorCode!.isEmpty) {
+        HelperFunctions.setString(
+          HelperFunctions.passwordKey,
+          passwordRegisCtl!.text,
+        );
+        authService.changePassword(passwordRegisCtl!.text);
+        showSnackBar(
+            Get.context!,
+            AppColor.green,
+            "Đổi mật khẩu thành công."
+        );
+        passwordCtl.text = "";
+        Get.back();
+      } else {
+        showSnackBar(
+            Get.context!,
+            AppColor.red,
+            ErrorCode.getMessageByError(commonResponse.errorCode!)
+        );
+      }
+      btnController.stop();
+    } catch (e) {
+      btnController.stop();
+    }
   }
 
   Future animateToPage(int index) async {

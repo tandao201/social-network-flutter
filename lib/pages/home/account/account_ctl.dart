@@ -1,10 +1,11 @@
 import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
+import 'package:chat_app_flutter/pages/home/account/account_page.dart';
 import 'package:chat_app_flutter/pages/home/account/account_repo.dart';
 import 'package:chat_app_flutter/service/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_ticket_provider_mixin.dart';
+import 'package:get/get.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../routes/route_names.dart';
 
@@ -53,6 +54,15 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
     globalController?.clearUserAndLoginState();
     authService.signOut();
     toPagePopUtil(routeUrl: RouteNames.login);
+  }
+
+  void selectMenu() {
+    showBarModalBottomSheet(
+        context: Get.context!,
+        builder: (context) {
+          return MenuAccount(controller: this,);
+        }
+    );
   }
 
   @override

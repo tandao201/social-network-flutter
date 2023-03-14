@@ -1,13 +1,17 @@
 import 'package:chat_app_flutter/base/base_view.dart';
+import 'package:chat_app_flutter/pages/auth/change_password/change_password_page.dart';
 import 'package:chat_app_flutter/pages/home/account/account_ctl.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:chat_app_flutter/utils/shared/constants.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
 import 'package:chat_app_flutter/utils/widgets/expandable_pageview.dart';
+import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../utils/shared/assets.dart';
 import '../../../utils/shared/colors.dart';
@@ -31,7 +35,8 @@ class AccountPage extends BaseView<AccountCtl> {
               Text(controller.username.value, style: ThemeTextStyle.heading18,),
               GestureDetector(
                 onTap: () {
-                  controller.logout();
+                  // controller.logout();
+                  controller.selectMenu();
                   print('Click menu account.............');
                 },
                 child: SvgPicture.asset(Assets.menu),
@@ -291,4 +296,55 @@ class AccountPage extends BaseView<AccountCtl> {
     );
   }
   
+}
+
+class MenuAccount extends StatelessWidget with WidgetUtils {
+  final AccountCtl controller;
+
+  const MenuAccount({Key? key, required this.controller}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      padding: const EdgeInsets.only(top: 24),
+      color: AppColor.lightGrey,
+      height: Constants.heightScreen/3,
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              Get.back();
+              Get.to(() => ChangePasswordPage(), transition: Transition.rightToLeftWithFade);
+            },
+            child: _itemMenu("Đổi mật khẩu", Icons.key_sharp),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _itemMenu(String title, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: AppColor.black, size: 20,),
+          const SizedBox(width: 12,),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: ThemeTextStyle.body16,),
+                const SizedBox(height: 10,),
+                divider(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
