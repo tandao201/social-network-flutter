@@ -1,12 +1,17 @@
 import 'package:chat_app_flutter/base/base_ctl.dart';
+import 'package:chat_app_flutter/models/responses/post_responses/newsfeed_response.dart';
 import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_repo.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-
+import 'package:get/get.dart';
 import '../../../models/commons/user.dart';
+import '../../../utils/shared/colors.dart';
+import '../../../utils/shared/constants.dart';
 
 class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
   PageController pageController = PageController();
+  ScrollController scrollCtl = ScrollController();
+  int currentPage = 1;
+  int totalItem = 2;
   RxList<User> listStory = [
     User(
         name: 'Tan',
@@ -45,11 +50,7 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
     ),
   ].obs;
 
-  RxList<String> newsFeeds = <String>[
-    'https://i.ibb.co/jz9g5Gf/P-20230223-161322.jpg',
-    'https://i.ibb.co/FqmyYfz/316273937-6379883785360930-7684004965072663389-n.jpg',
-    'https://i.ibb.co/DbMDGFv/5923902.jpg'
-  ].obs;
+  RxList<Newsfeed> newsFeeds = <Newsfeed>[].obs;
 
   Rx<bool> isCommentInFeed = false.obs;
   TextEditingController commentCtl = TextEditingController();
@@ -59,12 +60,51 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-
-
+    initData();
+    scrollCtl.addListener(_scrollListener);
   }
 
   Future initData() async {
-    print('Refresh.........');
+    currentPage = 1;
+    totalItem = 2;
+    getNewsfeed();
+  }
+
+  Future getNewsfeed() async {
+    if (!isLoadMore.value) {
+      isLoading.value = true;
+    }
+    Map<String, dynamic> bodyData = {
+      'order_by': 'created_time',
+    };
+    if (currentPage > 1) {
+      bodyData['offset'] = currentPage;
+    }
+    try {
+      NewsFeedResponse? newsFeedResponse = await api.getNewsFeed(bodyData: bodyData);
+      if (newsFeedResponse == null) {
+        debugPrint('Response null');
+        return ;
+      }
+      if (newsFeedResponse.errorCode!.isEmpty) {
+        if (!isLoadMore.value) newsFeeds.value = [];
+        newsFeeds.addAll(newsFeedResponse.data!.newsfeeds as List<Newsfeed>);
+        newsFeeds.refresh();
+        totalItem = newsFeedResponse.data!.total!;
+        isLoading.value = false;
+        isLoadMore.value = false;
+        print('Total item: ${totalItem} and length: ${newsFeeds.length}');
+      } else {
+        showSnackBar(
+            Get.context!,
+            AppColor.red,
+            ErrorCode.getMessageByError(newsFeedResponse.errorCode!)
+        );
+      }
+    } catch (e) {
+      isLoading.value = false;
+      isLoadMore.value = false;
+    }
   }
 
   Future commentInFeed(BuildContext context) async {
@@ -79,10 +119,23 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
     );
   }
 
+  void _scrollListener() async {
+    if (scrollCtl.position.pixels >= scrollCtl.position.maxScrollExtent-50 ) {
+      if (newsFeeds.length < totalItem && !isLoadMore.value ) {
+        isLoadMore.value = true;
+        print('Load more--------------------------');
+        currentPage++;
+        await getNewsfeed();
+        Future.delayed(const Duration(seconds: 4));
+      }
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     pageController.dispose();
+    scrollCtl.removeListener(_scrollListener);
   }
 }

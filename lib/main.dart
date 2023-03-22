@@ -5,14 +5,20 @@ import 'package:chat_app_flutter/helper/helper_function.dart';
 import 'package:chat_app_flutter/routes/pages.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:chat_app_flutter/service/auth_service.dart';
+import 'package:chat_app_flutter/service/notification_service.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 String initialRoute = RouteNames.login;
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  debugPrint('Notification Message data: ${message.data}');
+}
+
 Future findRoute () async {
   var isLogin = HelperFunctions.getBool(HelperFunctions.isLoginKey);
   if (isLogin) {
@@ -29,6 +35,9 @@ Future initApp() async {
   await HelperFunctions.init();
   await findRoute();
   Get.put(GlobalController());
+  final notificationService = Get.put(NotificationService());
+  notificationService.requestAndInitNotification();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = MyHttpOverrides();
 }
 

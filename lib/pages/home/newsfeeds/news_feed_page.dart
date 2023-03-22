@@ -1,12 +1,14 @@
 import 'package:chat_app_flutter/base/base_view.dart';
+import 'package:chat_app_flutter/models/responses/post_responses/newsfeed_response.dart';
 import 'package:chat_app_flutter/pages/chat/chat_home_page.dart';
-import 'package:chat_app_flutter/pages/chat/chat_page.dart';
+import 'package:chat_app_flutter/utils/extensions/string_extension.dart';
 import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_ctl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../models/commons/user.dart';
 import '../../../routes/route_names.dart';
@@ -51,13 +53,10 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
           ),
         ),
         Expanded(
-          child: controller.isLoading.value
-              ? const Center(
-            child: CupertinoActivityIndicator(),
-          )
-              : RefreshIndicator(
+          child: RefreshIndicator(
             onRefresh: () => controller.initData(),
             child: SingleChildScrollView(
+              controller: controller.scrollCtl,
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
@@ -83,27 +82,43 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                     ),
                   ),
                   divider(),
-                  Column(
-                    children: List.generate(controller.newsFeeds.length, (index) => _itemNewsFeed(
-                        context: context,
-                        width: Constants.widthScreen,
-                        imgUrl: controller.newsFeeds[index]
-                    )),
-                  ),
-                  _itemNewsFeed(
-                      context: context,
-                      width: Constants.widthScreen
-                  ),
-                  _itemNewsFeed(
-                      context: context,
-                      width: Constants.widthScreen
-                  ),
+                  controller.isLoading.value
+                    ? loadingList()
+                    : buildNewsfeed(context),
+                  controller.isLoadMore.value
+                    ? const Padding(
+                        padding: EdgeInsets.only(top: 8, bottom: 12),
+                        child: Center(
+                          child: CupertinoActivityIndicator(),
+                        ),
+                      )
+                    : const SizedBox(width: 0,)
                 ],
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget loadingList() {
+    return Column(
+      children: [
+        _loadingNewsfeed(),
+        _loadingNewsfeed(),
+        _loadingNewsfeed(),
+      ],
+    );
+  }
+
+  Widget buildNewsfeed(BuildContext context) {
+    return Column(
+      children: List.generate(controller.newsFeeds.length, (index) => _itemNewsFeed(
+        context: context,
+        width: Constants.widthScreen,
+        newsfeed: controller.newsFeeds[index],
+      )),
     );
   }
 
@@ -195,7 +210,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
 
   Widget _itemNewsFeed({
     required BuildContext context,
-    String imgUrl = 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
+    required Newsfeed newsfeed,
     double width = 375,
   }) {
     Rx<bool> isShowHeart = false.obs;
@@ -214,7 +229,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: cacheImage(
-                        imgUrl: imgUrl,
+                        imgUrl: newsfeed.image ?? "",
                         height: 32.w,
                         width: 32.w
                     ),
@@ -222,9 +237,9 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                   const SizedBox(width: 10,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Tan' , style: ThemeTextStyle.heading13,),
-                      SizedBox(height: 1,),
+                    children: [
+                      Text('${newsfeed.userId}' , style: ThemeTextStyle.heading13,),
+                      const SizedBox(height: 1,),
                       Text('Hà Nội, Việt Nam' , style: ThemeTextStyle.body11,),
                     ],
                   )
@@ -247,7 +262,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
           child: Stack(
             children: [
               cacheImage(
-                  imgUrl: imgUrl,
+                  imgUrl: newsfeed.image ?? "",
                   height: width,
                   width: width,
                   isAvatar: false
@@ -295,7 +310,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                               duration: const Duration(microseconds: 50),
                               child: !isLike.value
                                   ? SvgPicture.asset(Assets.like)
-                                  : Icon(Icons.favorite_rounded, color: AppColor.red,size: 28,) ,
+                                  : const Icon(Icons.favorite_rounded, color: AppColor.red,size: 28,) ,
                             ),
                           ),
                           const SizedBox(width: 17,),
@@ -314,14 +329,14 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                   child: RichText(
                     text: TextSpan(
                         children: [
-                          TextSpan(text: 'Tan ', style: ThemeTextStyle.heading13),
-                          TextSpan(text: 'Bạn Tân đẹp zai quá, xứng đáng có 100 người iuu! ', style: ThemeTextStyle.body13),
+                          TextSpan(text: '${newsfeed.userId}', style: ThemeTextStyle.heading13),
+                          TextSpan(text: '  ${newsfeed.content}', style: ThemeTextStyle.body13),
                         ]
                     ),
                   ),
                 ),
                 const SizedBox(height: 5,),
-                Text('20 giờ trước', style: BaseTextStyle(fontSize: 12, color: AppColor.grey),),
+                Text('${newsfeed.createdTime}'.timeAgo(), style: BaseTextStyle(fontSize: 12, color: AppColor.grey),),
                 const SizedBox(height: 8,),
               ],
             ),
@@ -331,4 +346,86 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
     ));
   }
 
+  Widget _loadingNewsfeed({
+    double width = 375,
+  }) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                          color: Colors.white,
+                          height: 32.w,
+                          width: 32.w
+                      ),
+                    ),
+                    const SizedBox(width: 10,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            height: 20.w,
+                            width: 100.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: Colors.white,
+                            ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                SvgPicture.asset(Assets.moreOption)
+              ],
+            ),
+          ),
+          Container(
+              height: width,
+              width: width,
+              color: Colors.white,
+          ),
+          const SizedBox(height: 8,),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 20.w,
+                  width: 200.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4,),
+                Container(
+                  height: 20.w,
+                  width: 100.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4,),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }

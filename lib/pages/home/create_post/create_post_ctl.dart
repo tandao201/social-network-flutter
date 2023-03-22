@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/models/commons/upload_image_response.dart';
 import 'package:chat_app_flutter/models/responses/post_responses/create_post_response.dart';
+import 'package:chat_app_flutter/models/responses/post_responses/newsfeed_response.dart';
 import 'package:chat_app_flutter/pages/home/create_post/create_post_repo.dart';
 import 'package:chat_app_flutter/pages/home/create_post/create_post_page.dart';
 import 'package:chat_app_flutter/pages/home/home_page.dart';
@@ -91,7 +92,13 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
             "Đăng tải thành công."
         );
         final newsCtl = Get.find<NewsFeedCtl>();
-        newsCtl.newsFeeds.insert(0, uploadImage.data!.url!);
+        var newsfeed = Newsfeed(
+          userId: createPostResponse.data?.userId,
+          content: createPostResponse.data?.content,
+          createdTime: createPostResponse.data?.createdTime,
+          // image: createPostResponse.data?.image,
+        );
+        newsCtl.newsFeeds.insert(0, newsfeed);
         Get.until((route) => Get.currentRoute == RouteNames.home);
       } else {
         showSnackBar(

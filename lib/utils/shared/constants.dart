@@ -17,6 +17,7 @@ class Constants {
   static const String changePassword = "/user/change-password";
   static const String updateInfo = "/user/update-profile";
   static const String createPost = "/posts/create";
+  static const String newsfeed = "/posts/new-feed";
 
 }
 
