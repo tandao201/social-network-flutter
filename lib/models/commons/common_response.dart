@@ -1,12 +1,20 @@
-class CommonResponse {
+import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
+
+class CommonResponse<T> {
   String? errorCode;
-  dynamic data;
+  T? data;
 
   CommonResponse({this.errorCode, this.data});
 
   CommonResponse.fromJson(Map<String, dynamic> json) {
     errorCode = json['error_code'];
-    data = json['data'];
+    switch (T) {
+      case UserInfo:
+        data = UserInfo.fromJson(json['data']) as T?;
+        break;
+      default:
+        data = json['data'];
+    }
   }
 
   Map<String, dynamic> toJson() {

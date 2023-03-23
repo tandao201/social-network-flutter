@@ -1,12 +1,12 @@
 class CreatePostResponse {
   String? errorCode;
-  CreatePostData? data;
+  Post? data;
 
   CreatePostResponse({this.errorCode, this.data});
 
   CreatePostResponse.fromJson(Map<String, dynamic> json) {
     errorCode = json['error_code'];
-    data = json['data'] != null ? CreatePostData.fromJson(json['data']) : null;
+    data = json['data'] != null ? Post.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -19,7 +19,7 @@ class CreatePostResponse {
   }
 }
 
-class CreatePostData {
+class Post {
   int? id;
   int? userId;
   String? content;
@@ -27,7 +27,7 @@ class CreatePostData {
   String? createdTime;
   String? updatedTime;
 
-  CreatePostData(
+  Post(
       {this.id,
         this.userId,
         this.content,
@@ -35,7 +35,7 @@ class CreatePostData {
         this.createdTime,
         this.updatedTime});
 
-  CreatePostData.fromJson(Map<String, dynamic> json) {
+  Post.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     content = json['content'];

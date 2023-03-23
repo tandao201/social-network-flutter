@@ -21,6 +21,7 @@ class GlobalController extends GetxController {
   }
 
   void saveUser(UserInfo userInfo) {
+    print('User post: ${userInfo.posts?[0].image}');
     this.userInfo.value = userInfo;
     HelperFunctions.saveUserInfo(userInfo);
   }

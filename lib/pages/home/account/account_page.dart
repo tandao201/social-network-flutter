@@ -50,7 +50,7 @@ class AccountPage extends BaseView<AccountCtl> {
               : RefreshIndicator(
                   onRefresh: () => controller.initData(),
                   child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
@@ -179,22 +179,9 @@ class AccountPage extends BaseView<AccountCtl> {
 
   Widget listPost() {
     return Wrap(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              top: BorderSide(color: AppColor.white, width: 1),
-              right: BorderSide(color: AppColor.white, width: 1),
-            )
-          ),
-          child: cacheImage(
-              imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
-              width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3,
-              isAvatar: false
-          ),
-        ),
-        Container(
+      children: List.generate(controller.userPosts.length, (index) {
+        var post = controller.userPosts[index];
+        return Container(
           decoration: const BoxDecoration(
               border: Border(
                 top: BorderSide(color: AppColor.white, width: 1),
@@ -202,83 +189,13 @@ class AccountPage extends BaseView<AccountCtl> {
               )
           ),
           child: cacheImage(
-              imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
+              imgUrl: post.image ?? "",
               width: (Constants.widthScreen-36)/3,
               height: (Constants.widthScreen-36)/3,
               isAvatar: false
           ),
-        ),
-        Container(
-          decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: AppColor.white, width: 1),
-                right: BorderSide(color: AppColor.white, width: 1),
-              )
-          ),
-          child: cacheImage(
-              imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
-              width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3,
-              isAvatar: false
-          ),
-        ),
-        Container(
-          decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: AppColor.white, width: 1),
-                right: BorderSide(color: AppColor.white, width: 1),
-              )
-          ),
-          child: cacheImage(
-              imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
-              width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3,
-              isAvatar: false
-          ),
-        ),
-        Container(
-          decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: AppColor.white, width: 1),
-                right: BorderSide(color: AppColor.white, width: 1),
-              )
-          ),
-          child: cacheImage(
-              imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
-              width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3,
-              isAvatar: false
-          ),
-        ),
-        Container(
-          decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: AppColor.white, width: 1),
-                right: BorderSide(color: AppColor.white, width: 1),
-              )
-          ),
-          child: cacheImage(
-              imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
-              width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3,
-              isAvatar: false
-          ),
-        ),
-        Container(
-          decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: AppColor.white, width: 1),
-                right: BorderSide(color: AppColor.white, width: 1),
-              )
-          ),
-          child: cacheImage(
-              imgUrl: 'https://cdn.tgdd.vn/Files/2014/06/07/548830/8-luu-y-de-co-duoc-mot-buc-anh-dep-bang-smartphone-2.jpg',
-              width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3,
-              isAvatar: false
-          ),
-        ),
-      ],
+        );
+      }),
     );
   }
 
@@ -318,6 +235,12 @@ class MenuAccount extends StatelessWidget with WidgetUtils {
               Get.to(() => ChangePasswordPage(), transition: Transition.rightToLeftWithFade);
             },
             child: _itemMenu("Đổi mật khẩu", Icons.key_sharp),
+          ),
+          InkWell(
+            onTap: () {
+              controller.logout();
+            },
+            child: _itemMenu("Đăng xuất", Icons.logout),
           ),
         ],
       ),

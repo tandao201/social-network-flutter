@@ -33,7 +33,6 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
     );
   }
   Widget homeNewsFeed(BuildContext context) {
-    print('Init.....');
     return Column(
       children: [
         Container(
@@ -57,7 +56,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
             onRefresh: () => controller.initData(),
             child: SingleChildScrollView(
               controller: controller.scrollCtl,
-              physics: const BouncingScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
                   Container(
@@ -113,13 +112,15 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
   }
 
   Widget buildNewsfeed(BuildContext context) {
-    return Column(
+    return controller.newsFeeds.isNotEmpty
+      ? Column(
       children: List.generate(controller.newsFeeds.length, (index) => _itemNewsFeed(
         context: context,
         width: Constants.widthScreen,
         newsfeed: controller.newsFeeds[index],
       )),
-    );
+    )
+      : noData(type: "bài viết");
   }
 
   Widget _itemStory({
@@ -245,7 +246,15 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                   )
                 ],
               ),
-              SvgPicture.asset(Assets.moreOption)
+              Visibility(
+                child: InkWell(
+                  onTap: () {
+                    controller.api.requestFriend(newsfeed.userId.toString());
+                    print('Click follow....................');
+                  },
+                  child: const Text('Theo dõi', style: ThemeTextStyle.heading13Blue,),
+                ),
+              )
             ],
           ),
         ),

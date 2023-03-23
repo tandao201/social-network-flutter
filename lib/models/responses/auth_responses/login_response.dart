@@ -1,3 +1,5 @@
+import '../post_responses/create_post_response.dart';
+
 class LoginResponse {
   String? errorCode;
   LoginData? data;
@@ -54,6 +56,7 @@ class UserInfo {
   int? status;
   String? createdTime;
   String? updatedTime;
+  List<Post>? posts;
 
   UserInfo(
       {this.id,
@@ -63,7 +66,9 @@ class UserInfo {
         this.avatar,
         this.status,
         this.createdTime,
-        this.updatedTime});
+        this.updatedTime,
+        this.posts
+      });
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -74,6 +79,12 @@ class UserInfo {
     status = json['status'];
     createdTime = json['created_time'];
     updatedTime = json['updated_time'];
+    if (json['posts'] != null) {
+      posts = <Post>[];
+      json['posts'].forEach((v) {
+        posts!.add(Post.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -86,6 +97,9 @@ class UserInfo {
     data['status'] = status;
     data['created_time'] = createdTime;
     data['updated_time'] = updatedTime;
+    if (posts != null) {
+      data['posts'] = posts!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

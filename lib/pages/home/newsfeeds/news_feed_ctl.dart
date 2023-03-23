@@ -121,7 +121,7 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
 
   void _scrollListener() async {
     if (scrollCtl.position.pixels >= scrollCtl.position.maxScrollExtent-50 ) {
-      if (newsFeeds.length < totalItem && !isLoadMore.value ) {
+      if (newsFeeds.length < totalItem && !isLoadMore.value && !isLoading.value ) {
         isLoadMore.value = true;
         print('Load more--------------------------');
         currentPage++;

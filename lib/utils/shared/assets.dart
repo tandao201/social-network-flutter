@@ -17,6 +17,7 @@ class Assets {
   static const String grid = "assets/svgs/svg_grid.svg";
   static const String search = "assets/svgs/svg_search.svg";
   static const String createPost = "assets/svgs/svg_create_post.svg";
+  static const String emptyState = "assets/svgs/empty_state.svg";
 
   // ---------------------- default image ----------------------------
   static const String defaultImage = "assets/images/default_image.jpg";

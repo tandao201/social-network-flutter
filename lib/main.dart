@@ -16,7 +16,7 @@ import 'package:get/get.dart';
 
 String initialRoute = RouteNames.login;
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  debugPrint('Notification Message data: ${message.data}');
+  print('Notification Message data: ${message.data}');
 }
 
 Future findRoute () async {

@@ -16,6 +16,9 @@ class Constants {
   static const String register = "/auth/register";
   static const String changePassword = "/user/change-password";
   static const String updateInfo = "/user/update-profile";
+  static const String userDetail = "/user/get";
+  static const String requestFriend = "/user/request-friend";
+  static const String receiveFriend = "/user/receive-friend";
   static const String createPost = "/posts/create";
   static const String newsfeed = "/posts/new-feed";
 

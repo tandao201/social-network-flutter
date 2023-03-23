@@ -4,7 +4,9 @@ import 'package:chat_app_flutter/models/commons/upload_image_response.dart';
 import '../api_service/api_dio_intercepter.dart';
 import 'package:dio/dio.dart';
 
+import '../models/commons/common_response.dart';
 import '../utils/shared/constants.dart';
+import '../utils/shared/enums.dart';
 
 enum Method { POST, GET, PUT, DELETE, PATCH }
 
@@ -60,6 +62,44 @@ class BaseRepo {
       print('Request failed: $e}');
     }
     return uploadImageResponse;
+  }
+
+  Future<CommonResponse?> requestFriend(String userId) async {
+    CommonResponse? commonResponse;
+    Map<String, dynamic> bodyData = {
+      'user_id': userId,
+      'status': FriendStatus.request.index+1
+    };
+    try {
+      Response response = await request(
+          url: Constants.requestFriend,
+          method: Method.GET,
+          params: bodyData
+      );
+      commonResponse = CommonResponse.fromJson(response.data);
+    } catch (e) {
+      print('Request failed: $e}');
+    }
+    return commonResponse;
+  }
+
+  Future<CommonResponse?> receiveFriend(String userId) async {
+    Map<String, dynamic> bodyData = {
+      'user_id': userId,
+      'status': FriendStatus.accept.index+1
+    };
+    CommonResponse? commonResponse;
+    try {
+      Response response = await request(
+          url: Constants.receiveFriend,
+          method: Method.GET,
+          params: bodyData
+      );
+      commonResponse = CommonResponse.fromJson(response.data);
+    } catch (e) {
+      print('Request failed: $e}');
+    }
+    return commonResponse;
   }
 }
 // import 'package:dio/dio.dart';
