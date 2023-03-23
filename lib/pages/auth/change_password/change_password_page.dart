@@ -1,4 +1,3 @@
-import 'package:chat_app_flutter/base/base_view.dart';
 import 'package:chat_app_flutter/helper/utilities.dart';
 import 'package:chat_app_flutter/pages/auth/login/login_ctl.dart';
 import 'package:chat_app_flutter/pages/auth/login/login_repo.dart';
@@ -61,7 +60,7 @@ class ChangePasswordPage extends StatelessWidget with WidgetUtils, Utilities {
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-                            height: Constants.widthScreen/2,
+                            height: Constants.widthScreen/2+30,
                             width: Constants.widthScreen/2,
                             child: Image.asset(Assets.changePassImage, fit: BoxFit.fill,),
                           ),

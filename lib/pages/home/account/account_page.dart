@@ -72,10 +72,10 @@ class AccountPage extends BaseView<AccountCtl> {
                                   children: [
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: const [
-                                        Text('54', style: ThemeTextStyle.heading15,),
-                                        SizedBox(height: 5,),
-                                        Text('Bài viết', style: ThemeTextStyle.body11,),
+                                      children: [
+                                        Text('${controller.userPosts.length}', style: ThemeTextStyle.heading15,),
+                                        const SizedBox(height: 5,),
+                                        const Text('Bài viết', style: ThemeTextStyle.body11,),
                                       ],
                                     ),
                                     Column(

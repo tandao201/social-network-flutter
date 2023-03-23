@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -358,7 +357,7 @@ class WidgetUtils {
     );
   }
 
-  Widget divider() {
+  Widget divider({double height = 1}) {
     return Divider(
       color: AppColor.lightGrey,
       height: 1,
