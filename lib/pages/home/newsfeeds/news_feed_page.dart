@@ -68,7 +68,15 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: List.generate(controller.listStory.length, (index) {
                           return InkWell(
-                            onTap: () => controller.toPage(routeUrl: RouteNames.story),
+                            onTap: () {
+                              if (index != 0) {
+                                controller.toPage(routeUrl: RouteNames.story);
+                              } else {
+                                Get.toNamed(RouteNames.createPost, arguments: {
+                                  'from': 'homeStory'
+                                });
+                              }
+                            },
                             child: Hero(
                               tag: "tag$index",
                               child: _itemStory(

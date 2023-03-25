@@ -19,30 +19,68 @@ class StoryViewPage extends BaseView<StoryViewCtl> {
       body: SafeArea(
         child: controller.isLoading.value
             ? Container()
-            : Stack(
-                children: <Widget>[
-                  Hero(
-                    tag: "tag3",
-                    child: StoryView(
-                      storyItems: controller.storyItems,
-                      controller: controller.storyCtl,
-                      onComplete: () {
-                        Get.back();
-                      },
-                      onVerticalSwipeComplete: (v) {
-                        if (v == Direction.down) {
-                          Navigator.pop(context);
-                        }
-                      },
-                      onStoryShow: (storyItem) {},
-                    ),
-                  ),
-                  Container(
-                    height: 60.w,
-                    // width: Constants.widthScreen,
-                    padding:
+            : PageView(
+                controller: controller.pageController,
+                children: [
+                  Stack(
+                    children: <Widget>[
+                      Hero(
+                        tag: "tag1",
+                        child: StoryView(
+                          storyItems: controller.storyItems,
+                          controller: controller.storyCtl,
+                          onComplete: () {
+                            controller.stopMusic();
+                            Get.back();
+                          },
+                          onVerticalSwipeComplete: (v) {
+                            if (v == Direction.down) {
+                              controller.stopMusic();
+                              Get.back();
+                            }
+                          },
+                          onStoryShow: (storyItem) async {
+                            await controller.playMusic('https://p.scdn.co/mp3-preview/6ff25287b4b077010aacc6324022ef727187a0f5?cid=3b1b5d4a77e644c2929b10626bb85e4d');
+                          },
+                        ),
+                      ),
+                      Container(
+                        height: 60.w,
+                        padding:
                         const EdgeInsets.only(top: 25, left: 16, right: 16),
-                    child: _buildProfileView(),
+                        child: _buildProfileView(),
+                      )
+                    ],
+                  ),
+                  Stack(
+                    children: <Widget>[
+                      Hero(
+                        tag: "tag2",
+                        child: StoryView(
+                          storyItems: controller.storyItems,
+                          controller: controller.storyCtl,
+                          onComplete: () {
+                            controller.stopMusic();
+                            Get.back();
+                          },
+                          onVerticalSwipeComplete: (v) {
+                            if (v == Direction.down) {
+                              controller.stopMusic();
+                              Get.back();
+                            }
+                          },
+                          onStoryShow: (storyItem) async {
+                            await controller.playMusic('https://p.scdn.co/mp3-preview/6ff25287b4b077010aacc6324022ef727187a0f5?cid=3b1b5d4a77e644c2929b10626bb85e4d');
+                          },
+                        ),
+                      ),
+                      Container(
+                        height: 60.w,
+                        padding:
+                        const EdgeInsets.only(top: 25, left: 16, right: 16),
+                        child: _buildProfileView(),
+                      )
+                    ],
                   )
                 ],
               ),

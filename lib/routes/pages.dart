@@ -65,7 +65,7 @@ class Pages {
           name: RouteNames.createPost,
           page: () => const CreatePostPage(),
           binding: CreatePostBindings(),
-          transition: Transition.rightToLeftWithFade
+          transition: Transition.downToUp
       ),
       GetPage(
           name: RouteNames.searchChat,

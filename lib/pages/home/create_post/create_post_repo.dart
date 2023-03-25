@@ -20,4 +20,19 @@ class CreatePostRepo extends BaseRepo {
     }
     return createPostResponse;
   }
+
+  Future createStory({required Map<String, dynamic> bodyData}) async {
+    CreatePostResponse? createPostResponse;
+    try {
+      Response response = await request(
+          url: Constants.createStory,
+          method: Method.POST,
+          params: bodyData
+      );
+      createPostResponse = CreatePostResponse.fromJson(response.data);
+    } catch (e) {
+      debugPrint('Request failed: $e}');
+    }
+    return createPostResponse;
+  }
 }

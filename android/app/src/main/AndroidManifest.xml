@@ -11,6 +11,7 @@
     <!-- Permissions options for the `camera` group -->
     <uses-permission android:name="android.permission.CAMERA"/>
    <application
+        android:usesCleartextTraffic="true"
         android:label="Mystargram"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

@@ -40,7 +40,7 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
     if (userInfo != null) {
       username.value = userInfo!.username ?? "Người dùng";
       avatarUrlImg.value = userInfo!.avatar ?? "";
-      userPosts.value = userInfo!.posts!;
+      userPosts.value = userInfo!.posts ?? [];
     }
     tabController = TabController(
         length: 2,
