@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:chat_app_flutter/base/global_ctl.dart';
 import 'package:chat_app_flutter/helper/utilities.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
+import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';
 import 'package:chat_app_flutter/utils/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,7 @@ class GroupTile extends StatefulWidget {
   State<GroupTile> createState() => _GroupTileState();
 }
 
-class _GroupTileState extends State<GroupTile> with Utilities {
+class _GroupTileState extends State<GroupTile> with Utilities, WidgetUtils {
   var rng = Random();
   String userName = "";
   Color colorPage = Colors.blueAccent;
@@ -50,6 +51,7 @@ class _GroupTileState extends State<GroupTile> with Utilities {
             context,
             ChatPage(
               groupId: widget.groupId,
+              avatarImg: widget.avatarImg,
               groupName: widget.groupName,
               userName: userName,
               colorPage: colorPage,
@@ -61,12 +63,20 @@ class _GroupTileState extends State<GroupTile> with Utilities {
           leading: CircleAvatar(
             radius: 30,
             backgroundColor: colorPage,
-            child: Text(
-              widget.groupName.substring(0, 1).toUpperCase(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.w500),
-            ),
+            child: widget.avatarImg.isNotEmpty
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: cacheImage(
+                      isAvatar: true,
+                      imgUrl: widget.avatarImg
+                  ),
+                )
+              : Text(
+                  getName(widget.groupName).substring(0,1).toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w500),
+                ),
           ),
           title: Text(
             widget.groupId == 'new' ? getName(widget.groupName) : widget.groupName,

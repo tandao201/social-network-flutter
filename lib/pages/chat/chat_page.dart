@@ -2,8 +2,10 @@
 import 'package:chat_app_flutter/helper/utilities.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
+import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -12,12 +14,14 @@ import '../../utils/widgets/message_tile.dart';
 
 class ChatPage extends StatefulWidget {
   String groupId;
+  String avatarImg;
   final String groupName;
   final String userName;
   final Color colorPage;
   ChatPage(
       {Key? key,
         required this.groupId,
+        required this.avatarImg,
         required this.groupName,
         required this.userName,
         required this.colorPage
@@ -28,7 +32,7 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> with Utilities {
+class _ChatPageState extends State<ChatPage> with Utilities, WidgetUtils {
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
   String admin = "";
@@ -58,17 +62,47 @@ class _ChatPageState extends State<ChatPage> with Utilities {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        automaticallyImplyLeading: false,
         elevation: 0,
-        title: Text(widget.groupName, style: ThemeTextStyle.heading18,),
-        backgroundColor: AppColor.white,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: AppColor.black,
-          ),
-          onPressed: () => Get.back(),
+        title: Row(
+          children: [
+            IconButton(
+              constraints: const BoxConstraints(),
+              padding: EdgeInsets.zero,
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                color: AppColor.black,
+              ),
+              onPressed: () => Get.back(),
+            ),
+            const SizedBox(width: 12,),
+            Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: widget.colorPage,
+                borderRadius: BorderRadius.circular(40)
+              ),
+              height: 35.w,
+              width: 35.w,
+              child: widget.avatarImg.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(40),
+                      child: cacheImage(
+                          isAvatar: true,
+                          imgUrl: widget.avatarImg
+                      ),
+                    )
+                  : Text(
+                      getName(widget.groupName).substring(0,1).toUpperCase(),
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15),
+                    ),
+            ),
+            const SizedBox(width: 10,),
+            Text(widget.groupName, style: ThemeTextStyle.heading18,)
+          ],
         ),
+        backgroundColor: AppColor.white,
       ),
       body: GestureDetector(
         onTap: () => hideKeyboard(),

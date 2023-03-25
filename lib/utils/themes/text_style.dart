@@ -29,7 +29,7 @@ class BaseTextStyle extends TextStyle {
   const BaseTextStyle({double? fontSize, FontWeight? fontWeight, Color? color})
     : super(
       fontSize: fontSize ?? 14,
-      fontFamily: "Roboto",
+      fontFamily: "RobotoCondensed",
       fontWeight: fontWeight ?? FontWeight.w400,
       color: color ?? AppColor.black,
     );

@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_repo.dart';
+import 'package:chat_app_flutter/service/database_service.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:chat_app_flutter/utils/shared/constants.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +25,7 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
   TextEditingController emailCtl = TextEditingController();
   TextEditingController phoneCtl = TextEditingController();
   TextEditingController genderCtl = TextEditingController();
+  DatabaseService databaseService = DatabaseService();
 
   Rx<String> username = "".obs;
   Rx<String> name = "".obs;
@@ -55,7 +58,7 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
     userNameCtl.text = username.value;
     nameCtl.text = name.value;
     bioCtl.text = bio.value;
-    phoneCtl.text = globalController!.userInfo.value.mobile!;
+    phoneCtl.text = globalController!.userInfo.value.mobile ?? "";
   }
 
   void ctlDispose() {
@@ -104,6 +107,7 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
         return ;
       }
       bodyData['avatar'] = uploadImage.data!.url!;
+      databaseService.updateProfileImg(FirebaseAuth.instance.currentUser!.uid, uploadImage.data!.url!);
     }
 
     try {

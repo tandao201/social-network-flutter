@@ -1,4 +1,5 @@
 import 'package:chat_app_flutter/base/base_ctl.dart';
+import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/models/responses/post_responses/newsfeed_response.dart';
 import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_repo.dart';
 import 'package:flutter/material.dart';
@@ -12,38 +13,39 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
   ScrollController scrollCtl = ScrollController();
   int currentPage = 1;
   int totalItem = 2;
-  RxList<User> listStory = [
-    User(
+  late UserInfo currentUser;
+  RxList<UserFirebase> listStory = [
+    UserFirebase(
         name: 'Tan',
-        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSays4neq3I-N262WtjmR7PwKEvtbX0yp4eClmWCDLI&s',
+        imageUrl: "",
         stories: [1,2.3]
     ),
-    User(
+    UserFirebase(
         name: 'Khanh',
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSays4neq3I-N262WtjmR7PwKEvtbX0yp4eClmWCDLI&s',
         stories: [1,2,3]
     ),
-    User(
+    UserFirebase(
         name: 'Manh',
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSays4neq3I-N262WtjmR7PwKEvtbX0yp4eClmWCDLI&s',
         stories: [1]
     ),
-    User(
+    UserFirebase(
         name: 'Trinh',
         imageUrl: 'https://indochinapost.com/wp-content/uploads/chuyen-phat-nhanh-tnt-di-anh.jpg',
         stories: []
     ),
-    User(
+    UserFirebase(
         name: 'Khanh',
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSays4neq3I-N262WtjmR7PwKEvtbX0yp4eClmWCDLI&s',
         stories: [1,2.3]
     ),
-    User(
+    UserFirebase(
         name: 'Khanh',
         imageUrl: 'https://cdn.pixabay.com/photo/2020/04/30/14/03/mountains-and-hills-5112952__480.jpg',
         stories: [1,2,3]
     ),
-    User(
+    UserFirebase(
         name: 'Manh',
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSays4neq3I-N262WtjmR7PwKEvtbX0yp4eClmWCDLI&s',
         stories: [1]
@@ -62,6 +64,9 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
     super.onInit();
     initData();
     scrollCtl.addListener(_scrollListener);
+    currentUser = globalController!.userInfo.value;
+    listStory[0].imageUrl = currentUser.avatar ?? "";
+    listStory[0].name = currentUser.username ?? "";
   }
 
   Future initData() async {

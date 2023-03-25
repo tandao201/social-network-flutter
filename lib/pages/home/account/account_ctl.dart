@@ -9,6 +9,10 @@ import 'package:chat_app_flutter/pages/home/account/account_repo.dart';
 import 'package:chat_app_flutter/pages/home/home_repo.dart';
 import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_ctl.dart';
 import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_repo.dart';
+import 'package:chat_app_flutter/pages/home/notification/notification_ctl.dart';
+import 'package:chat_app_flutter/pages/home/notification/notification_repo.dart';
+import 'package:chat_app_flutter/pages/home/search/search_ctl.dart';
+import 'package:chat_app_flutter/pages/home/search/search_repo.dart';
 import 'package:chat_app_flutter/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,6 +51,7 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
         vsync: this,
         animationDuration: const Duration(milliseconds: 500)
     );
+    initData();
   }
 
   Future initData() async {
@@ -88,17 +93,27 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
     );
   }
 
+  void showConfirmLogout() {
+    Get.back();
+    showDialogCustom(
+      content: "Bạn chắc chắn muốn đăng xuất?",
+      onClickAction: () {
+        logout();
+      }
+    );
+  }
+
   void logout() {
     globalController?.clearUserAndLoginState();
     authService.signOut();
+    Get.back();
     toPagePopUtil(routeUrl: RouteNames.login);
     showSnackBar(
         Get.context!,
         AppColor.grey,
         "Đăng xuất thành công."
     );
-    Get.delete<NewsFeedRepo>();
-    Get.delete<NewsFeedCtl>();
+
   }
 
   void selectMenu() {

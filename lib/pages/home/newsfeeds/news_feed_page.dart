@@ -132,14 +132,17 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
   }
 
   Widget _itemStory({
-    User? user,
+    UserFirebase? user,
     String username = "User",
     String imgUrl = "",
     bool isRead = false,
     bool isLast = false,
   }) {
-    bool isCurrentUser = user!.name == 'Tan';
-    return Container(
+    RxBool isCurrentUser = (user!.name == controller.currentUser.username).obs;
+    if (isCurrentUser.value) {
+      imgUrl = controller.currentUser.avatar ?? "";
+    }
+    return Obx(() => Container(
       margin: EdgeInsets.only(right: isLast ? 0 : 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,7 +151,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
             alignment: Alignment.center,
             children: [
               Visibility(
-                visible: !isCurrentUser && user.stories.isNotEmpty,
+                visible: !isCurrentUser.value && user.stories!.isNotEmpty,
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: isRead ? AppColor.gradientReaded : AppColor.gradientPrimary,
@@ -161,20 +164,23 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(60),
-                  border: isCurrentUser ? null : user.stories.isNotEmpty ? Border.all(
+                  border: isCurrentUser.value ? null : user.stories!.isNotEmpty ? Border.all(
                     width: 3,
                     color: AppColor.white,
                   ) : null,
                   color: AppColor.grey,
                 ),
-                child: cacheImage(
-                    imgUrl: imgUrl,
-                    width: 56.w,
-                    height: 56.w
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(60),
+                  child: cacheImage(
+                      imgUrl: imgUrl,
+                      width: 56.w,
+                      height: 56.w
+                  ),
                 ),
               ),
               Visibility(
-                visible: isCurrentUser,
+                visible: isCurrentUser.value,
                 child: Positioned(
                   right: 0,
                   bottom: 0,
@@ -211,10 +217,10 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
             ],
           ),
           SizedBox(height: 5.h,),
-          Text(isCurrentUser ? 'Tin của bạn' : user.name, style: ThemeTextStyle.body12,)
+          Text(isCurrentUser.value ? 'Tin của bạn' : user.name!, style: ThemeTextStyle.body12,)
         ],
       ),
-    );
+    ));
   }
 
   Widget _itemNewsFeed({

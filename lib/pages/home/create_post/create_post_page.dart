@@ -260,8 +260,11 @@ class CreatePostPage extends BaseView<CreatePostCtl> {
                             fontWeight: FontWeight.w600
                         ),),
                         onTap: () {
-                          print('Tiếp tục: ${controller.descriptionCtl.text}');
-                          // controller.createPost();
+                          if (controller.type.value == "post") {
+                            controller.createPost();
+                          } else {
+                            controller.createStory();
+                          }
                         },
                       )
                     ],
@@ -319,7 +322,7 @@ class CreatePostPage extends BaseView<CreatePostCtl> {
       height: 35.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: AppColor.white.withOpacity(0.5),
+        color: AppColor.white.withOpacity(0.6),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -335,15 +338,20 @@ class CreatePostPage extends BaseView<CreatePostCtl> {
               height: 35.w,
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(music.name ?? "Bài hát", style: ThemeTextStyle.heading12.copyWith(color: AppColor.white),),
-                Text(music.artists?[0].name ?? "Ẩn danh" , style: ThemeTextStyle.body11.copyWith(color: AppColor.white),),
-              ],
+          Shimmer.fromColors(
+            period: const Duration(seconds: 3),
+            baseColor: Colors.black,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(music.name ?? "Bài hát", style: ThemeTextStyle.heading12.copyWith(color: AppColor.white),),
+                  Text(music.artists?[0].name ?? "Ẩn danh" , style: ThemeTextStyle.body11.copyWith(color: AppColor.white),),
+                ],
+              ),
             ),
           )
         ],

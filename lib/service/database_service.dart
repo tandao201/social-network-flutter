@@ -21,11 +21,28 @@ class DatabaseService {
     });
   }
 
+  Future updateProfileImg(String myUid, String imgUrl) async {
+    print('Updating profile image in firebase.......................');
+    return await userCollection.doc(myUid).update({
+      "profilePic": imgUrl,
+    }).then((value) => print('Update successful!'));
+  }
+
   // getting user data
   Future gettingUserData(String email) async {
     QuerySnapshot snapshot =
     await userCollection.where("email", isEqualTo: email).get();
     return snapshot;
+  }
+
+  Future<String> getUserImg(String myUid) async {
+    String img = "";
+    var snapshot =
+    await userCollection.doc(myUid).get();
+    if (snapshot.exists) {
+      img = snapshot['profilePic'];
+    }
+    return img;
   }
 
   // get user groups

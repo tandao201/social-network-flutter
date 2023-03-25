@@ -29,12 +29,13 @@ class _HomePageState extends State<ChatHomePage> with WidgetUtils, Utilities {
   bool _isLoading = false;
   String groupName = "";
 
-  Future getSubDes(var database, String groupId) async {
+  Future getSubDes(DatabaseService database, String groupId) async {
     var doc = await database.groupCollection.doc(groupId).get();
     String recentMessage = doc['recentMessage'];
     String name = doc['recentMessageSender'];
     String receiverId = "image";
     List<String>? members = [];
+    String img = "";
     for (var member in doc['members']) {
       members.add(member);
     }
@@ -44,7 +45,8 @@ class _HomePageState extends State<ChatHomePage> with WidgetUtils, Utilities {
         break;
       }
     }
-    return [name, recentMessage, receiverId];
+    img = await database.getUserImg(getId(receiverId));
+    return [name, recentMessage, receiverId, img];
   }
 
   @override
@@ -139,18 +141,16 @@ class _HomePageState extends State<ChatHomePage> with WidgetUtils, Utilities {
                     builder: (context, snap) {
                       if (snap.hasData) {
                         var list = snap.data! as List<String>;
-                        print('Ten chat: ${list[2]}');
+                        print('Ten chat: ${list[3]}');
                         String recentSender = list[0] == userName ? "Bạn" : userName;
                         return GroupTile(
                           groupId: groupId,
                           groupName: getName(list[2]),
                           userName: '$recentSender: ${list[1]}',
-                          avatarImg: '',
+                          avatarImg: list[3],
                         );
                       } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return const SizedBox();
                       }
                     },
                   );

@@ -60,6 +60,9 @@ class HomePage extends BaseView<HomeCtl> {
         type: BottomNavigationBarType.fixed,
         currentIndex: controller.pageIndex.value,
         selectedItemColor: AppColor.blueTag,
+        unselectedItemColor: AppColor.black,
+        selectedFontSize: 0,
+        unselectedFontSize: 0,
         elevation: 3,
         iconSize: 28,
         onTap: (index) {

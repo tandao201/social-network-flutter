@@ -30,6 +30,7 @@ class HomeCtl extends BaseCtl<HomeRepo> {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    pageController = PageController();
   }
 
   Future initData() async {

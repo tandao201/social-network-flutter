@@ -180,12 +180,12 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
     }
 
     Map<String, String> bodyData = {
-      // 'content': descriptionCtl.text.trim(),
+      // 'audio': currentMusic.value.previewUrl!,
       'image' : uploadImage.data!.url!,
     };
 
     try {
-      CreatePostResponse? createPostResponse = await api.createPost(bodyData: bodyData);
+      CreatePostResponse? createPostResponse = await api.createStory(bodyData: bodyData);
       if (createPostResponse == null) {
         debugPrint('Response null');
         showSnackBar(Get.context! , AppColor.red, 'Đã có lỗi xảy ra.');

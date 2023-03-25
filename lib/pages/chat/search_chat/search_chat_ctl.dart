@@ -4,10 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
+import '../../../models/commons/user.dart';
+
 class SearchChatCtl extends BaseCtl {
   DatabaseService databaseService = DatabaseService();
   TextEditingController searchCtl = TextEditingController();
   RxList<String> listUser = <String>[].obs;
+  RxList<UserFirebase> users = <UserFirebase>[].obs;
 
   @override
   void onInit() {
@@ -25,7 +28,7 @@ class SearchChatCtl extends BaseCtl {
     ).get();
     for(var user in filterFirebase.docs) {
       Map<String, dynamic> data = user.data() as Map<String, dynamic> ;
-      print('User filter: ${data}');
+      users.add(UserFirebase.fromJson(data));
       listUser.add('${data['uid']}_${data['fullName']}');
     }
     isLoading.value = false;

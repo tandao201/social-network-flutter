@@ -238,7 +238,7 @@ class MenuAccount extends StatelessWidget with WidgetUtils {
           ),
           InkWell(
             onTap: () {
-              controller.logout();
+              controller.showConfirmLogout();
             },
             child: _itemMenu("Đăng xuất", Icons.logout),
           ),
@@ -249,21 +249,35 @@ class MenuAccount extends StatelessWidget with WidgetUtils {
 
   Widget _itemMenu(String title, IconData icon) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+      child: Column(
         children: [
-          Icon(icon, color: AppColor.black, size: 20,),
-          const SizedBox(width: 12,),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: ThemeTextStyle.body16,),
-                const SizedBox(height: 10,),
-                divider(),
-              ],
-            ),
+          Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Icon(icon, color: AppColor.black, size: 20,),
+              ),
+              const SizedBox(width: 10,),
+              Expanded(
+                flex: 20,
+                child: Text(title, style: ThemeTextStyle.body16,),
+              )
+            ],
+          ),
+          const SizedBox(height: 12,),
+          Row(
+            children: [
+              const Flexible(
+                flex: 1,
+                child: SizedBox(width: 20,),
+              ),
+              const SizedBox(width: 10,),
+              Expanded(
+                flex: 20,
+                child: divider(),
+              )
+            ],
           ),
         ],
       ),

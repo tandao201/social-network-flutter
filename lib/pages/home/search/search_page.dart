@@ -265,7 +265,7 @@ class SearchPage extends BaseView<SearchCtl> {
                 children: [
                   Container(
                     height: 16.w,
-                    width: 200.w,
+                    width: Constants.widthScreen,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40),
                         color: AppColor.white
@@ -274,7 +274,7 @@ class SearchPage extends BaseView<SearchCtl> {
                   const SizedBox(height: 4,),
                   Container(
                     height: 10.w,
-                    width: 100.w,
+                    width: Constants.widthScreen/3,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40),
                         color: AppColor.white

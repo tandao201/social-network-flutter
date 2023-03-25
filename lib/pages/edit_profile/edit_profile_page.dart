@@ -66,7 +66,7 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50.w),
-                                    child: !controller.avatarUrl.value.contains("http")
+                                    child: !controller.avatarUrl.value.contains("http") && controller.avatarUrl.value.isNotEmpty
                                         ? imageFile(
                                         height: 95.w,
                                         width: 95.w,
@@ -83,13 +83,7 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
                               const SizedBox(height: 12,),
                               GestureDetector(
                                   onTap: () {
-                                    // controller.pickImage();
-                                    showDialogCustom(
-                                        onClickAction: () {
-                                          print('Click');
-                                        }
-                                    );
-
+                                    controller.pickImage();
                                   },
                                   child: const Text("Thay đổi ảnh đại diện", style: ThemeTextStyle.heading13Blue,)
                               ),

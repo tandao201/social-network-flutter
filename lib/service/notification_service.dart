@@ -6,6 +6,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../main.dart';
+
 class NotificationService extends GetxService {
   FirebaseMessaging? _messaging;
   late AndroidNotificationChannel channel;
@@ -18,11 +20,23 @@ class NotificationService extends GetxService {
   }
 
   Future requestAndInitNotification() async {
-    var status = await Permission.notification.status;
-    if (status.isGranted) {
+    NotificationSettings settings = await messaging!.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized || settings.authorizationStatus == AuthorizationStatus.provisional) {
+      print('User granted permission');
       initFCM();
       registerNotification();
       getTokenFCM();
+    } else {
+      print('User declined or has not accepted permission');
     }
   }
 
@@ -75,8 +89,15 @@ class NotificationService extends GetxService {
     // FirebaseMessaging.onBackgroundMessage();
     FirebaseMessaging.onMessage.listen(_firebaseMessaging);
     FirebaseMessaging.onMessageOpenedApp.listen(_firebaseMessagingOpenedApp);
+
+    ///  Get any messages which caused the application to open from a terminated state.
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      handleInitialNotification(initialMessage);
+    }
   }
 
+  /// when app on foreground
   Future _firebaseMessaging(RemoteMessage message) async {
     debugPrint("On message data: ${message.data}");
     showFlutterNotification(message);
@@ -119,5 +140,9 @@ class NotificationService extends GetxService {
   static void onSelectNotification(NotificationResponse response) {
     /*Do whatever you want to do on notification click. In this case, I'll show an alert dialog*/
     debugPrint('CLick notification payload: ${response.payload}');
+  }
+
+  void handleInitialNotification(RemoteMessage initialMessage) {
+    print('Initial message: ${initialMessage.data}');
   }
 }

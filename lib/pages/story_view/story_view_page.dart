@@ -134,7 +134,10 @@ class StoryViewPage extends BaseView<StoryViewCtl> {
             Icons.close,
             color: AppColor.white,
           ),
-          onPressed: () => Get.back(),
+          onPressed: () {
+            controller.stopMusic();
+            Get.back();
+          },
         )
       ],
     );

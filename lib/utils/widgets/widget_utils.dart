@@ -263,11 +263,12 @@ class WidgetUtils {
     showDialog(
       context: Get.context!,
       builder: (context) {
-        return Dialog(
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(24))),
+              borderRadius: BorderRadius.all(Radius.circular(18))),
           backgroundColor: AppColor.lightGrey1,
-          child: Column(
+          content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 13),
@@ -278,13 +279,13 @@ class WidgetUtils {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 13),
+              const SizedBox(height: 8),
               Text(content),
               const SizedBox(height: 18),
               divider(),
               SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 48,
+                // width: MediaQuery.of(context).size.width,
+                height: 40,
                 child: InkWell(
                   highlightColor: Colors.grey[200],
                   onTap: () {
@@ -307,8 +308,8 @@ class WidgetUtils {
               ),
               divider(),
               SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 48,
+                // width: MediaQuery.of(context).size.width,
+                height: 40,
                 child: InkWell(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(13.0),

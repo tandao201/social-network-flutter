@@ -59,12 +59,12 @@ class SearchChatPage extends BaseView<SearchChatCtl> {
     return ListView.builder(
       itemCount: controller.listUser.length,
       itemBuilder: (context, index) {
-        var userInfo = controller.listUser[index];
+        var userInfo = controller.users[index];
         return GroupTile(
             groupId: "new",
-            groupName: userInfo,
+            groupName: userInfo.name ?? "Người dùng",
             userName: "",
-            avatarImg: "avatarImg"
+            avatarImg: userInfo.imageUrl ?? ""
         );
       },
     );
