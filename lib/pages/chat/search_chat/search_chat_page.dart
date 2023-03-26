@@ -63,7 +63,7 @@ class SearchChatPage extends BaseView<SearchChatCtl> {
         return GroupTile(
             groupId: "new",
             groupName: userInfo.name ?? "Người dùng",
-            userName: "",
+            userName: controller.globalController?.userInfo.value.username ?? "",
             avatarImg: userInfo.imageUrl ?? ""
         );
       },

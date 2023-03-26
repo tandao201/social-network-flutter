@@ -57,6 +57,7 @@ class UserInfo {
   String? createdTime;
   String? updatedTime;
   List<Post>? posts;
+  int? friend;
 
   UserInfo(
       {this.id,
@@ -67,7 +68,8 @@ class UserInfo {
         this.status,
         this.createdTime,
         this.updatedTime,
-        this.posts
+        this.posts,
+        this.friend
       });
 
   UserInfo.fromJson(Map<String, dynamic> json) {
@@ -85,6 +87,7 @@ class UserInfo {
         posts!.add(Post.fromJson(v));
       });
     }
+    updatedTime = json['friend'];
   }
 
   Map<String, dynamic> toJson() {
@@ -100,6 +103,7 @@ class UserInfo {
     if (posts != null) {
       data['posts'] = posts!.map((v) => v.toJson()).toList();
     }
+    data['friend'] = friend;
     return data;
   }
 }

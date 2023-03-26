@@ -93,24 +93,26 @@ class SearchPage extends BaseView<SearchCtl> {
     return controller.isLoading.value
       ? _buildLoadingUser()
       : SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               InkWell(
                 onTap: () {
-                  print('Click notification');
+                  controller.toProfilePage(userId: 15);
                 },
                 child: _itemUser(),
               ),
               InkWell(
                 onTap: () {
-                  print('Click notification');
+                  controller.toProfilePage(userId: 4);
+                  print('Click notification 4');
                 },
                 child: _itemUser(),
               ),
               InkWell(
                 onTap: () {
+                  controller.toProfilePage(userId: 13);
                   print('Click notification');
                 },
                 child: _itemUser(),
@@ -146,7 +148,7 @@ class SearchPage extends BaseView<SearchCtl> {
 
   Widget _buildLoadingUser() {
     return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: List.generate(8, (index) => _itemLoadingUser()),
@@ -156,6 +158,7 @@ class SearchPage extends BaseView<SearchCtl> {
 
   Widget listPost() {
     return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
       child: Wrap(
         children: List.generate(10, (index) {
           // var post = controller.postsSearch[index];
@@ -228,7 +231,7 @@ class SearchPage extends BaseView<SearchCtl> {
                 Text(
                   "Đây là nội dung kjashd ajskd asjdh asjkd jashd aks djkas djkas djhas djkhas kjd",
                   style: ThemeTextStyle.body13,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4,),

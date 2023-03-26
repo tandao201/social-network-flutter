@@ -5,6 +5,7 @@ import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../models/commons/user.dart';
+import '../../../models/responses/post_responses/create_post_response.dart';
 import '../../../utils/shared/colors.dart';
 import '../../../utils/shared/constants.dart';
 
@@ -52,7 +53,7 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
     ),
   ].obs;
 
-  RxList<Newsfeed> newsFeeds = <Newsfeed>[].obs;
+  RxList<Post> newsFeeds = <Post>[].obs;
 
   Rx<bool> isCommentInFeed = false.obs;
   TextEditingController commentCtl = TextEditingController();
@@ -93,7 +94,7 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
       }
       if (newsFeedResponse.errorCode!.isEmpty) {
         if (!isLoadMore.value) newsFeeds.value = [];
-        newsFeeds.addAll(newsFeedResponse.data!.newsfeeds as List<Newsfeed>);
+        newsFeeds.addAll(newsFeedResponse.data!.newsfeeds as List<Post>);
         newsFeeds.refresh();
         totalItem = newsFeedResponse.data!.total!;
         isLoading.value = false;

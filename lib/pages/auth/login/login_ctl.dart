@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../../models/responses/auth_responses/login_response.dart';
+import '../../../service/database_service.dart';
 import '../../../utils/shared/colors.dart';
 import '../register/register_page.dart';
 import 'login_repo.dart';
@@ -75,6 +76,7 @@ class LoginCtl extends BaseCtl<LoginRepo> with GetSingleTickerProviderStateMixin
             usernameCtl.text.trim(),
             passwordCtl.text.trim()
         );
+        DatabaseService().updateDeviceToken(getCurrentUid(), await getCurrentDeviceToken());
         showSnackBar(
             Get.context!,
             AppColor.green,

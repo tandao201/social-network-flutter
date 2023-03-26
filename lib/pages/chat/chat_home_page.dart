@@ -25,34 +25,58 @@ class _HomePageState extends State<ChatHomePage> with WidgetUtils, Utilities {
   String userName = "";
   String email = "";
   AuthService authService = AuthService();
+  late DatabaseService database;
   Stream? groups;
   bool _isLoading = false;
   String groupName = "";
+  List<Group> groupsList = [];
+  List<String> groupsId = [];
 
-  Future getSubDes(DatabaseService database, String groupId) async {
+  Future<Group> getSubDes( String groupId) async {
+    groupId = getId(groupId);
     var doc = await database.groupCollection.doc(groupId).get();
     String recentMessage = doc['recentMessage'];
     String name = doc['recentMessageSender'];
-    String receiverId = "image";
+    String recentMessageTime = doc['recentMessageTime'];
+    String receiverId = "";
     List<String>? members = [];
     String img = "";
     for (var member in doc['members']) {
       members.add(member);
+      print('Member: $member');
     }
     for (var member in members) {
-      if (!member.contains(userName)) {
+      if (getName(member) != userName) {
         receiverId = member;
         break;
       }
     }
-    img = await database.getUserImg(getId(receiverId));
-    return [name, recentMessage, receiverId, img];
+    String idPartner = '';
+    String groupName = '';
+    if (receiverId.isEmpty) {
+      idPartner = getCurrentUid();
+      groupName = userName;
+    } else {
+      idPartner = getId(receiverId);
+      groupName = getName(receiverId);
+    }
+    img = await database.getUserImg(idPartner);
+    return Group(
+        groupId: groupId,
+        avatarImg: img,
+        currentMes: recentMessage,
+        currentSender: name,
+        groupName: groupName,
+        recentMessageTime: recentMessageTime
+    );
   }
 
   @override
   void initState() {
     super.initState();
     gettingUserData();
+    _isLoading = true;
+    database = DatabaseService(uid: getCurrentUid());
   }
 
   gettingUserData() async {
@@ -69,6 +93,20 @@ class _HomePageState extends State<ChatHomePage> with WidgetUtils, Utilities {
       setState(() {
         groups = snapshot;
       });
+    });
+    groups?.listen((event) async {
+      if (event.data() != null) {
+        groupsId = (event.data()['groups'] as List).map((e) => e as String).toList();
+        for (var group in groupsId) {
+          var tmp = await getSubDes(group);
+          groupsList.add(tmp);
+        }
+        groupsList.sort((a,b) => b.recentMessageTime.compareTo(a.recentMessageTime));
+        print('Data event: ${event.data()['groups']}');
+        setState(() {
+          _isLoading = false;
+        });
+      }
     });
   }
 
@@ -115,56 +153,27 @@ class _HomePageState extends State<ChatHomePage> with WidgetUtils, Utilities {
           ),
           divider(),
           Expanded(
-            child: groupList(),
+            child: _isLoading
+              ? const Loading()
+              : groupList(),
           )
         ],
       ),
     );
   }
 
+
   groupList() {
-    return StreamBuilder(
-      stream: groups,
-      builder: (context, AsyncSnapshot snapshot) {
-        // make some checks
-        if (snapshot.hasData) {
-          if (snapshot.data['groups'] != null) {
-            if (snapshot.data['groups'].length != 0) {
-              return ListView.builder(
-                itemCount: snapshot.data['groups'].length,
-                itemBuilder: (context, index) {
-                  int reverseIndex = snapshot.data['groups'].length - index - 1;
-                  var database = DatabaseService();
-                  String groupId = getId(snapshot.data['groups'][reverseIndex]);
-                  return FutureBuilder(
-                    future: getSubDes(database, groupId),
-                    builder: (context, snap) {
-                      if (snap.hasData) {
-                        var list = snap.data! as List<String>;
-                        print('Ten chat: ${list[3]}');
-                        String recentSender = list[0] == userName ? "Bạn" : userName;
-                        return GroupTile(
-                          groupId: groupId,
-                          groupName: getName(list[2]),
-                          userName: '$recentSender: ${list[1]}',
-                          avatarImg: list[3],
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                  );
-                },
-              );
-            } else {
-              return noGroupWidget();
-            }
-          } else {
-            return noGroupWidget();
-          }
-        } else {
-          return const Loading();
-        }
+    return ListView.builder(
+      itemCount: groupsList.length,
+      itemBuilder: (context, index) {
+        var group = groupsList[index];
+        return GroupTile(
+          groupId: group.groupId,
+          groupName: getName(group.groupName),
+          userName: '${group.currentSender == userName ? "Bạn" : group.currentSender}: ${group.currentMes}',
+          avatarImg: group.avatarImg,
+        );
       },
     );
   }
@@ -198,3 +207,29 @@ class _HomePageState extends State<ChatHomePage> with WidgetUtils, Utilities {
     );
   }
 }
+
+class Group {
+  String groupId;
+  String groupName;
+  String currentMes;
+  String currentSender;
+  String avatarImg;
+  String recentMessageTime;
+
+  Group({
+    required this.groupId,
+    required this.groupName,
+    required this.currentMes,
+    required this.currentSender,
+    required this.avatarImg,
+    required this.recentMessageTime,
+  });
+}
+
+// print('Groups: ${snapshot.data['groups'][index]}');
+// int reverseIndex = snapshot.data['groups'].length - index - 1;
+// var database = DatabaseService();
+// String groupId = getId(snapshot.data['groups'][reverseIndex]);
+// var list = getSubDes(database, groupId);
+// print('Ten chat: ${list[3]}');
+// String recentSender = list[0] == userName ? "Bạn" : userName;

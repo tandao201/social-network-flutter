@@ -18,6 +18,10 @@ import 'package:get/get.dart';
 import '../pages/auth/login/login_bindings.dart';
 import '../pages/comment_post/comment_post_bindings.dart';
 import '../pages/comment_post/comment_post_page.dart';
+import '../pages/list_all_posts/list_all_post_page.dart';
+import '../pages/list_all_posts/list_all_posts_bindings.dart';
+import '../pages/user_profile/user_profile_bindings.dart';
+import '../pages/user_profile/user_profile_page.dart';
 
 class Pages {
   static List<GetPage> pages() {
@@ -71,6 +75,18 @@ class Pages {
           name: RouteNames.searchChat,
           page: () => const SearchChatPage(),
           binding: SearchChatBindings(),
+          transition: Transition.downToUp
+      ),
+      GetPage(
+          name: RouteNames.allPosts,
+          page: () => const ListAllPostsPage(),
+          binding: ListAllPostsBindings(),
+          transition: Transition.downToUp
+      ),
+      GetPage(
+          name: RouteNames.userProfile,
+          page: () => const UserProfilePage(),
+          binding: UserProfileBindings(),
           transition: Transition.downToUp
       ),
     ];

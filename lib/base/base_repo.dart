@@ -101,6 +101,25 @@ class BaseRepo {
     }
     return commonResponse;
   }
+
+  Future<CommonResponse?> likePost(String userId) async {
+    CommonResponse? commonResponse;
+    Map<String, dynamic> bodyData = {
+      'user_id': userId,
+      'status': FriendStatus.request.index+1
+    };
+    try {
+      Response response = await request(
+          url: Constants.requestFriend,
+          method: Method.GET,
+          params: bodyData
+      );
+      commonResponse = CommonResponse.fromJson(response.data);
+    } catch (e) {
+      print('Request failed: $e}');
+    }
+    return commonResponse;
+  }
 }
 // import 'package:dio/dio.dart';
 // Future changePass({required Map<String, dynamic> bodyData}) async {

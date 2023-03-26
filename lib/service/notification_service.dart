@@ -2,11 +2,15 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../base/global_ctl.dart';
 import '../main.dart';
+import '../pages/chat/chat_page.dart';
+import '../utils/widgets/widgets.dart';
 
 class NotificationService extends GetxService {
   FirebaseMessaging? _messaging;
@@ -105,7 +109,7 @@ class NotificationService extends GetxService {
   Future _firebaseMessagingOpenedApp(RemoteMessage message) async {
     /// when in background click notification
     debugPrint("Opened message data: ${message.data}");
-    // showFlutterNotification(message);
+    handleClickNotification(message.data);
   }
 
   void getTokenFCM() async {
@@ -140,9 +144,26 @@ class NotificationService extends GetxService {
   static void onSelectNotification(NotificationResponse response) {
     /*Do whatever you want to do on notification click. In this case, I'll show an alert dialog*/
     debugPrint('CLick notification payload: ${response.payload}');
+    handleClickNotification(jsonDecode(response.payload!));
   }
 
   void handleInitialNotification(RemoteMessage initialMessage) {
     print('Initial message: ${initialMessage.data}');
+    handleClickNotification(initialMessage.data);
+  }
+
+  static void handleClickNotification(Map<String, dynamic> data) {
+    if (data['type'] == "message") {
+      final globalCtl = Get.find<GlobalController>();
+      nextScreen(
+          Get.context,
+          ChatPage(
+            groupId: data['groupId'],
+            avatarImg: data['avatarImg'],
+            groupName: data['title'],
+            userName: globalCtl.userInfo.value.username!,
+            colorPage: Colors.pink,
+          ));
+    }
   }
 }

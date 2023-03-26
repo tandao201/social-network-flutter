@@ -4,11 +4,14 @@ import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
 import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../base/global_ctl.dart';
+import '../../models/commons/user.dart';
 import '../../service/database_service.dart';
 import '../../utils/widgets/message_tile.dart';
 
@@ -33,16 +36,34 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> with Utilities, WidgetUtils {
+  late ScrollController scrollController;
+
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
   String admin = "";
-
+  bool firstScroll = false;
+  late UserFirebase userFb;
   @override
   void initState() {
     if (widget.groupId != 'new') {
       getChatandAdmin();
     }
+    scrollController = ScrollController();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollToEnd();
+    });
+  }
+
+  void scrollToEnd() {
+    print('Scrolling to end...............');
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        0.0,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeInOut
+      );
+    }
   }
 
   getChatandAdmin() {
@@ -106,10 +127,12 @@ class _ChatPageState extends State<ChatPage> with Utilities, WidgetUtils {
       ),
       body: GestureDetector(
         onTap: () => hideKeyboard(),
-        child: Stack(
+        child: Column(
           children: <Widget>[
             // chat messages here
-            chatMessages(),
+            Expanded(
+              child: chatMessages(),
+            ),
             Container(
               margin: const EdgeInsets.all(4),
               alignment: Alignment.bottomCenter,
@@ -142,13 +165,14 @@ class _ChatPageState extends State<ChatPage> with Utilities, WidgetUtils {
                   ),
                   GestureDetector(
                     onTap: () async {
+                      userFb = await DatabaseService().searchUserByUsername(widget.groupName);
                       if (widget.groupId == 'new') {
                         String uid = getCurrentUid();
                         var listCreate = await DatabaseService(uid: uid).createGroup(
                             widget.userName,
                             uid,
-                            getName(widget.groupName),
-                            getId(widget.groupName)
+                            userFb.name!,
+                            userFb.uid!
                         ) as List<dynamic>;
 
                         setState(() {
@@ -165,7 +189,7 @@ class _ChatPageState extends State<ChatPage> with Utilities, WidgetUtils {
                       height: 35,
                       width: 35,
                       decoration: BoxDecoration(
-                        color: widget.colorPage,
+                        color: AppColor.messageColor,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: const Center(
@@ -189,26 +213,36 @@ class _ChatPageState extends State<ChatPage> with Utilities, WidgetUtils {
     return StreamBuilder(
       stream: chats,
       builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting){
+          return const CupertinoActivityIndicator();
+        }
         return snapshot.hasData
             ? ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: snapshot.data.docs.length,
-          itemBuilder: (context, index) {
-            return MessageTile(
-                message: snapshot.data.docs[index]['message'],
-                sender: snapshot.data.docs[index]['sender'],
-                sentByMe: widget.userName ==
-                    snapshot.data.docs[index]['sender'],
-                colorPage: widget.colorPage,
-            );
-          },
-        )
+                reverse: true,
+                controller: scrollController,
+                physics: const BouncingScrollPhysics(),
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  int reverseIndex = snapshot.data.docs.length-1-index;
+                  return MessageTile(
+                      message: snapshot.data.docs[reverseIndex]['message'],
+                      sender: snapshot.data.docs[reverseIndex]['sender'],
+                      sentByMe: widget.userName ==
+                          snapshot.data.docs[reverseIndex]['sender'],
+                      colorPage: widget.colorPage,
+                      timeSend: snapshot.data.docs[reverseIndex]['time'].toString(),
+                      avatarImg: widget.avatarImg
+                  );
+                },
+              )
             : Container();
       },
     );
   }
 
   sendMessage() {
+    scrollToEnd();
+    String message = messageController.text.trim();
     if (messageController.text.isNotEmpty) {
       Map<String, dynamic> chatMessageMap = {
         "message": messageController.text,
@@ -220,6 +254,14 @@ class _ChatPageState extends State<ChatPage> with Utilities, WidgetUtils {
       setState(() {
         messageController.clear();
       });
+      final globalCtl = Get.find<GlobalController>();
+      pushNotification(
+        title: globalCtl.userInfo.value.username ?? "",
+        body: message,
+        deviceToken: userFb.deviceToken ?? "",
+        groupId: widget.groupId,
+        avatarImg: globalCtl.userInfo.value.avatar ?? ""
+      );
     }
   }
 }

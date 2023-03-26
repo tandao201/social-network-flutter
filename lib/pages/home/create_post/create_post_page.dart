@@ -319,7 +319,7 @@ class CreatePostPage extends BaseView<CreatePostCtl> {
 
   Widget musicItem({required Items music}) {
     return Container(
-      height: 35.w,
+      height: 40.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         color: AppColor.white.withOpacity(0.6),
@@ -335,7 +335,7 @@ class CreatePostPage extends BaseView<CreatePostCtl> {
             child: cacheImage(
               imgUrl: music.album?.images?[0].url ?? "",
               width: 35.w,
-              height: 35.w,
+              height: 40.w,
             ),
           ),
           Shimmer.fromColors(

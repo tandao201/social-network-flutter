@@ -181,18 +181,26 @@ class AccountPage extends BaseView<AccountCtl> {
     return Wrap(
       children: List.generate(controller.userPosts.length, (index) {
         var post = controller.userPosts[index];
-        return Container(
-          decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: AppColor.white, width: 1),
-                right: BorderSide(color: AppColor.white, width: 1),
-              )
-          ),
-          child: cacheImage(
-              imgUrl: post.image ?? "",
-              width: (Constants.widthScreen-36)/3,
-              height: (Constants.widthScreen-36)/3,
-              isAvatar: false
+        return InkWell(
+          onTap: () {
+            controller.onClickAllPost(index);
+          },
+          child: Hero(
+            tag: 'postTag$index',
+            child: Container(
+              decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: AppColor.white, width: 1),
+                    right: BorderSide(color: AppColor.white, width: 1),
+                  )
+              ),
+              child: cacheImage(
+                  imgUrl: post.image ?? "",
+                  width: (Constants.widthScreen-36)/3,
+                  height: (Constants.widthScreen-36)/3,
+                  isAvatar: false
+              ),
+            ),
           ),
         );
       }),

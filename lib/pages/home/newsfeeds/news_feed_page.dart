@@ -122,10 +122,20 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
   Widget buildNewsfeed(BuildContext context) {
     return controller.newsFeeds.isNotEmpty
       ? Column(
-      children: List.generate(controller.newsFeeds.length, (index) => _itemNewsFeed(
+      children: List.generate(controller.newsFeeds.length, (index) => itemNewsFeed(
+        isShowFollow: controller.newsFeeds[index].userId != controller.globalController?.userInfo.value.id,
         context: context,
         width: Constants.widthScreen,
         newsfeed: controller.newsFeeds[index],
+        onClickComment: () {
+          controller.toPage(routeUrl: RouteNames.commentPost);
+        },
+        onRequestFriend: () {
+          controller.api.requestFriend(controller.newsFeeds[index].userId.toString());
+        },
+        onClickProfile: () {
+          controller.toProfilePage(userId: controller.newsFeeds[index].userId!);
+        }
       )),
     )
       : noData(type: "bài viết");
@@ -220,152 +230,6 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
           Text(isCurrentUser.value ? 'Tin của bạn' : user.name!, style: ThemeTextStyle.body12,)
         ],
       ),
-    ));
-  }
-
-  Widget _itemNewsFeed({
-    required BuildContext context,
-    required Newsfeed newsfeed,
-    double width = 375,
-  }) {
-    Rx<bool> isShowHeart = false.obs;
-    Rx<bool> isLike = false.obs;
-    Rx<double> scale = 1.0.obs;
-    return Obx(() => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: cacheImage(
-                        imgUrl: newsfeed.image ?? "",
-                        height: 32.w,
-                        width: 32.w
-                    ),
-                  ),
-                  const SizedBox(width: 10,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('${newsfeed.userId}' , style: ThemeTextStyle.heading13,),
-                      const SizedBox(height: 1,),
-                      Text('Hà Nội, Việt Nam' , style: ThemeTextStyle.body11,),
-                    ],
-                  )
-                ],
-              ),
-              Visibility(
-                child: InkWell(
-                  onTap: () {
-                    controller.api.requestFriend(newsfeed.userId.toString());
-                    print('Click follow....................');
-                  },
-                  child: const Text('Theo dõi', style: ThemeTextStyle.heading13Blue,),
-                ),
-              )
-            ],
-          ),
-        ),
-        GestureDetector(
-          onDoubleTap: () {
-            isShowHeart.value = true;
-            Future.delayed(const Duration(milliseconds: 1000), () {
-              isShowHeart.value = false;
-            });
-            if (!isLike.value) {
-              isLike.value = !isLike.value;
-            }
-          },
-          child: Stack(
-            children: [
-              cacheImage(
-                  imgUrl: newsfeed.image ?? "",
-                  height: width,
-                  width: width,
-                  isAvatar: false
-              ),
-              Visibility(
-                visible: isShowHeart.value,
-                child: const Positioned(
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: 0,
-                  child: Icon(Icons.favorite_rounded, size: 120, color: AppColor.white,),
-                ),
-              )
-            ],
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            controller.toPage(routeUrl: RouteNames.commentPost);
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            color: AppColor.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              scale.value = 1.05;
-                              Future.delayed(const Duration(milliseconds: 200), () {
-                                scale.value = 1.0;
-                              });
-                              isLike.value = !isLike.value;
-                            },
-                            child: AnimatedScale(
-                              scale: scale.value,
-                              duration: const Duration(microseconds: 50),
-                              child: !isLike.value
-                                  ? SvgPicture.asset(Assets.like)
-                                  : const Icon(Icons.favorite_rounded, color: AppColor.red,size: 28,) ,
-                            ),
-                          ),
-                          const SizedBox(width: 17,),
-                          SvgPicture.asset(Assets.comment)
-                        ],
-                      ),
-                      Container(),
-                      SvgPicture.asset(Assets.saveNewsFeed)
-                    ],
-                  ),
-                ),
-                Text('3.123.233 lượt thích', style: ThemeTextStyle.heading13,),
-                const SizedBox(height: 5,),
-                Visibility(
-                  visible: true,
-                  child: RichText(
-                    text: TextSpan(
-                        children: [
-                          TextSpan(text: '${newsfeed.userId}', style: ThemeTextStyle.heading13),
-                          TextSpan(text: '  ${newsfeed.content}', style: ThemeTextStyle.body13),
-                        ]
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 5,),
-                Text('${newsfeed.createdTime}'.timeAgo(), style: BaseTextStyle(fontSize: 12, color: AppColor.grey),),
-                const SizedBox(height: 8,),
-              ],
-            ),
-          ),
-        )
-      ],
     ));
   }
 

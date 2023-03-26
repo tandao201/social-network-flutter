@@ -109,7 +109,7 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
             "Đăng tải thành công."
         );
         final newsCtl = Get.find<NewsFeedCtl>();
-        var newsfeed = Newsfeed(
+        var newsfeed = Post(
           userId: createPostResponse.data?.userId,
           content: createPostResponse.data?.content,
           createdTime: createPostResponse.data?.createdTime,

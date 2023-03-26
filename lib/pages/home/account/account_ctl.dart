@@ -125,6 +125,14 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
     );
   }
 
+  void onClickAllPost(int postIndex) {
+    toPage(routeUrl: RouteNames.allPosts, arguments: {
+      'postIndex': postIndex,
+      'currentUser': userInfo!,
+      'posts': userPosts
+    });
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose

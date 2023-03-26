@@ -4,6 +4,7 @@ class UserFirebase {
   String? email;
   String? uid;
   List<String>? groups;
+  String? deviceToken;
   List<dynamic>? stories;
 
   UserFirebase({
@@ -12,7 +13,8 @@ class UserFirebase {
     this.stories,
     this.email,
     this.groups,
-    this.uid
+    this.uid,
+    this.deviceToken
   });
 
   UserFirebase.fromJson(Map<String, dynamic> json) {
@@ -25,5 +27,6 @@ class UserFirebase {
       groups?.add(group);
     }
     uid = json['uid'];
+    deviceToken = json['deviceToken'];
   }
 }

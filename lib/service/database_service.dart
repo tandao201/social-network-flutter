@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../models/commons/user.dart';
+
 class DatabaseService {
   final String? uid;
   DatabaseService({this.uid});
@@ -21,6 +23,17 @@ class DatabaseService {
     });
   }
 
+  Future searchUserByUsername(String username) async {
+    var filterFirebase = await userCollection.where(
+        'fullName',
+        isEqualTo: username
+    ).get();
+    for(var user in filterFirebase.docs) {
+      Map<String, dynamic> data = user.data() as Map<String, dynamic> ;
+      return UserFirebase.fromJson(data);
+    }
+  }
+
   Future updateProfileImg(String myUid, String imgUrl) async {
     print('Updating profile image in firebase.......................');
     return await userCollection.doc(myUid).update({
@@ -28,19 +41,27 @@ class DatabaseService {
     }).then((value) => print('Update successful!'));
   }
 
+  Future updateDeviceToken(String myUid, deviceToken) async {
+    print('Updating deviceToken in firebase.......................');
+    return await userCollection.doc(myUid).update({
+      "deviceToken": deviceToken,
+    }).then((value) => print('Update successful!'));
+  }
+
   // getting user data
-  Future gettingUserData(String email) async {
+  Future<QuerySnapshot> gettingUserData(String email) async {
     QuerySnapshot snapshot =
     await userCollection.where("email", isEqualTo: email).get();
     return snapshot;
   }
 
   Future<String> getUserImg(String myUid) async {
+    print('My UID: $myUid');
     String img = "";
     var snapshot =
     await userCollection.doc(myUid).get();
     if (snapshot.exists) {
-      img = snapshot['profilePic'];
+      img = snapshot['profilePic'] ?? "";
     }
     return img;
   }

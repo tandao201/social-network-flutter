@@ -1,3 +1,5 @@
+import 'create_post_response.dart';
+
 class NewsFeedResponse {
   String? errorCode;
   NewsFeedResponseData? data;
@@ -20,16 +22,16 @@ class NewsFeedResponse {
 }
 
 class NewsFeedResponseData {
-  List<Newsfeed>? newsfeeds;
+  List<Post>? newsfeeds;
   int? total;
 
   NewsFeedResponseData({this.newsfeeds, this.total});
 
   NewsFeedResponseData.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      newsfeeds = <Newsfeed>[];
+      newsfeeds = <Post>[];
       json['data'].forEach((v) {
-        newsfeeds!.add(Newsfeed.fromJson(v));
+        newsfeeds!.add(Post.fromJson(v));
       });
     }
     total = json['total'];
@@ -45,28 +47,3 @@ class NewsFeedResponseData {
   }
 }
 
-class Newsfeed {
-  int? id;
-  int? userId;
-  String? content;
-  String? createdTime;
-  String? image;
-
-  Newsfeed({this.id, this.userId, this.content, this.createdTime});
-
-  Newsfeed.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    content = json['content'];
-    createdTime = json['created_time'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['user_id'] = userId;
-    data['content'] = content;
-    data['created_time'] = createdTime;
-    return data;
-  }
-}

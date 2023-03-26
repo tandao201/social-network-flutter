@@ -9,6 +9,7 @@ class AppColor {
   static const Color red = Colors.red;
   static const Color pink = Colors.pinkAccent;
   static const Color green = Colors.green;
+  static const Color messageColor = Colors.pinkAccent;
   static Color lightGrey = black.withOpacity(0.1);
   static Color transparent = Colors.transparent;
 
