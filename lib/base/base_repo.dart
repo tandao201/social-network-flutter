@@ -68,7 +68,7 @@ class BaseRepo {
     CommonResponse? commonResponse;
     Map<String, dynamic> bodyData = {
       'user_id': userId,
-      'status': FriendStatus.request.index+1
+      'status': FriendStatus.request.index
     };
     try {
       Response response = await request(
@@ -86,7 +86,7 @@ class BaseRepo {
   Future<CommonResponse?> receiveFriend(String userId) async {
     Map<String, dynamic> bodyData = {
       'user_id': userId,
-      'status': FriendStatus.accept.index+1
+      'status': FriendStatus.accept.index
     };
     CommonResponse? commonResponse;
     try {
@@ -106,7 +106,7 @@ class BaseRepo {
     CommonResponse? commonResponse;
     Map<String, dynamic> bodyData = {
       'user_id': userId,
-      'status': FriendStatus.request.index+1
+      'status': FriendStatus.request.index
     };
     try {
       Response response = await request(

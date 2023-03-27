@@ -1,4 +1,5 @@
 enum FriendStatus {
+  _,
   request,
   accept,
   deny,
