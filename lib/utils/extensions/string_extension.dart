@@ -1,10 +1,11 @@
 extension StringExtension on String {
   String timeAgo() {
-    final year = int.parse(substring(0, 4));
-    final month = int.parse(substring(5, 7));
-    final day = int.parse(substring(8, 10));
-    final hour = int.parse(substring(11, 13));
-    final minute = int.parse(substring(14, 16));
+    String timeMain = DateTime.parse(this).toLocal().toString();
+    final year = int.parse(timeMain.substring(0, 4));
+    final month = int.parse(timeMain.substring(5, 7));
+    final day = int.parse(timeMain.substring(8, 10));
+    final hour = int.parse(timeMain.substring(11, 13));
+    final minute = int.parse(timeMain.substring(14, 16));
 
     final DateTime videoDate = DateTime(year, month, day, hour, minute);
     final int diffInHours = DateTime.now().difference(videoDate).inHours;

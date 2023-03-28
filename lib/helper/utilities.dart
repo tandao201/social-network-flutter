@@ -129,4 +129,23 @@ class Utilities {
     return dayOfWeek;
   }
 
+  String getFriendStatus(int status) {
+    switch (status) {
+      case 1:
+        return "Đang yêu cầu";
+      case 2:
+        return "Đang theo dõi ▼";
+      case 3:
+        return "Từ chối";
+      case 4:
+        return "Theo dõi";
+      case 5:
+        return "Theo dõi";
+      case 6:
+        return "Theo dõi";
+      default:
+        return "Không xác định";
+    }
+  }
+
 }

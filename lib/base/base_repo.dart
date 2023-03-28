@@ -64,11 +64,11 @@ class BaseRepo {
     return uploadImageResponse;
   }
 
-  Future<CommonResponse?> requestFriend(String userId) async {
+  Future<CommonResponse?> requestFriend(String userId, {int? status}) async {
     CommonResponse? commonResponse;
     Map<String, dynamic> bodyData = {
       'user_id': userId,
-      'status': FriendStatus.request.index
+      'status': status ?? FriendStatus.request.index
     };
     try {
       Response response = await request(

@@ -1,13 +1,14 @@
+import 'package:chat_app_flutter/utils/extensions/string_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../base/base_view.dart';
-import '../../utils/shared/assets.dart';
 import '../../utils/shared/colors.dart';
+import '../../utils/shared/constants.dart';
 import '../../utils/themes/text_style.dart';
 import 'comment_post_ctl.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class CommentPostPage extends BaseView<CommentPostCtl> {
   const CommentPostPage({Key? key}) : super(key: key);
@@ -42,107 +43,138 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
             ),
             divider(),
             Expanded(
-              child: controller.isLoading.value
-                  ? Container()
-                  : ScrollablePositionedList.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemScrollController: controller.itemScrollController,
-                      itemCount: 6,
-                      itemBuilder: (context, index) {
-                        if (index == 0) return _itemComment(isShowLike: false);
-                        return _itemComment(index: index);
-                      },
-                    ),
-            ),
-            divider(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Visibility(
-                  visible: controller.isReply.value,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    width: double.infinity,
-                    color: AppColor.grey,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Trả lời tới ${controller.replyTo}",
-                          style: const BaseTextStyle(fontSize: 12, color: AppColor.white),),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                          onPressed: () {
-                            controller.clearReplyComment();
-                          },
-                          icon: const Icon(Icons.close, color: AppColor.white, size: 16,),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await controller.initData();
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
                     children: [
-                      avatar(
-                          height: 37.w,
-                          width: 37.w
+                      _itemComment(
+                        isShowLike: false,
+                        avatar: controller.selectedPost?.user?.avatar ?? "",
+                        userComment: controller.selectedPost?.user?.username ?? "",
+                        content: controller.selectedPost?.content ?? "",
+                        timeAgo: '${controller.selectedPost?.createdTime}'.timeAgo()
                       ),
-                      const SizedBox(width: 4,),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(
-                                color: AppColor.grey,
-                                width: 1
+                      controller.isLoading.value
+                        ? Container(
+                            height: Constants.heightScreen-180.w,
+                            alignment: Alignment.center,
+                            child: const CupertinoActivityIndicator(),
+                          )
+                        : Column(
+                        children: List.generate(controller.comments.length, (index) {
+                          var comment = controller.comments[index];
+                          return Slidable(
+                            key: ValueKey(index),
+                            endActionPane: comment.userComment?.id == controller.globalController?.userInfo.value.id
+                              ? ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    const SlidableAction(
+                                      spacing: 0,
+                                      onPressed: null,
+                                      backgroundColor: Color(0xFFfafafa),
+                                      foregroundColor: Color(0xFFfafafa),
+                                      icon: null,
+                                      label: "",
+                                    ),
+                                    SlidableAction(
+                                      spacing: 0,
+                                      onPressed: (context) {
+                                        controller.deletePost(
+                                            commentId: comment.id!,
+                                            index: index
+                                        );
+                                      },
+                                      backgroundColor: const Color(0xFFFE4A49),
+                                      foregroundColor: const Color(0xFFfafafa),
+                                      icon: Icons.delete,
+                                      label: 'Xóa',
+                                    ),
+                                  ],
+                                )
+                              : null,
+                            child: _itemComment(
+                                avatar: comment.userComment?.avatar ?? "",
+                                userComment: comment.userComment?.username ?? "Người dùng",
+                                content: comment.content ?? "",
+                                timeAgo: '${comment.createdTime}'.timeAgo()
                             ),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: editTextChangeProfile(
-                                    hintText: "Thêm bình luận...",
-                                    maxLines: null,
-                                    textInputType: TextInputType.multiline,
-                                    controller: controller.commentCtl,
-                                    focusNode: controller.commentFocus,
-                                    onTextChange: (value) {
-                                      if (value.isEmpty) {
-                                        controller.enabledComment.value = false;
-                                      } else {
-                                        controller.enabledComment.value = true;
-                                      }
-                                    }
-                                ),
-                              ),
-                              const SizedBox(width: 4,),
-                              InkWell(
-                                onTap: () {
-                                  if (controller.commentCtl.text.isNotEmpty) {
-                                    controller.commentPost();
-                                  }
-                                },
-                                child: Text('Thêm', style: BaseTextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                    color: !controller.enabledComment.value
-                                        ? AppColor.blueTag.withOpacity(0.3)
-                                        : AppColor.blueTag),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+                          );
+                        }),
                       )
                     ],
                   ),
-                )
-              ],
+                ),
+              ),
+            ),
+            divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  avatar(
+                      imgUrl: controller.globalController?.userInfo.value.avatar ?? "",
+                      height: 37.w,
+                      width: 37.w
+                  ),
+                  const SizedBox(width: 4,),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(
+                            color: AppColor.grey,
+                            width: 1
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: editTextChangeProfile(
+                                hintText: "Thêm bình luận...",
+                                maxLines: null,
+                                textInputType: TextInputType.multiline,
+                                controller: controller.commentCtl,
+                                focusNode: controller.commentFocus,
+                                onTextChange: (value) {
+                                  if (value.isEmpty) {
+                                    controller.enabledComment.value = false;
+                                  } else {
+                                    controller.enabledComment.value = true;
+                                  }
+                                }
+                            ),
+                          ),
+                          const SizedBox(width: 4,),
+                          InkWell(
+                            onTap: () {
+                              if (controller.commentCtl.text.isNotEmpty) {
+                                controller.commentPost();
+                              }
+                            },
+                            child: controller.isCommenting.value
+                              ? const CupertinoActivityIndicator()
+                              : Text('Thêm', style: BaseTextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                  color: !controller.enabledComment.value
+                                      ? AppColor.blueTag.withOpacity(0.3)
+                                      : AppColor.blueTag),
+                                ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
         ),
@@ -153,6 +185,10 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
   Widget _itemComment({
     bool isShowLike = true,
     int? index,
+    String avatar = "",
+    String userComment = "",
+    String timeAgo = "",
+    String content = "",
   }) {
     RxBool liked = false.obs;
     return GestureDetector(
@@ -173,10 +209,13 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        cacheImage(
-                            imgUrl: "",
-                            width: 30.w,
-                            height: 30.w
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: cacheImage(
+                              imgUrl: avatar,
+                              width: 30.w,
+                              height: 30.w
+                          ),
                         ),
                         const SizedBox(width: 6,),
                         Expanded(
@@ -186,21 +225,21 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
                               RichText(
                                 text: TextSpan(
                                     children: [
-                                      TextSpan(text: 'username1', style: ThemeTextStyle.heading13),
-                                      TextSpan(text: ' 7w', style: BaseTextStyle(color: AppColor.grey, fontSize: 12)),
+                                      TextSpan(text: userComment, style: ThemeTextStyle.heading13),
+                                      TextSpan(text: ' $timeAgo', style: BaseTextStyle(color: AppColor.grey, fontSize: 12)),
                                     ]
                                 ),
                               ),
                               const SizedBox(height: 2,),
-                              Text('Trang và Nhi – 2 cô gái 9x tự tin nghỉ việc khi có 100 triệu tiết kiệm trong tay, tự tin sống tốt dù thất nghiệp trong 1 năm tới', style: ThemeTextStyle.body13,),
+                              Text(content, style: ThemeTextStyle.body13,),
                               const SizedBox(height: 8,),
-                              if (isShowLike)
-                                GestureDetector(
-                                  onTap: () {
-                                    controller.onTapReplyComment("username1", index!);
-                                  },
-                                  child: Text("Trả lời", style: BaseTextStyle(color: AppColor.grey, fontSize: 12, fontWeight: FontWeight.w600),),
-                                )
+                              // if (isShowLike)
+                              //   GestureDetector(
+                              //     onTap: () {
+                              //       controller.onTapReplyComment("username1", index!);
+                              //     },
+                              //     child: Text("Trả lời", style: BaseTextStyle(color: AppColor.grey, fontSize: 12, fontWeight: FontWeight.w600),),
+                              //   )
                             ],
                           ),
                         ),
@@ -208,17 +247,17 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
                     )
                 ),
                 const SizedBox(width: 10,),
-                if (isShowLike)
-                  Obx(() => IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onPressed: () {
-                      liked.value = !liked.value;
-                    },
-                    icon: !liked.value
-                        ? const Icon(Icons.favorite_outline_rounded, color: AppColor.black,size: 16,)
-                        : Icon(Icons.favorite_rounded, color: AppColor.red,size: 16,),
-                  )),
+                // if (isShowLike)
+                //   Obx(() => IconButton(
+                //     padding: EdgeInsets.zero,
+                //     constraints: const BoxConstraints(),
+                //     onPressed: () {
+                //       liked.value = !liked.value;
+                //     },
+                //     icon: !liked.value
+                //         ? const Icon(Icons.favorite_outline_rounded, color: AppColor.black,size: 16,)
+                //         : const Icon(Icons.favorite_rounded, color: AppColor.red,size: 16,),
+                //   )),
               ],
             ),
           ),

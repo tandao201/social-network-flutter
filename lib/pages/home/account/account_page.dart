@@ -37,7 +37,6 @@ class AccountPage extends BaseView<AccountCtl> {
                 onTap: () {
                   // controller.logout();
                   controller.selectMenu();
-                  print('Click menu account.............');
                 },
                 child: SvgPicture.asset(Assets.menu),
               )
@@ -80,18 +79,18 @@ class AccountPage extends BaseView<AccountCtl> {
                                     ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: const [
-                                        Text('1402', style: ThemeTextStyle.heading15,),
-                                        SizedBox(height: 5,),
-                                        Text('Người theo dõi', style: ThemeTextStyle.body11,),
+                                      children: [
+                                        Text('${controller.userInfo?.listFollow ?? "0"}', style: ThemeTextStyle.heading15,),
+                                        const SizedBox(height: 5,),
+                                        const Text('Người theo dõi', style: ThemeTextStyle.body11,),
                                       ],
                                     ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: const [
-                                        Text('1402', style: ThemeTextStyle.heading15,),
-                                        SizedBox(height: 5,),
-                                        Text('Đang theo dõi', style: ThemeTextStyle.body11,),
+                                      children: [
+                                        Text('${controller.userInfo?.listFollowing ?? 0}', style: ThemeTextStyle.heading15,),
+                                        const SizedBox(height: 5,),
+                                        const Text('Đang theo dõi', style: ThemeTextStyle.body11,),
                                       ],
                                     ),
                                   ],
@@ -100,7 +99,6 @@ class AccountPage extends BaseView<AccountCtl> {
                             ],
                           ),
                           const SizedBox(height: 12,),
-                          Text(controller.name.value, style: ThemeTextStyle.heading12,),
                           if (controller.bio.value.isNotEmpty)
                             Text(controller.bio.value, style: ThemeTextStyle.body11,),
                           const SizedBox(height: 15,),

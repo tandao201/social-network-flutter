@@ -13,7 +13,7 @@ class CommonResponse<T> {
         data = UserInfo.fromJson(json['data']) as T?;
         break;
       default:
-        data = json['data'];
+        data = json['data'] ?? "";
     }
   }
 

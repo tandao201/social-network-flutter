@@ -93,9 +93,10 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
     isLoading.value = true;
     print('Change profile................');
     Map<String, dynamic> bodyData = {
-      "email": globalController?.userInfo.value.email,
+      // "email": globalController?.userInfo.value.email,
       "username": userNameCtl.text.trim(),
       "mobile": phoneCtl.text.trim(),
+      'bio': bioCtl.text.trim()
     };
 
     if (avatarUrlMain.value != avatarUrl.value) {

@@ -180,7 +180,7 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
     }
 
     Map<String, String> bodyData = {
-      // 'audio': currentMusic.value.previewUrl!,
+      'music': currentMusic.value.previewUrl!,
       'image' : uploadImage.data!.url!,
     };
 

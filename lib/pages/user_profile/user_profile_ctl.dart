@@ -2,9 +2,12 @@ import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/models/commons/common_response.dart';
 import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/models/responses/post_responses/create_post_response.dart';
+import 'package:chat_app_flutter/pages/user_profile/user_profile_page.dart';
 import 'package:chat_app_flutter/service/database_service.dart';
+import 'package:chat_app_flutter/utils/shared/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../routes/route_names.dart';
 import '../../../utils/shared/colors.dart';
 import '../../../utils/shared/constants.dart';
@@ -68,6 +71,32 @@ class UserProfileCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderSt
       print('Ex: ${e.toString()}');
       isLoading.value = false;
     }
+  }
+
+  void onClickFollow() {
+    if (userInfo.value.friend == FriendStatus.accept.index) {
+      showBarModalBottomSheet(
+          context: Get.context!,
+          builder: (context) {
+            return FollowBottomSheet(controller: this);
+          }
+      );
+    } else {
+      api.requestFriend('$userId').then((value) {
+        userInfo.value.friend = FriendStatus.request.index;
+        userInfo.refresh();
+      });
+    }
+  }
+
+  void unFollow() {
+    api.requestFriend('$userId', status: FriendStatus.unfollow.index).then((value) {
+      userInfo.value.friend = FriendStatus.unfollow.index;
+      userInfo.refresh();
+      userPosts.value = [];
+      userPosts.refresh();
+      Get.back();
+    });
   }
 
   Future animateToPage(int index) async {

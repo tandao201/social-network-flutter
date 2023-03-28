@@ -53,11 +53,14 @@ class UserInfo {
   String? username;
   String? mobile;
   String? avatar;
+  String? bio;
   int? status;
   String? createdTime;
   String? updatedTime;
   List<Post>? posts;
   int? friend;
+  int? listFollow;
+  int? listFollowing;
 
   UserInfo(
       {this.id,
@@ -69,7 +72,10 @@ class UserInfo {
         this.createdTime,
         this.updatedTime,
         this.posts,
-        this.friend
+        this.friend,
+        this.listFollow,
+        this.listFollowing,
+        this.bio
       });
 
   UserInfo.fromJson(Map<String, dynamic> json) {
@@ -87,7 +93,10 @@ class UserInfo {
         posts!.add(Post.fromJson(v));
       });
     }
-    updatedTime = json['friend'];
+    friend = json['friend'];
+    listFollow = json['listFollow'];
+    listFollowing = json['listFollowing'];
+    bio = json['bio'];
   }
 
   Map<String, dynamic> toJson() {
@@ -104,6 +113,9 @@ class UserInfo {
       data['posts'] = posts!.map((v) => v.toJson()).toList();
     }
     data['friend'] = friend;
+    data['listFollow'] = listFollow;
+    data['listFollowing'] = listFollowing;
+    data['bio'] = bio;
     return data;
   }
 }

@@ -90,7 +90,9 @@ class ListAllPostsPage extends BaseView<ListAllPostsCtl> {
                 width: Constants.widthScreen,
                 newsfeed: controller.posts[index],
                 onClickComment: () {
-                  controller.toPage(routeUrl: RouteNames.commentPost);
+                  controller.toPage(routeUrl: RouteNames.commentPost, arguments: {
+                    'post': controller.posts[index]
+                  });
                 },
                 onRequestFriend: () {
                   controller.api.requestFriend(controller.posts[index].userId.toString());

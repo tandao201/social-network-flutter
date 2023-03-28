@@ -128,7 +128,9 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
         width: Constants.widthScreen,
         newsfeed: controller.newsFeeds[index],
         onClickComment: () {
-          controller.toPage(routeUrl: RouteNames.commentPost);
+          controller.toPage(routeUrl: RouteNames.commentPost, arguments: {
+            'post': controller.newsFeeds[index]
+          });
         },
         onRequestFriend: () {
           controller.api.requestFriend(controller.newsFeeds[index].userId.toString());

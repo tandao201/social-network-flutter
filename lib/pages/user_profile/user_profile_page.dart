@@ -3,6 +3,7 @@ import 'package:chat_app_flutter/pages/user_profile/user_profile_ctl.dart';
 import 'package:chat_app_flutter/utils/shared/constants.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
 import 'package:chat_app_flutter/utils/widgets/expandable_pageview.dart';
+import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../utils/shared/assets.dart';
 import '../../../utils/shared/colors.dart';
+import '../../utils/shared/enums.dart';
 
 class UserProfilePage extends BaseView<UserProfileCtl> {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -75,18 +77,18 @@ class UserProfilePage extends BaseView<UserProfileCtl> {
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: const [
-                                            Text('1402', style: ThemeTextStyle.heading15,),
-                                            SizedBox(height: 5,),
-                                            Text('Người theo dõi', style: ThemeTextStyle.body11,),
+                                          children: [
+                                            Text('${controller.userInfo.value.listFollow ?? "0"}', style: ThemeTextStyle.heading15,),
+                                            const SizedBox(height: 5,),
+                                            const Text('Người theo dõi', style: ThemeTextStyle.body11,),
                                           ],
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: const [
-                                            Text('1402', style: ThemeTextStyle.heading15,),
-                                            SizedBox(height: 5,),
-                                            Text('Đang theo dõi', style: ThemeTextStyle.body11,),
+                                          children: [
+                                            Text('${controller.userInfo.value.listFollowing ?? "0"}', style: ThemeTextStyle.heading15,),
+                                            const SizedBox(height: 5,),
+                                            const Text('Đang theo dõi', style: ThemeTextStyle.body11,),
                                           ],
                                         ),
                                       ],
@@ -95,16 +97,14 @@ class UserProfilePage extends BaseView<UserProfileCtl> {
                                 ],
                               ),
                               const SizedBox(height: 12,),
-                              Text(controller.userInfo.value.username ?? "Người dùng", style: ThemeTextStyle.heading12,),
-                              // if (controller.userInfo.value..isNotEmpty)
-                              //   Text(controller.bio.value, style: ThemeTextStyle.body11,),
+                              Text(controller.userInfo.value.bio ?? "Tiểu sử", style: ThemeTextStyle.body11,),
                               const SizedBox(height: 15,),
                               Row(
                                 children: [
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {
-                                        controller.api.requestFriend('${controller.userId}');
+                                        controller.onClickFollow();
                                       },
                                       child: Container(
                                           height: 30,
@@ -113,28 +113,32 @@ class UserProfilePage extends BaseView<UserProfileCtl> {
                                               gradient: AppColor.gradientPrimary,
                                               borderRadius: BorderRadius.circular(10)
                                           ),
-                                          child: const Text("Theo dõi", style:  BaseTextStyle(color: AppColor.white, fontSize: 15))),
+                                          child: Text(
+                                              getFriendStatus(controller.userInfo.value.friend ?? 0),
+                                              style: const BaseTextStyle(color: AppColor.white, fontSize: 15))),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.onClickMessage();
-                                      },
-                                      child: Container(
-                                          height: 30,
-                                          width: double.infinity,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              color: AppColor.grey,
-                                              borderRadius: BorderRadius.circular(10)
-                                          ),
-                                          child: const Text("Nhắn tin", style: BaseTextStyle(color: AppColor.white, fontSize: 15))),
+                                  if (controller.userInfo.value.friend == FriendStatus.accept.index)
+                                    const SizedBox(
+                                      width: 8,
                                     ),
-                                  ),
+                                  if (controller.userInfo.value.friend == FriendStatus.accept.index)
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          controller.onClickMessage();
+                                        },
+                                        child: Container(
+                                            height: 30,
+                                            width: double.infinity,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                color: AppColor.grey,
+                                                borderRadius: BorderRadius.circular(10)
+                                            ),
+                                            child: const Text("Nhắn tin", style: BaseTextStyle(color: AppColor.white, fontSize: 15))),
+                                      ),
+                                    ),
                                 ],
                               ),
                               const SizedBox(height: 15,),
@@ -229,7 +233,7 @@ class UserProfilePage extends BaseView<UserProfileCtl> {
               , style: ThemeTextStyle.heading18),
           const SizedBox(height: 20,),
           Text(isMine
-            ? 'Có vẻ như chưa có nội dung nào.'
+            ? 'Hãy theo dõi để xem bài viết mới nhất của họ.'
             : 'Khi mọi người nhắc đến họ trong ảnh và video, chúng sẽ xuất hiện ở đây.',
             textAlign: TextAlign.center,)
         ],
@@ -327,6 +331,48 @@ class ProfileLoading extends StatelessWidget {
               ),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+}
+
+class FollowBottomSheet extends StatelessWidget with WidgetUtils {
+  final UserProfileCtl controller;
+
+  const FollowBottomSheet({Key? key, required this.controller}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16,8,16,16),
+      color: AppColor.lightGrey,
+      height: Constants.heightScreen/3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12, top: 16),
+            child: Center(
+              child: Text(controller.username.value, style: ThemeTextStyle.body15,),
+            ),
+          ),
+          divider(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: InkWell(
+                    onTap: () {
+                      controller.unFollow();
+                    },
+                    child: const Text("Hủy theo dõi", style: ThemeTextStyle.body15,),
+                  )
+              )
+            ],
+          ),
         ],
       ),
     );

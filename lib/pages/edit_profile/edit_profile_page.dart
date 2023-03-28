@@ -93,7 +93,6 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
                         divider(),
                         Column(
                           children: [
-                            _itemInfo(title: 'Tên', editCtl: controller.nameCtl),
                             _itemInfo(title: 'Username', editCtl: controller.userNameCtl),
                             _itemInfo(title: 'Tiểu sử', editCtl: controller.bioCtl, isShowBorder: false, maxLines: 4),
                           ],
