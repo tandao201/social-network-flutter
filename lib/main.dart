@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_app_flutter/base/base_repo.dart';
 import 'package:chat_app_flutter/base/global_ctl.dart';
 import 'package:chat_app_flutter/helper/helper_function.dart';
 import 'package:chat_app_flutter/routes/pages.dart';
@@ -35,6 +36,7 @@ Future initApp() async {
   await HelperFunctions.init();
   await findRoute();
   Get.put(GlobalController());
+  Get.put(BaseRepo());
   final notificationService = Get.put(NotificationService());
   notificationService.requestAndInitNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

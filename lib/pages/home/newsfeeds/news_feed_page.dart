@@ -135,6 +135,9 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
         },
         onClickProfile: () {
           controller.toProfilePage(userId: controller.newsFeeds[index].userId!);
+        },
+        onClickLike: () {
+          controller.api.likePost(controller.newsFeeds[index].id.toString());
         }
       )),
     )

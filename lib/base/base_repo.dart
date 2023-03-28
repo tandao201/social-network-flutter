@@ -102,15 +102,14 @@ class BaseRepo {
     return commonResponse;
   }
 
-  Future<CommonResponse?> likePost(String userId) async {
+  Future<CommonResponse?> likePost(String postId) async {
     CommonResponse? commonResponse;
     Map<String, dynamic> bodyData = {
-      'user_id': userId,
-      'status': FriendStatus.request.index
+      'post_id': postId,
     };
     try {
       Response response = await request(
-          url: Constants.requestFriend,
+          url: Constants.likePostUrl,
           method: Method.GET,
           params: bodyData
       );

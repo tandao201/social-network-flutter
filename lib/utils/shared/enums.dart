@@ -7,3 +7,9 @@ enum FriendStatus {
   delete,
   cancel
 }
+
+enum LikeStatus {
+  _,
+  like,
+  dislike,
+}

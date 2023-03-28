@@ -94,6 +94,9 @@ class ListAllPostsPage extends BaseView<ListAllPostsCtl> {
                 },
                 onRequestFriend: () {
                   controller.api.requestFriend(controller.posts[index].userId.toString());
+                },
+                onClickLike: () {
+                  controller.api.likePost(controller.posts[index].id.toString());
                 }
             ),
           )
