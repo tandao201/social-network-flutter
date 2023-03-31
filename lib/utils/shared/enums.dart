@@ -13,3 +13,9 @@ enum LikeStatus {
   like,
   dislike,
 }
+
+enum SearchType {
+  _,
+  user,
+  post
+}

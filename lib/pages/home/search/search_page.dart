@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../models/responses/auth_responses/login_response.dart';
 import '../../../utils/shared/constants.dart';
 
 class SearchPage extends BaseView<SearchCtl> {
@@ -46,6 +47,7 @@ class SearchPage extends BaseView<SearchCtl> {
                     focusNode: controller.searchFocus,
                     onFieldSubmitted: (value) {
                       print('search..............$value');
+                      controller.searchByKey();
                     }
                 ),
               ),
@@ -96,46 +98,15 @@ class SearchPage extends BaseView<SearchCtl> {
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              InkWell(
+            children: List.generate(controller.usersSearch.length, (index) {
+              var userInfo = controller.usersSearch[index];
+              return InkWell(
                 onTap: () {
-                  controller.toProfilePage(userId: 15);
+                  controller.toProfilePage(userId: userInfo.id ?? -1);
                 },
-                child: _itemUser(),
-              ),
-              InkWell(
-                onTap: () {
-                  controller.toProfilePage(userId: 4);
-                  print('Click notification 4');
-                },
-                child: _itemUser(),
-              ),
-              InkWell(
-                onTap: () {
-                  controller.toProfilePage(userId: 13);
-                  print('Click notification');
-                },
-                child: _itemUser(),
-              ),
-              InkWell(
-                onTap: () {
-                  print('Click notification');
-                },
-                child: _itemUser(),
-              ),
-              InkWell(
-                onTap: () {
-                  print('Click notification');
-                },
-                child: _itemUser(),
-              ),
-              InkWell(
-                onTap: () {
-                  print('Click notification');
-                },
-                child: _itemUser(),
-              ),
-            ],
+                child: _itemUser(userInfo: userInfo),
+              );
+            }),
           ),
       );
   }
@@ -160,20 +131,28 @@ class SearchPage extends BaseView<SearchCtl> {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Wrap(
-        children: List.generate(10, (index) {
-          // var post = controller.postsSearch[index];
-          return Container(
-            decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: AppColor.white, width: 1),
-                  right: BorderSide(color: AppColor.white, width: 1),
-                )
-            ),
-            child: cacheImage(
-                imgUrl:  "",
-                width: (Constants.widthScreen-3)/3,
-                height: (Constants.widthScreen-3)/3,
-                isAvatar: false
+        children: List.generate(controller.postsSearch.length, (index) {
+          var post = controller.postsSearch[index];
+          return InkWell(
+            onTap: () {
+              controller.onClickPost(
+                selectedPost: post,
+                postIndex: index
+              );
+            },
+            child: Container(
+              decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: AppColor.white, width: 1),
+                    right: BorderSide(color: AppColor.white, width: 1),
+                  )
+              ),
+              child: cacheImage(
+                  imgUrl:  post.image ?? "",
+                  width: (Constants.widthScreen-3)/3,
+                  height: (Constants.widthScreen-3)/3,
+                  isAvatar: false
+              ),
             ),
           );
         }),
@@ -212,14 +191,16 @@ class SearchPage extends BaseView<SearchCtl> {
     );
   }
 
-  Widget _itemUser() {
+  Widget _itemUser({
+    required UserInfo userInfo,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          cacheImage(
-              imgUrl: "",
+          avatar(
+              imgUrl: userInfo.avatar ?? "",
               height: 40.w,
               width: 40.w
           ),
@@ -229,13 +210,13 @@ class SearchPage extends BaseView<SearchCtl> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Đây là nội dung kjashd ajskd asjdh asjkd jashd aks djkas djkas djhas djkhas kjd",
+                  userInfo.username ?? "Người dùng",
                   style: ThemeTextStyle.body13,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4,),
-                Text('Tên', style: ThemeTextStyle.body12.copyWith(color: AppColor.grey),)
+                Text(userInfo.bio ?? "", style: ThemeTextStyle.body12.copyWith(color: AppColor.grey), maxLines: 2, overflow: TextOverflow.ellipsis,)
               ],
             ),
           ),

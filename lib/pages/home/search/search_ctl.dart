@@ -1,10 +1,15 @@
 import 'package:chat_app_flutter/base/base_ctl.dart';
+import 'package:chat_app_flutter/models/commons/common_list_response.dart';
 import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/pages/home/search/search_repo.dart';
+import 'package:chat_app_flutter/utils/shared/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../models/responses/post_responses/create_post_response.dart';
+import '../../../routes/route_names.dart';
+import '../../../utils/shared/colors.dart';
+import '../../../utils/shared/constants.dart';
 
 class SearchCtl extends BaseCtl<SearchRepo> with GetSingleTickerProviderStateMixin {
   TabController? tabController;
@@ -28,16 +33,62 @@ class SearchCtl extends BaseCtl<SearchRepo> with GetSingleTickerProviderStateMix
   }
 
   Future initData() async {
-    isLoading.value = true;
-    Future.delayed(const Duration(seconds: 5), () {
-      isLoading.value = false;
-    });
+    searchByKey();
   }
 
   Future animateToPage(int index) async {
     hideKeyboard();
     currentTab.value = index;
     print('Change index: $index');
+    await searchByKey();
+  }
+
+  Future searchByKey() async {
+    isLoading.value = true;
+    Map<String, dynamic> bodyData = {
+      'text': searchCtl.text.trim(),
+      'type': currentTab.value+1,
+    };
+    try {
+      CommonListResponse? commonListResponse;
+      if (currentTab.value+1 == SearchType.user.index) {
+        commonListResponse = CommonListResponse<UserInfo>();
+      } else {
+        commonListResponse = CommonListResponse<Post>();
+      }
+      commonListResponse = await api.searchByKey(bodyData: bodyData);
+      if (commonListResponse == null) {
+        debugPrint('Response null');
+        return ;
+      }
+      if (commonListResponse.errorCode!.isEmpty) {
+        if (currentTab.value+1 == SearchType.user.index) {
+          usersSearch.value = List<UserInfo>.from(commonListResponse.data!.toList());
+        } else {
+          postsSearch.value = List<Post>.from(commonListResponse.data!.toList());
+        }
+      } else {
+        showSnackBar(
+            Get.context!,
+            AppColor.red,
+            ErrorCode.getMessageByError(commonListResponse.errorCode!)
+        );
+      }
+    } catch (e) {
+      print("Ex: ${e.toString()}");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void onClickPost({int postIndex = 0,required Post selectedPost}) {
+    toPage(routeUrl: RouteNames.allPosts, arguments: {
+      'postIndex': postIndex,
+      'currentUser': selectedPost.user,
+      'posts': [
+        selectedPost
+      ]
+    });
   }
 
 

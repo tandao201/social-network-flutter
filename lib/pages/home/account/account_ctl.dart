@@ -44,6 +44,7 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
     if (userInfo != null) {
       username.value = userInfo!.username ?? "Người dùng";
       avatarUrlImg.value = userInfo!.avatar ?? "";
+      bio.value = userInfo!.bio ?? "Tiểu sử";
       userPosts.value = userInfo!.posts ?? [];
     }
     tabController = TabController(
@@ -71,6 +72,9 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
       if (commonResponse.errorCode!.isEmpty) {
         userInfo = commonResponse.data;
         userPosts.value = userInfo!.posts!;
+        username.value = userInfo!.username ?? username.value;
+        avatarUrlImg.value = userInfo!.avatar ?? avatarUrlImg.value;
+        bio.value = userInfo!.bio ?? bio.value;
         globalController?.saveUser(userInfo!);
       } else {
         showSnackBar(

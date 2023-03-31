@@ -21,6 +21,7 @@ class Constants {
   static const String requestFriend = "/user/request-friend";
   static const String receiveFriend = "/user/receive-friend";
   static const String listFollow = "/user/list-follow";
+  static const String search = "/user/search";
 
   static const String createPost = "/posts/create";
   static const String newsfeed = "/posts/new-feed";
