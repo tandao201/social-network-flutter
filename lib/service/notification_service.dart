@@ -153,17 +153,23 @@ class NotificationService extends GetxService {
   }
 
   static void handleClickNotification(Map<String, dynamic> data) {
-    if (data['type'] == "message") {
-      final globalCtl = Get.find<GlobalController>();
-      nextScreen(
-          Get.context,
-          ChatPage(
-            groupId: data['groupId'],
-            avatarImg: data['avatarImg'],
-            groupName: data['title'],
-            userName: globalCtl.userInfo.value.username!,
-            colorPage: Colors.pink,
-          ));
+    dynamic type = data['type'];
+    switch (type) {
+      case "message":
+        final globalCtl = Get.find<GlobalController>();
+        nextScreen(
+            Get.context,
+            ChatPage(
+              groupId: data['groupId'],
+              avatarImg: data['avatarImg'],
+              groupName: data['title'],
+              userName: globalCtl.userInfo.value.username!,
+              colorPage: Colors.pink,
+            ));
+        break;
+      case 1:
+        /// do something
+        break;
     }
   }
 }

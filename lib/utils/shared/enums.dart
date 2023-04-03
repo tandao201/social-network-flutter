@@ -19,3 +19,10 @@ enum SearchType {
   user,
   post
 }
+
+enum NotificationType {
+  _,
+  message,
+  post,
+  comment,
+}
