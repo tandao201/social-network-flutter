@@ -22,12 +22,15 @@ class Constants {
   static const String receiveFriend = "/user/receive-friend";
   static const String listFollow = "/user/list-follow";
   static const String search = "/user/search";
+  static const String userNotification = "/user/list-notification";
 
   static const String createPost = "/posts/create";
   static const String newsfeed = "/posts/new-feed";
   static const String likePostUrl = "/posts/like";
 
   static const String createStory = "/stories/create";
+  static const String listStories = "/stories/list";
+  static const String seenStory = "/stories/seen";
 
   static const String listComment = "/comment/list-comment";
   static const String createComment = "/comment/create";

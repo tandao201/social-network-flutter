@@ -1,7 +1,11 @@
 import 'package:chat_app_flutter/base/base_view.dart';
+import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
+import 'package:chat_app_flutter/models/responses/post_responses/stories_response.dart';
 import 'package:chat_app_flutter/pages/story_view/story_view_ctl.dart';
-import 'package:chat_app_flutter/utils/shared/constants.dart';
+import 'package:chat_app_flutter/utils/extensions/string_extension.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
+import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,20 +22,32 @@ class StoryViewPage extends BaseView<StoryViewCtl> {
     return Scaffold(
       body: SafeArea(
         child: controller.isLoading.value
-            ? Container()
-            : PageView(
+            ? const Center(
+                child: CupertinoActivityIndicator(),
+              )
+            : PageView.builder(
                 controller: controller.pageController,
-                children: [
-                  Stack(
+                itemCount: controller.listStory.length,
+                itemBuilder: (context, index) {
+                  return Stack(
                     children: <Widget>[
                       Hero(
-                        tag: "tag1",
+                        tag: "tag${index+1}",
                         child: StoryView(
-                          storyItems: controller.storyItems,
+                          storyItems: controller.storiesItem[index],
                           controller: controller.storyCtl,
                           onComplete: () {
+                            controller.currentStory.value++;
                             controller.stopMusic();
-                            Get.back();
+                            if (controller.currentStory.value >= controller.listStory.length) {
+                              Get.back();
+                            } else {
+                              controller.pageController.animateToPage(
+                                  controller.currentStory.value,
+                                  duration: const Duration(milliseconds: 700),
+                                  curve: Curves.easeInOut
+                              );
+                            }
                           },
                           onVerticalSwipeComplete: (v) {
                             if (v == Direction.down) {
@@ -40,37 +56,12 @@ class StoryViewPage extends BaseView<StoryViewCtl> {
                             }
                           },
                           onStoryShow: (storyItem) async {
-                            await controller.playMusic('https://p.scdn.co/mp3-preview/6ff25287b4b077010aacc6324022ef727187a0f5?cid=3b1b5d4a77e644c2929b10626bb85e4d');
-                          },
-                        ),
-                      ),
-                      Container(
-                        height: 60.w,
-                        padding:
-                        const EdgeInsets.only(top: 25, left: 16, right: 16),
-                        child: _buildProfileView(),
-                      )
-                    ],
-                  ),
-                  Stack(
-                    children: <Widget>[
-                      Hero(
-                        tag: "tag2",
-                        child: StoryView(
-                          storyItems: controller.storyItems,
-                          controller: controller.storyCtl,
-                          onComplete: () {
-                            controller.stopMusic();
-                            Get.back();
-                          },
-                          onVerticalSwipeComplete: (v) {
-                            if (v == Direction.down) {
-                              controller.stopMusic();
-                              Get.back();
+                            controller.seenStory(storyItem.id);
+                            controller.currentTime.value = storyItem.createdTime;
+                            if (storyItem.usersView.isNotEmpty) {
+                              controller.usersView.value = storyItem.usersView as List<UserInfo>;
                             }
-                          },
-                          onStoryShow: (storyItem) async {
-                            await controller.playMusic('https://p.scdn.co/mp3-preview/6ff25287b4b077010aacc6324022ef727187a0f5?cid=3b1b5d4a77e644c2929b10626bb85e4d');
+                            await controller.playMusic(storyItem.music);
                           },
                         ),
                       ),
@@ -78,17 +69,33 @@ class StoryViewPage extends BaseView<StoryViewCtl> {
                         height: 60.w,
                         padding:
                         const EdgeInsets.only(top: 25, left: 16, right: 16),
-                        child: _buildProfileView(),
+                        child: _buildProfileView(controller.listStory[index], ),
+                      ),
+                      Visibility(
+                        visible: controller.listStory[index].userId == controller.globalController?.userInfo.value.id,
+                        child: Positioned(
+                          bottom: 20,
+                          left: 20,
+                          child: InkWell(
+                            onTap: () {
+                              controller.showUserView();
+                            },
+                            child: Obx(()=>Text('▲ ${controller.usersView.length} lượt xem', style: ThemeTextStyle.heading13.copyWith(color: AppColor.white),)),
+                          ),
+                        ),
                       )
                     ],
-                  )
-                ],
+                  );
+                },
+                onPageChanged: (index) {
+                  controller.currentStory.value = index;
+                },
               ),
       ),
     );
   }
 
-  Widget _buildProfileView() {
+  Widget _buildProfileView(StoriesData storiesData) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,7 +108,7 @@ class StoryViewPage extends BaseView<StoryViewCtl> {
                 borderRadius: BorderRadius.circular(30),
                 child: cacheImage(
                     imgUrl:
-                        "https://www.wyzowl.com/wp-content/uploads/2022/04/img_624d8245533d8.jpg",
+                    storiesData.avatar ?? "",
                     width: 30.w,
                     height: 30.w),
               ),
@@ -110,18 +117,18 @@ class StoryViewPage extends BaseView<StoryViewCtl> {
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    "Tan dao",
-                    style: BaseTextStyle(
+                    storiesData.username ?? "",
+                    style: const BaseTextStyle(
                         fontSize: 15,
                         color: AppColor.white,
                         fontWeight: FontWeight.w600),
                   ),
-                  Text(
-                    '2 giờ trước',
-                    style: BaseTextStyle(fontSize: 12, color: Colors.white38),
-                  )
+                  Obx(() => Text(
+                    controller.currentTime.value.timeAgo(),
+                    style: const BaseTextStyle(fontSize: 12, color: Colors.white38),
+                  ))
                 ],
               ),
             ],
@@ -142,4 +149,69 @@ class StoryViewPage extends BaseView<StoryViewCtl> {
       ],
     );
   }
+}
+
+class StoryViewer extends StatelessWidget with WidgetUtils {
+  final StoryViewCtl controller;
+
+  StoryViewer({Key? key, required this.controller}) : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${controller.usersView.length} lượt xem', style: ThemeTextStyle.heading18,),
+              const SizedBox(height: 8,),
+              Column(
+                children: List.generate(controller.usersView.length, (index) {
+                  var user = controller.usersView[index];
+                  if (user.id == controller.globalController?.userInfo.value.id)  return const SizedBox();
+                  return _itemUser(userInfo: user);
+                }),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _itemUser({
+    required UserInfo userInfo,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric( vertical: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          avatar(
+              imgUrl: userInfo.avatar ?? "",
+              height: 25.w,
+              width: 25.w
+          ),
+          const SizedBox(width: 12,),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  userInfo.username ?? "Người dùng",
+                  style: ThemeTextStyle.body13,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
 }

@@ -27,6 +27,7 @@ class Post {
   UserInfo? user;
   String? content;
   String? image;
+  String? music;
   String? createdTime;
   String? updatedTime;
   int? amountLike;
@@ -39,6 +40,7 @@ class Post {
         this.user,
         this.content,
         this.image,
+        this.music,
         this.createdTime,
         this.updatedTime,
         this.amountLike,
@@ -54,6 +56,7 @@ class Post {
     }
     content = json['content'];
     image = json['image'];
+    image = json['music'];
     createdTime = json['created_time'];
     updatedTime = json['updated_time'];
     amountLike = json['amount_like'];
@@ -70,6 +73,7 @@ class Post {
     }
     data['content'] = content;
     data['image'] = image;
+    data['music'] = music;
     data['created_time'] = createdTime;
     data['updated_time'] = updatedTime;
     data['amount_like'] = amountLike;
