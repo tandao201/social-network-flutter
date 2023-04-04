@@ -2,6 +2,7 @@ import 'package:chat_app_flutter/models/responses/post_responses/newsfeed_respon
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
 import '../../../base/base_repo.dart';
+import '../../../models/responses/post_responses/stories_response.dart';
 import '../../../utils/shared/constants.dart';
 
 class NewsFeedRepo extends BaseRepo {
@@ -18,5 +19,19 @@ class NewsFeedRepo extends BaseRepo {
       debugPrint('Request failed: $e}');
     }
     return newsFeedResponse;
+  }
+
+  Future getStories() async {
+    StoriesResponse? storiesResponse;
+    try {
+      Response response = await request(
+          url: Constants.listStories,
+          method: Method.GET,
+      );
+      storiesResponse = StoriesResponse.fromJson(response.data);
+    } catch (e) {
+      debugPrint('Request failed: $e}');
+    }
+    return storiesResponse;
   }
 }

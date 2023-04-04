@@ -1,5 +1,6 @@
 extension StringExtension on String {
   String timeAgo() {
+    print('String format: $this');
     String timeMain = DateTime.parse(this).toLocal().toString();
     final year = int.parse(timeMain.substring(0, 4));
     final month = int.parse(timeMain.substring(5, 7));
