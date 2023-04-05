@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:chat_app_flutter/models/commons/upload_image_response.dart';
+import 'package:chat_app_flutter/models/responses/post_responses/create_post_response.dart';
 
 import '../api_service/api_dio_intercepter.dart';
 import 'package:dio/dio.dart';
 
 import '../models/commons/common_response.dart';
+import '../models/responses/post_responses/detail_post_response.dart';
 import '../utils/shared/constants.dart';
 import '../utils/shared/enums.dart';
 
@@ -118,6 +120,24 @@ class BaseRepo {
       print('Request failed: $e}');
     }
     return commonResponse;
+  }
+
+  Future<DetailPostResponse?> getDetailPost(int postId) async {
+    DetailPostResponse? detailPostResponse;
+    Map<String, dynamic> bodyData = {
+      'post_id': postId,
+    };
+    try {
+      Response response = await request(
+          url: Constants.detailPost,
+          method: Method.GET,
+          params: bodyData
+      );
+      detailPostResponse = DetailPostResponse.fromJson(response.data);
+    } catch (e) {
+      print('Request failed: $e}');
+    }
+    return detailPostResponse;
   }
 }
 // import 'package:dio/dio.dart';

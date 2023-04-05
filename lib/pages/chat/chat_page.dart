@@ -1,5 +1,5 @@
 
-import 'package:chat_app_flutter/helper/utilities.dart';
+import 'package:chat_app_flutter/utils/shared/utilities.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
 import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';

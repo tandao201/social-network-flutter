@@ -1,11 +1,12 @@
+import 'package:chat_app_flutter/models/responses/notification_response.dart';
 import 'package:chat_app_flutter/pages/home/notification/notification_ctl.dart';
+import 'package:chat_app_flutter/utils/extensions/string_extension.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../base/base_view.dart';
-import '../../../utils/shared/constants.dart';
 import '../../../utils/themes/text_style.dart';
 
 class NotificationPage extends BaseView<NotificationCtl> {
@@ -43,52 +44,23 @@ class NotificationPage extends BaseView<NotificationCtl> {
   
   Widget _buildNotification() {
     return RefreshIndicator(
-      onRefresh: () async {
-        controller.initData();
-      },
+      onRefresh: () => controller.initData(),
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
+        child: controller.notifications.isNotEmpty
+          ? Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
+          children: List.generate(controller.notifications.length, (index) {
+            var noti = controller.notifications[index];
+            return InkWell(
               onTap: () {
-                print('Click notification');
+                controller.clickNotification(noti.type ?? -1, noti.targetId ?? -1);
               },
-              child: _itemNotification(),
-            ),
-            InkWell(
-              onTap: () {
-                print('Click notification');
-              },
-              child: _itemNotification(),
-            ),
-            InkWell(
-              onTap: () {
-                print('Click notification');
-              },
-              child: _itemNotification(),
-            ),
-            InkWell(
-              onTap: () {
-                print('Click notification');
-              },
-              child: _itemNotification(),
-            ),
-            InkWell(
-              onTap: () {
-                print('Click notification');
-              },
-              child: _itemNotification(),
-            ),
-            InkWell(
-              onTap: () {
-                print('Click notification');
-              },
-              child: _itemNotification(),
-            ),
-          ],
-        ),
+              child: _itemNotification(noti),
+            );
+          }),
+        )
+          : noData(type: "thông báo"),
       ),
     );
   }
@@ -103,14 +75,18 @@ class NotificationPage extends BaseView<NotificationCtl> {
     );
   }
 
-  Widget _itemNotification() {
+  Widget _itemNotification(NotiData notification) {
+    String title = notification.listNoti?[0].title ?? "";
+    if (notification.listNoti!.length > 1) {
+      title = '${notification.listNoti!.length-1} người khác và $title';
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          cacheImage(
-              imgUrl: "",
+          avatar(
+              imgUrl: notification.listNoti?[0].avatar ?? "",
               height: 40.w,
               width: 40.w
           ),
@@ -120,23 +96,23 @@ class NotificationPage extends BaseView<NotificationCtl> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Đây là nội dung kjashd ajskd asjdh asjkd jashd aks djkas djkas djhas djkhas kjd",
+                  title,
                   style: ThemeTextStyle.body13,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4,),
-                Text('3 giờ trước', style: ThemeTextStyle.body12.copyWith(color: AppColor.grey),)
+                Text('${notification.listNoti?[0].createdTime}'.timeAgo(), style: ThemeTextStyle.body12.copyWith(color: AppColor.grey),)
               ],
             ),
           ),
-          const SizedBox(width: 12,),
-          cacheImage(
-              imgUrl: "https://img-global.cpcdn.com/recipes/dc40cc82f880e0a7/680x482cq70/bun-d%E1%BA%ADu-m%E1%BA%AFm-tom-n%C6%B0%E1%BB%9Bc-ch%E1%BA%A5m-d%E1%BA%ADm-v%E1%BB%8B-ngon-h%C6%A1n-ngoai-hang-recipe-main-photo.webp",
-              height: 40.w,
-              width: 40.w,
-              isAvatar: false
-          ),
+          // const SizedBox(width: 12,),
+          // cacheImage(
+          //     imgUrl: "https://img-global.cpcdn.com/recipes/dc40cc82f880e0a7/680x482cq70/bun-d%E1%BA%ADu-m%E1%BA%AFm-tom-n%C6%B0%E1%BB%9Bc-ch%E1%BA%A5m-d%E1%BA%ADm-v%E1%BB%8B-ngon-h%C6%A1n-ngoai-hang-recipe-main-photo.webp",
+          //     height: 40.w,
+          //     width: 40.w,
+          //     isAvatar: false
+          // ),
         ],
       ),
     );

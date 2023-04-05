@@ -83,6 +83,7 @@ class SearchCtl extends BaseCtl<SearchRepo> with GetSingleTickerProviderStateMix
 
   void onClickPost({int postIndex = 0,required Post selectedPost}) {
     toPage(routeUrl: RouteNames.allPosts, arguments: {
+      'type': 'all',
       'postIndex': postIndex,
       'currentUser': selectedPost.user,
       'posts': [

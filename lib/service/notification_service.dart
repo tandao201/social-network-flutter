@@ -1,18 +1,16 @@
 import 'dart:convert';
-
+import 'package:chat_app_flutter/utils/shared/utilities.dart';
+import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 import '../base/global_ctl.dart';
-import '../main.dart';
 import '../pages/chat/chat_page.dart';
 import '../utils/widgets/widgets.dart';
 
-class NotificationService extends GetxService {
+class NotificationService extends GetxService with Utilities {
   FirebaseMessaging? _messaging;
   late AndroidNotificationChannel channel;
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -168,7 +166,25 @@ class NotificationService extends GetxService {
             ));
         break;
       case 1:
-        /// do something
+        /// request follow notification
+
+        break;
+      case 2:
+        /// comment notification
+        Get.toNamed(RouteNames.allPosts, arguments: {
+          'type': 'single',
+          'postId': data['targetId']
+        });
+        break;
+      case 3:
+        /// like notification
+        Get.toNamed(RouteNames.allPosts, arguments: {
+          'type': 'single',
+          'postId': data['targetId']
+        });
+        break;
+      case 4:
+        /// accept notification
         break;
     }
   }

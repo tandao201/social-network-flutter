@@ -1,5 +1,5 @@
 import 'package:chat_app_flutter/base/global_ctl.dart';
-import 'package:chat_app_flutter/helper/utilities.dart';
+import 'package:chat_app_flutter/utils/shared/utilities.dart';
 import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_ctl.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:chat_app_flutter/utils/widgets/loading.dart';

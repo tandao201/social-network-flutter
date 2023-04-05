@@ -9,16 +9,16 @@ import '../../../utils/shared/constants.dart';
 class AccountRepo extends BaseRepo {
   Future getUserDetail({required Map<String, dynamic> bodyData}) async {
   CommonResponse<UserInfo>? commonResponse;
-  // try {
+  try {
     Response response = await request(
         url: Constants.userDetail,
         method: Method.GET,
         params: bodyData
     );
     commonResponse = CommonResponse.fromJson(response.data);
-  // } catch (e) {
-  //   debugPrint('Request failed: $e}');
-  // }
+  } catch (e) {
+    debugPrint('Request failed: $e}');
+  }
   return commonResponse;
 }
 }

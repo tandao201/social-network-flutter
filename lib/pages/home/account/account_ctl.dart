@@ -131,6 +131,7 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
 
   void onClickAllPost(int postIndex) {
     toPage(routeUrl: RouteNames.allPosts, arguments: {
+      'type': 'all',
       'postIndex': postIndex,
       'currentUser': userInfo!,
       'posts': userPosts

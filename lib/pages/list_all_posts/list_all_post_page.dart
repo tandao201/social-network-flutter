@@ -40,7 +40,7 @@ class ListAllPostsPage extends BaseView<ListAllPostsCtl> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('${controller.currentUser.username}', style: ThemeTextStyle.heading13.copyWith(color: AppColor.grey),),
+                      Text(controller.isLoading.value ? '' : '${controller.currentUser.username}', style: ThemeTextStyle.heading13.copyWith(color: AppColor.grey),),
                       const Text('Bài viết', style: ThemeTextStyle.heading15,),
                     ],
                   ),
@@ -50,7 +50,11 @@ class ListAllPostsPage extends BaseView<ListAllPostsCtl> {
             ),
             Expanded(
               child: RefreshIndicator(
-                onRefresh: () => controller.initData(),
+                onRefresh: () async {
+                  if (controller.postId != 0){
+                    controller.initData();
+                  }
+                },
                 child: SingleChildScrollView(
                   controller: controller.autoController,
                   child: controller.isLoading.value

@@ -9,7 +9,7 @@ import 'package:get/get.dart' hide Response;
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../routes/route_names.dart';
+import '../../routes/route_names.dart';
 
 class Utilities {
 

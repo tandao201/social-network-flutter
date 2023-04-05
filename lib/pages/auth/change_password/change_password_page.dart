@@ -1,4 +1,4 @@
-import 'package:chat_app_flutter/helper/utilities.dart';
+import 'package:chat_app_flutter/utils/shared/utilities.dart';
 import 'package:chat_app_flutter/pages/auth/login/login_ctl.dart';
 import 'package:chat_app_flutter/pages/auth/login/login_repo.dart';
 import 'package:chat_app_flutter/utils/shared/assets.dart';

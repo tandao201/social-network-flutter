@@ -21,8 +21,9 @@ enum SearchType {
 }
 
 enum NotificationType {
-  _,
   message,
-  post,
+  requestFollow,
   comment,
+  likePost,
+  acceptFollow
 }

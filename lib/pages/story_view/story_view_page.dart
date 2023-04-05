@@ -59,7 +59,6 @@ class StoryViewPage extends BaseView<StoryViewCtl> {
                             controller.seenStory(storyItem.id);
                             controller.currentTime.value = storyItem.createdTime;
                             if (storyItem.usersView.isNotEmpty) {
-                              // test
                               controller.usersView.value = storyItem.usersView as List<UserInfo>;
                             }
                             await controller.playMusic(storyItem.music);

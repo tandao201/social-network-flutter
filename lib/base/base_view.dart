@@ -3,7 +3,7 @@ import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../helper/utilities.dart';
+import '../utils/shared/utilities.dart';
 import '../utils/shared/colors.dart';
 
 abstract class BaseView<T extends BaseCtl> extends StatelessWidget with WidgetUtils, Utilities {

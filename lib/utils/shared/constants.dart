@@ -27,6 +27,7 @@ class Constants {
   static const String createPost = "/posts/create";
   static const String newsfeed = "/posts/new-feed";
   static const String likePostUrl = "/posts/like";
+  static const String detailPost = "/posts/get";
 
   static const String createStory = "/stories/create";
   static const String listStories = "/stories/list";

@@ -110,6 +110,7 @@ class UserProfileCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderSt
 
   void onClickAllPost(int postIndex) {
     toPage(routeUrl: RouteNames.allPosts, arguments: {
+      'type': 'all',
       'postIndex': postIndex,
       'currentUser': userInfo.value,
       'posts': userPosts
