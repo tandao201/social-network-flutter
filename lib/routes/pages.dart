@@ -8,6 +8,7 @@ import 'package:chat_app_flutter/pages/home/create_post/create_post_bindings.dar
 import 'package:chat_app_flutter/pages/home/create_post/create_post_page.dart';
 import 'package:chat_app_flutter/pages/home/home_bindings.dart';
 import 'package:chat_app_flutter/pages/home/home_page.dart';
+import 'package:chat_app_flutter/pages/list_user/list_user_page.dart';
 import 'package:chat_app_flutter/pages/splash/splash_bindings.dart';
 import 'package:chat_app_flutter/pages/splash/splash_page.dart';
 import 'package:chat_app_flutter/pages/story_view/story_bindings.dart';
@@ -20,6 +21,7 @@ import '../pages/comment_post/comment_post_bindings.dart';
 import '../pages/comment_post/comment_post_page.dart';
 import '../pages/list_all_posts/list_all_post_page.dart';
 import '../pages/list_all_posts/list_all_posts_bindings.dart';
+import '../pages/list_user/list_user_bindings.dart';
 import '../pages/user_profile/user_profile_bindings.dart';
 import '../pages/user_profile/user_profile_page.dart';
 
@@ -87,6 +89,12 @@ class Pages {
           name: RouteNames.userProfile,
           page: () => const UserProfilePage(),
           binding: UserProfileBindings(),
+          transition: Transition.downToUp
+      ),
+      GetPage(
+          name: RouteNames.listUser,
+          page: () => const ListUserPage(),
+          binding: ListUserBindings(),
           transition: Transition.downToUp
       ),
     ];

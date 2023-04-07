@@ -9,4 +9,5 @@ class RouteNames {
   static const story = "/story";
   static const searchChat = "/search/chat";
   static const userProfile = "/user/profile";
+  static const listUser = "/user/list";
 }

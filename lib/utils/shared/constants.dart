@@ -23,6 +23,9 @@ class Constants {
   static const String listFollow = "/user/list-follow";
   static const String search = "/user/search";
   static const String userNotification = "/user/list-notification";
+  static const String listFollowing = "/user/list_following";
+  static const String listFollowers = "/user/list_follower";
+  static const String listRequestFollow = "/user/list_request_follow";
 
   static const String createPost = "/posts/create";
   static const String newsfeed = "/posts/new-feed";

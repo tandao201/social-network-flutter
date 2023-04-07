@@ -12,6 +12,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../../models/responses/auth_responses/login_response.dart';
 import '../../../service/database_service.dart';
 import '../../../utils/shared/colors.dart';
+import '../../edit_profile/edit_profile_repo.dart';
 import '../register/register_page.dart';
 import 'login_repo.dart';
 
@@ -77,6 +78,10 @@ class LoginCtl extends BaseCtl<LoginRepo> with GetSingleTickerProviderStateMixin
             passwordCtl.text.trim()
         );
         DatabaseService().updateDeviceToken(getCurrentUid(), await getCurrentDeviceToken());
+        final editRepo = Get.put(EditProfileRepo());
+        var result = editRepo.editProfile(bodyData: {
+          'device_token': await getCurrentDeviceToken()
+        });
         showSnackBar(
             Get.context!,
             AppColor.green,

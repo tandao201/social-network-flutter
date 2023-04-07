@@ -1,27 +1,16 @@
-import 'dart:convert';
-
 import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/models/commons/common_response.dart';
 import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/models/responses/post_responses/create_post_response.dart';
 import 'package:chat_app_flutter/pages/home/account/account_page.dart';
 import 'package:chat_app_flutter/pages/home/account/account_repo.dart';
-import 'package:chat_app_flutter/pages/home/home_repo.dart';
-import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_ctl.dart';
-import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_repo.dart';
-import 'package:chat_app_flutter/pages/home/notification/notification_ctl.dart';
-import 'package:chat_app_flutter/pages/home/notification/notification_repo.dart';
-import 'package:chat_app_flutter/pages/home/search/search_ctl.dart';
-import 'package:chat_app_flutter/pages/home/search/search_repo.dart';
 import 'package:chat_app_flutter/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../../routes/route_names.dart';
 import '../../../utils/shared/colors.dart';
 import '../../../utils/shared/constants.dart';
-import '../home_ctl.dart';
 
 class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateMixin {
 
@@ -135,6 +124,12 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
       'postIndex': postIndex,
       'currentUser': userInfo!,
       'posts': userPosts
+    });
+  }
+
+  void toListUser(int index) {
+    toPage(routeUrl: RouteNames.listUser, arguments: {
+      'index': index
     });
   }
 

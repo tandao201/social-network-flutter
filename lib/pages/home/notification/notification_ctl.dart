@@ -48,8 +48,8 @@ class NotificationCtl extends BaseCtl<NotificationRepo> {
 
   void clickNotification(int type, int targetId) {
     Map<String, dynamic> data = {
-      'type': type,
-      'targetId': targetId
+      'type': type.toString(),
+      'target_id': targetId.toString()
     };
     NotificationService.handleClickNotification(data);
   }

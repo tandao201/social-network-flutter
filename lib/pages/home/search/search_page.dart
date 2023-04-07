@@ -93,7 +93,7 @@ class SearchPage extends BaseView<SearchCtl> {
 
   Widget _buildListUser() {
     return controller.isLoading.value
-      ? _buildLoadingUser()
+      ? buildLoadingUser()
       : SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
@@ -115,16 +115,6 @@ class SearchPage extends BaseView<SearchCtl> {
     return controller.isLoading.value
         ? loadingPost()
         : listPost();
-  }
-
-  Widget _buildLoadingUser() {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: List.generate(8, (index) => _itemLoadingUser()),
-      ),
-    );
   }
 
   Widget listPost() {
@@ -221,54 +211,6 @@ class SearchPage extends BaseView<SearchCtl> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _itemLoadingUser() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 40.w,
-              width: 40.w,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                  color: AppColor.white
-              ),
-            ),
-            const SizedBox(width: 12,),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 16.w,
-                    width: Constants.widthScreen,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: AppColor.white
-                    ),
-                  ),
-                  const SizedBox(height: 4,),
-                  Container(
-                    height: 10.w,
-                    width: Constants.widthScreen/3,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: AppColor.white
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

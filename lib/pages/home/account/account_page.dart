@@ -7,12 +7,9 @@ import 'package:chat_app_flutter/utils/themes/text_style.dart';
 import 'package:chat_app_flutter/utils/widgets/expandable_pageview.dart';
 import 'package:chat_app_flutter/utils/widgets/widget_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
 import '../../../utils/shared/assets.dart';
 import '../../../utils/shared/colors.dart';
 
@@ -77,21 +74,31 @@ class AccountPage extends BaseView<AccountCtl> {
                                         const Text('Bài viết', style: ThemeTextStyle.body11,),
                                       ],
                                     ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text('${controller.userInfo?.listFollow ?? "0"}', style: ThemeTextStyle.heading15,),
-                                        const SizedBox(height: 5,),
-                                        const Text('Người theo dõi', style: ThemeTextStyle.body11,),
-                                      ],
+                                    InkWell(
+                                      onTap: () {
+                                        controller.toListUser(0);
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text('${controller.userInfo?.listFollow ?? "0"}', style: ThemeTextStyle.heading15,),
+                                          const SizedBox(height: 5,),
+                                          const Text('Người theo dõi', style: ThemeTextStyle.body11,),
+                                        ],
+                                      ),
                                     ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text('${controller.userInfo?.listFollowing ?? 0}', style: ThemeTextStyle.heading15,),
-                                        const SizedBox(height: 5,),
-                                        const Text('Đang theo dõi', style: ThemeTextStyle.body11,),
-                                      ],
+                                    InkWell(
+                                      onTap: () {
+                                        controller.toListUser(1);
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text('${controller.userInfo?.listFollowing ?? 0}', style: ThemeTextStyle.heading15,),
+                                          const SizedBox(height: 5,),
+                                          const Text('Đang theo dõi', style: ThemeTextStyle.body11,),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

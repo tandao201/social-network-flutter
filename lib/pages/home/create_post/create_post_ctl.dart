@@ -197,14 +197,8 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
             AppColor.green,
             "Đăng tải thành công."
         );
-        // final newsCtl = Get.find<NewsFeedCtl>();
-        // var newsfeed = Newsfeed(
-        //   userId: createPostResponse.data?.userId,
-        //   content: createPostResponse.data?.content,
-        //   createdTime: createPostResponse.data?.createdTime,
-        //   // image: createPostResponse.data?.image,
-        // );
-        // newsCtl.newsFeeds.insert(0, newsfeed);
+        final newsCtl = Get.find<NewsFeedCtl>();
+        newsCtl.getStories();
         Get.until((route) => Get.currentRoute == RouteNames.home);
       } else {
         showSnackBar(

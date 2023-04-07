@@ -152,6 +152,7 @@ class NotificationService extends GetxService with Utilities {
 
   static void handleClickNotification(Map<String, dynamic> data) {
     dynamic type = data['type'];
+    print('Type: $type');
     switch (type) {
       case "message":
         final globalCtl = Get.find<GlobalController>();
@@ -165,25 +166,27 @@ class NotificationService extends GetxService with Utilities {
               colorPage: Colors.pink,
             ));
         break;
-      case 1:
+      case "1":
         /// request follow notification
 
         break;
-      case 2:
+      case "2":
         /// comment notification
+        print('Comment action');
         Get.toNamed(RouteNames.allPosts, arguments: {
           'type': 'single',
-          'postId': data['targetId']
+          'postId': int.parse(data['target_id'])
         });
         break;
-      case 3:
+      case "3":
         /// like notification
+        print('Like action');
         Get.toNamed(RouteNames.allPosts, arguments: {
           'type': 'single',
-          'postId': data['targetId']
+          'postId': int.parse(data['target_id'])
         });
         break;
-      case 4:
+      case "4":
         /// accept notification
         break;
     }
