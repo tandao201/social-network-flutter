@@ -168,7 +168,9 @@ class NotificationService extends GetxService with Utilities {
         break;
       case "1":
         /// request follow notification
-
+        Get.toNamed(RouteNames.listUser, arguments: {
+          'index': 2
+        });
         break;
       case "2":
         /// comment notification

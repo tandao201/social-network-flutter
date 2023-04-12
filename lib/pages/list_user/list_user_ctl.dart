@@ -6,6 +6,7 @@ import '../../models/responses/auth_responses/login_response.dart';
 import '../../models/responses/list_user_response.dart';
 import '../../utils/shared/colors.dart';
 import '../../utils/shared/constants.dart';
+import '../../utils/shared/enums.dart';
 
 class ListUserCtl extends BaseCtl<ListUserRepo> with GetSingleTickerProviderStateMixin {
   TabController? tabController;
@@ -93,6 +94,14 @@ class ListUserCtl extends BaseCtl<ListUserRepo> with GetSingleTickerProviderStat
         break;
       default:
         break;
+    }
+  }
+
+  void onClickActionUser(UserInfo userInfo) {
+    if ( userInfo.status == FriendStatus.request.index) {
+      var response = api.receiveFriend(userInfo.id.toString()).then((value) => {
+        requestsFollow.remove(userInfo)
+      });
     }
   }
 }

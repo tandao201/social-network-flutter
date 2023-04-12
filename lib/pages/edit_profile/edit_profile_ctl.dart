@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_repo.dart';
+import 'package:chat_app_flutter/pages/home/newsfeeds/news_feed_ctl.dart';
 import 'package:chat_app_flutter/service/database_service.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:chat_app_flutter/utils/shared/constants.dart';
@@ -131,6 +132,13 @@ class EditProfileCtl extends BaseCtl<EditProfileRepo> {
         avatarUrl.value = editProfileResponse.data!.avatar!;
         avatarUrlMain.value = editProfileResponse.data!.avatar!;
         globalController?.saveUser(editProfileResponse.data!);
+
+        final newsFeedCtl = Get.find<NewsFeedCtl>();
+        var story = newsFeedCtl.listStory[0];
+        story.avatar = bodyData['avatar'];
+        story.username = bodyData['username'];
+        newsFeedCtl.listStory.removeAt(0);
+        newsFeedCtl.listStory.insert(0, story);
       } else {
         showSnackBar(
             Get.context!,

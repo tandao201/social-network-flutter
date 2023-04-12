@@ -146,13 +146,18 @@ class ListUserPage extends BaseView<ListUserCtl> {
             ),
           ),
           const SizedBox(width: 12,),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColor.grey
+          InkWell(
+            onTap: () {
+              controller.onClickActionUser(userInfo);
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColor.grey
+              ),
+              child: Text(getFriendStatus(userInfo.status ?? -1), style: ThemeTextStyle.body11.copyWith(color: AppColor.white),),
             ),
-            child: Text(getFriendStatus(userInfo.status ?? -1), style: ThemeTextStyle.body11.copyWith(color: AppColor.white),),
           )
         ],
       ),

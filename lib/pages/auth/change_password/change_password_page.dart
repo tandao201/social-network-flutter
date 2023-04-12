@@ -73,11 +73,11 @@ class ChangePasswordPage extends StatelessWidget with WidgetUtils, Utilities {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              ExpandedSection(
+                              Obx(() => ExpandedSection(
                                 axis: Axis.vertical,
                                 expand: controller.errorInfoRegister.value.isNotEmpty,
                                 child: Text(controller.errorInfoRegister.value, style: ThemeTextStyle.body12Red,),
-                              ),
+                              )),
                             ],
                           ),
                           SizedBox(height: 30.h,),

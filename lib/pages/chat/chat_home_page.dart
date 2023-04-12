@@ -34,10 +34,11 @@ class _HomePageState extends State<ChatHomePage> with WidgetUtils, Utilities {
 
   Future<Group> getSubDes( String groupId) async {
     groupId = getId(groupId);
+    print('Group id: $groupId');
     var doc = await database.groupCollection.doc(groupId).get();
-    String recentMessage = doc['recentMessage'];
-    String name = doc['recentMessageSender'];
-    String recentMessageTime = doc['recentMessageTime'];
+    String recentMessage = doc['recentMessage'] ?? "";
+    String name = doc['recentMessageSender'] ?? "";
+    String recentMessageTime = doc['recentMessageTime'] ?? "";
     String receiverId = "";
     List<String>? members = [];
     String img = "";
@@ -96,6 +97,7 @@ class _HomePageState extends State<ChatHomePage> with WidgetUtils, Utilities {
     });
     groups?.listen((event) async {
       if (event.data() != null) {
+        groupsList = [];
         groupsId = (event.data()['groups'] as List).map((e) => e as String).toList();
         for (var group in groupsId) {
           var tmp = await getSubDes(group);

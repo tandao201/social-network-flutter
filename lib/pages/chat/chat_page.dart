@@ -174,7 +174,7 @@ class _ChatPageState extends State<ChatPage> with Utilities, WidgetUtils {
                             userFb.name!,
                             userFb.uid!
                         ) as List<dynamic>;
-
+                        // DatabaseService().updateGroupChat(userFb.uid!, userFb.uid!, widget.userName);
                         setState(() {
                           widget.groupId = listCreate[2];
                           getChatandAdmin();

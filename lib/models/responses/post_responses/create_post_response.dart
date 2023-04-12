@@ -56,7 +56,7 @@ class Post {
     }
     content = json['content'];
     image = json['image'];
-    image = json['music'];
+    music = json['music'];
     createdTime = json['created_time'];
     updatedTime = json['updated_time'];
     amountLike = json['amount_like'];

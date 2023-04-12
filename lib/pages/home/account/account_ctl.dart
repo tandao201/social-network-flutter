@@ -11,6 +11,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../routes/route_names.dart';
 import '../../../utils/shared/colors.dart';
 import '../../../utils/shared/constants.dart';
+import '../../edit_profile/edit_profile_repo.dart';
 
 class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateMixin {
 
@@ -96,11 +97,16 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
     );
   }
 
-  void logout() {
+  void logout() async {
+    final editRepo = Get.put(EditProfileRepo());
+    var result = await editRepo.editProfile(bodyData: {
+      'device_token': "no-token"
+    });
     globalController?.clearUserAndLoginState();
     authService.signOut();
     Get.back();
     toPagePopUtil(routeUrl: RouteNames.login);
+
     showSnackBar(
         Get.context!,
         AppColor.grey,

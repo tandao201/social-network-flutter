@@ -41,6 +41,19 @@ class DatabaseService {
     }).then((value) => print('Update successful!'));
   }
 
+  Future updateGroupChat(String myUid, String groupId, String groupName) async {
+    print('Updating group chat in firebase.......................');
+    var doc = await userCollection.doc(myUid).get();
+    List<String> groups = [];
+    for (var group in doc['groups']) {
+      groups.add(group);
+    }
+    groups.add("${groupId}_$groupName");
+    return await userCollection.doc(myUid).update({
+      "groups": groups,
+    }).then((value) => print('Update successful!'));
+  }
+
   Future updateDeviceToken(String myUid, deviceToken) async {
     print('Updating deviceToken in firebase.......................');
     return await userCollection.doc(myUid).update({
@@ -99,7 +112,7 @@ class DatabaseService {
       }),
       await userDocumentReferencePartner.update({
         "groups":
-        FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
+        FieldValue.arrayUnion(["${groupDocumentReference.id}_$userName"])
       }),
       groupDocumentReference.id,
     ];

@@ -73,7 +73,7 @@ class LoginCtl extends BaseCtl<LoginRepo> with GetSingleTickerProviderStateMixin
         return ;
       }
       if (loginResponse.errorCode!.isEmpty) {
-        authService.loginWithUserNameandPassword(
+        await authService.loginWithUserNameandPassword(
             usernameCtl.text.trim(),
             passwordCtl.text.trim()
         );

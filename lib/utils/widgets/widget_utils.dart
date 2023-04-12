@@ -164,6 +164,7 @@ class WidgetUtils {
     BoxFit fit = BoxFit.fill,
     bool isAvatar = true,
   }) {
+    print('Image source: $imgUrl');
     return CachedNetworkImage(
       imageUrl: imgUrl,
       height: height,
