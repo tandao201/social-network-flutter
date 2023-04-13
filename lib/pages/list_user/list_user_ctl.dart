@@ -100,7 +100,14 @@ class ListUserCtl extends BaseCtl<ListUserRepo> with GetSingleTickerProviderStat
   void onClickActionUser(UserInfo userInfo) {
     if ( userInfo.status == FriendStatus.request.index) {
       var response = api.receiveFriend(userInfo.id.toString()).then((value) => {
-        requestsFollow.remove(userInfo)
+        if (value!.errorCode!.isEmpty) {
+          requestsFollow.remove(userInfo)
+        } else {
+          showSnackBar(
+          Get.context!,
+          AppColor.red,
+          ErrorCode.getMessageByError(value.errorCode!))
+        }
       });
     }
   }

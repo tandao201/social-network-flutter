@@ -97,12 +97,12 @@ class LoginPage extends BaseView<LoginCtl> {
               expand: controller.errorInfoLogin.value.isNotEmpty,
               child: Text(controller.errorInfoLogin.value, style: ThemeTextStyle.body12Red,),
             ),
-            GestureDetector(
-              onTap: () {
-                debugPrint('Forget pass');
-              },
-              child: const Text('Quên mật khẩu?', style: ThemeTextStyle.body13Tag,),
-            )
+            // GestureDetector(
+            //   onTap: () {
+            //     debugPrint('Forget pass');
+            //   },
+            //   child: const Text('Quên mật khẩu?', style: ThemeTextStyle.body13Tag,),
+            // )
           ],
         ),
         SizedBox(height: 30.h,),

@@ -62,7 +62,7 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
                             children: [
                               GestureDetector(
                                   onTap: () {
-                                    controller.pickImage();
+                                    controller.requestPermission(toDo: controller.pickImage);
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50.w),
@@ -83,7 +83,7 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
                               const SizedBox(height: 12,),
                               GestureDetector(
                                   onTap: () {
-                                    controller.pickImage();
+                                    controller.requestPermission(toDo: controller.pickImage);
                                   },
                                   child: const Text("Thay đổi ảnh đại diện", style: ThemeTextStyle.heading13Blue,)
                               ),
@@ -107,7 +107,7 @@ class EditProfilePage extends BaseView<EditProfileCtl> {
                             ),
                           ),
                         ),
-                        _itemInfo(title: 'Email', editCtl: controller.emailCtl, textInputType: TextInputType.emailAddress),
+                        // _itemInfo(title: 'Email', editCtl: controller.emailCtl, textInputType: TextInputType.emailAddress),
                         _itemInfo(title: 'Điện thoại', editCtl: controller.phoneCtl, textInputType: TextInputType.number),
                         GestureDetector(
                           onTap: () {

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../models/responses/auth_responses/login_response.dart';
 import '../../utils/shared/colors.dart';
+import '../../utils/shared/enums.dart';
 import '../../utils/themes/text_style.dart';
 
 class ListUserPage extends BaseView<ListUserCtl> {
@@ -88,15 +89,15 @@ class ListUserPage extends BaseView<ListUserCtl> {
             controller.initData();
           },
           child: controller.currentTab.value == 0
-            ? _buildListUser(controller.followers)
+            ? _buildListUser(controller.followers, FriendStatus.cancel.index)
             : controller.currentTab.value == 1
-              ? _buildListUser(controller.followings)
-              : _buildListUser(controller.requestsFollow)
+              ? _buildListUser(controller.followings, FriendStatus.accept.index)
+              : _buildListUser(controller.requestsFollow, FriendStatus.request.index)
         )
     );
   }
 
-  Widget _buildListUser(RxList<UserInfo> users) {
+  Widget _buildListUser(RxList<UserInfo> users, int status) {
     return controller.isLoading.value
         ? buildLoadingUser()
         : SingleChildScrollView(
@@ -109,7 +110,7 @@ class ListUserPage extends BaseView<ListUserCtl> {
                 onTap: () {
                   controller.toProfilePage(userId: userInfo.id ?? -1);
                 },
-                child: _itemUser(userInfo: userInfo),
+                child: _itemUser(userInfo: userInfo, status: status),
               );
             }),
           ),
@@ -118,6 +119,7 @@ class ListUserPage extends BaseView<ListUserCtl> {
 
   Widget _itemUser({
     required UserInfo userInfo,
+    required int status,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -156,7 +158,7 @@ class ListUserPage extends BaseView<ListUserCtl> {
                   borderRadius: BorderRadius.circular(10),
                   color: AppColor.grey
               ),
-              child: Text(getFriendStatus(userInfo.status ?? -1), style: ThemeTextStyle.body11.copyWith(color: AppColor.white),),
+              child: Text(getFriendStatusListUser(status), style: ThemeTextStyle.body11.copyWith(color: AppColor.white),),
             ),
           )
         ],
