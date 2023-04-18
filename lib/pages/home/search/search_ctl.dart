@@ -44,6 +44,14 @@ class SearchCtl extends BaseCtl<SearchRepo> with GetSingleTickerProviderStateMix
   }
 
   Future searchByKey() async {
+    if (searchCtl.text.isEmpty) {
+      showSnackBar(
+          Get.context!,
+          AppColor.red,
+          "Vui lòng nhập tìm kiếm."
+      );
+      return ;
+    }
     isLoading.value = true;
     Map<String, dynamic> bodyData = {
       'text': searchCtl.text.trim(),

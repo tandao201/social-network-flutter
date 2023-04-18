@@ -104,6 +104,25 @@ class BaseRepo {
     return commonResponse;
   }
 
+  Future<CommonResponse?> cancelFriend(String userId) async {
+    Map<String, dynamic> bodyData = {
+      'user_id': userId,
+      'status': FriendStatus.cancel.index
+    };
+    CommonResponse? commonResponse;
+    try {
+      Response response = await request(
+          url: Constants.receiveFriend,
+          method: Method.GET,
+          params: bodyData
+      );
+      commonResponse = CommonResponse.fromJson(response.data);
+    } catch (e) {
+      print('Request failed: $e}');
+    }
+    return commonResponse;
+  }
+
   Future<CommonResponse?> likePost(String postId) async {
     CommonResponse? commonResponse;
     Map<String, dynamic> bodyData = {

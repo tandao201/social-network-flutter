@@ -97,8 +97,8 @@ class ListUserCtl extends BaseCtl<ListUserRepo> with GetSingleTickerProviderStat
     }
   }
 
-  void onClickActionUser(UserInfo userInfo) {
-    if ( userInfo.status == FriendStatus.request.index) {
+  void onClickActionUser(UserInfo userInfo, int status) {
+    if ( status == FriendStatus.request.index) {
       var response = api.receiveFriend(userInfo.id.toString()).then((value) => {
         if (value!.errorCode!.isEmpty) {
           requestsFollow.remove(userInfo)
@@ -107,6 +107,18 @@ class ListUserCtl extends BaseCtl<ListUserRepo> with GetSingleTickerProviderStat
           Get.context!,
           AppColor.red,
           ErrorCode.getMessageByError(value.errorCode!))
+        }
+      });
+    }
+    if ( status == FriendStatus.cancel.index) {
+      var response = api.cancelFriend(userInfo.id.toString()).then((value) => {
+        if (value!.errorCode!.isEmpty) {
+          followers.remove(userInfo)
+        } else {
+          showSnackBar(
+              Get.context!,
+              AppColor.red,
+              ErrorCode.getMessageByError(value.errorCode!))
         }
       });
     }

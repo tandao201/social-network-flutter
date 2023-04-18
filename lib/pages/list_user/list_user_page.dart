@@ -150,7 +150,7 @@ class ListUserPage extends BaseView<ListUserCtl> {
           const SizedBox(width: 12,),
           InkWell(
             onTap: () {
-              controller.onClickActionUser(userInfo);
+              controller.onClickActionUser(userInfo, status);
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
