@@ -1,6 +1,10 @@
 extension StringExtension on String {
   String timeAgo() {
-    String timeMain = DateTime.parse(this).toLocal().toString();
+    String timeRoot = this;
+    if (!timeRoot.contains('Z')) {
+      timeRoot = '${timeRoot}Z';
+    }
+    String timeMain = DateTime.parse(timeRoot).toLocal().toString();
     final year = int.parse(timeMain.substring(0, 4));
     final month = int.parse(timeMain.substring(5, 7));
     final day = int.parse(timeMain.substring(8, 10));

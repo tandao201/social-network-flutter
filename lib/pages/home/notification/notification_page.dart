@@ -76,7 +76,7 @@ class NotificationPage extends BaseView<NotificationCtl> {
   }
 
   Widget _itemNotification(NotiData notification) {
-    String title = notification.listNoti?[0].title ?? "";
+    String title = notification.listNoti?[0].body ?? "";
     if (notification.listNoti!.length > 1) {
       title = '${notification.listNoti!.length-1} người khác và $title';
     }
