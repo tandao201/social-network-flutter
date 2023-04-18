@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../utils/shared/assets.dart';
 import '../../../utils/shared/colors.dart';
+import '../../routes/route_names.dart';
 import '../../utils/shared/enums.dart';
 
 class UserProfilePage extends BaseView<UserProfileCtl> {
@@ -99,7 +100,35 @@ class UserProfilePage extends BaseView<UserProfileCtl> {
                               const SizedBox(height: 12,),
                               Text(controller.userInfo.value.bio ?? "Tiểu sử", style: ThemeTextStyle.body11,),
                               const SizedBox(height: 15,),
-                              Row(
+                              controller.userInfo.value.id == controller.globalController?.userInfo.value.id
+                                ? GestureDetector(
+                                onTap: () {
+                                  controller.toPage(
+                                      routeUrl: RouteNames.editProfile,
+                                      arguments: {
+                                        "username" : controller.accountCtl?.username,
+                                        "name" : controller.accountCtl?.name,
+                                        "bio" : controller.accountCtl?.bio,
+                                        "avatar" : controller.accountCtl?.avatarUrlImg
+                                      }
+                                  );
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: AppColor.white,
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                          color: AppColor.lightGrey1,
+                                          width: 1
+                                      )
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: const Text("Chỉnh sửa", style: ThemeTextStyle.heading13,),
+                                ),
+                              )
+                                : Row(
                                 children: [
                                   Expanded(
                                     child: GestureDetector(

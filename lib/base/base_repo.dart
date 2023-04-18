@@ -107,7 +107,7 @@ class BaseRepo {
   Future<CommonResponse?> cancelFriend(String userId) async {
     Map<String, dynamic> bodyData = {
       'user_id': userId,
-      'status': FriendStatus.cancel.index
+      'status': FriendStatus.delete.index
     };
     CommonResponse? commonResponse;
     try {

@@ -2,6 +2,7 @@ import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/models/commons/common_response.dart';
 import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/models/responses/post_responses/create_post_response.dart';
+import 'package:chat_app_flutter/pages/home/account/account_ctl.dart';
 import 'package:chat_app_flutter/pages/user_profile/user_profile_page.dart';
 import 'package:chat_app_flutter/service/database_service.dart';
 import 'package:chat_app_flutter/utils/shared/enums.dart';
@@ -19,6 +20,7 @@ class UserProfileCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderSt
 
   TabController? tabController;
   PageController pageController = PageController();
+  AccountCtl? accountCtl;
 
   int userId = -1;
   Rx<UserInfo> userInfo = UserInfo().obs;
@@ -30,6 +32,7 @@ class UserProfileCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderSt
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    accountCtl = Get.find<AccountCtl>();
     userId = getArguments("userId");
     tabController = TabController(
         length: 2,
