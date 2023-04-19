@@ -1,4 +1,4 @@
-# chat_app_flutter
+# Social network app
 
 A new Flutter project.
 
