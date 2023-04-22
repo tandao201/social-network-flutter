@@ -14,51 +14,51 @@ This repo is a boilerplate to create flutter application easily. It is based on 
 
 ## File structure
 
-chat_app_flutter
-├───assets
-│   ├───fonts
-│   │   ├───others
-│   │   └───roboto_font
-│   ├───icons
-│   ├───images
-│   └───svgs
-└───lib
-├───api_service
-├───base
-├───helper
-├───models
-│   ├───commons
-│   ├───requests
-│   └───responses
-│       ├───auth_responses
-│       ├───post_responses
-│       └───somes
-├───pages
-│   ├───auth
-│   │   ├───change_password
-│   │   ├───login
-│   │   └───register
-│   ├───chat
-│   │   └───search_chat
-│   ├───comment_post
-│   ├───edit_profile
-│   ├───home
-│   │   ├───account
-│   │   ├───create_post
-│   │   ├───newsfeeds
-│   │   ├───notification
-│   │   └───search
-│   ├───list_all_posts
-│   ├───list_user
-│   ├───splash
-│   ├───story_view
-│   └───user_profile
-├───routes
-├───service
-└───utils
-├───extensions
-├───shared
-├───themes
+chat_app_flutter<br />
+├───assets<br />
+│   ├───fonts<br />
+│   │   ├───others<br />
+│   │   └───roboto_font<br />
+│   ├───icons<br />
+│   ├───images<br />
+│   └───svgs<br />
+└───lib<br />
+├───api_service<br />
+├───base<br />
+├───helper<br />
+├───models<br />
+│   ├───commons<br />
+│   ├───requests<br />
+│   └───responses<br />
+│       ├───auth_responses<br />
+│       ├───post_responses<br />
+│       └───somes<br />
+├───pages<br />
+│   ├───auth<br />
+│   │   ├───change_password<br />
+│   │   ├───login<br />
+│   │   └───register<br />
+│   ├───chat<br />
+│   │   └───search_chat<br />
+│   ├───comment_post<br />
+│   ├───edit_profile<br />
+│   ├───home<br />
+│   │   ├───account<br />
+│   │   ├───create_post<br />
+│   │   ├───newsfeeds<br />
+│   │   ├───notification<br />
+│   │   └───search<br />
+│   ├───list_all_posts<br />
+│   ├───list_user<br />
+│   ├───splash<br />
+│   ├───story_view<br />
+│   └───user_profile<br />
+├───routes<br />
+├───service<br />
+└───utils<br />
+├───extensions<br />
+├───shared<br />
+├───themes<br />
 └───widgets
 
 ## How to use
