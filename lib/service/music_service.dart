@@ -31,7 +31,7 @@ class SpotifyMusic {
 
   static Future<List<Items>> searchSong(String query) async {
     var accessToken = await getAccessToken();
-    var url = 'https://api.spotify.com/v1/search?q=$query&type=track&limit=10';
+    var url = 'https://api.spotify.com/v1/search?q=$query&type=track&limit=15';
     var headers = {
       'Authorization': 'Bearer $accessToken',
       'Content-Type': 'application/json',
