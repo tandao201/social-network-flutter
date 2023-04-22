@@ -66,7 +66,7 @@ chat_app_flutter<br/>
 
 ### Example: Splash screen
 
-** View: **
+**View:**
 ```java=
 class SplashPage extends BaseView<SplashCtl> {
   const SplashPage({Key? key}) : super(key: key);
@@ -93,7 +93,7 @@ class SplashPage extends BaseView<SplashCtl> {
 }
 ```
 
-** Controller **
+**Controller**
 ```java=
 class SplashCtl extends BaseCtl {
 
@@ -112,7 +112,7 @@ class SplashCtl extends BaseCtl {
 }
 ```
 
-** Bindings **
+**Bindings**
 ```java=
 class SplashBindings extends Bindings {
   @override
@@ -123,7 +123,7 @@ class SplashBindings extends Bindings {
 }
 ```
 
-** Repository **
+**Repository**
 ```java=
 class SplashRepo extends BaseRepo {
 
