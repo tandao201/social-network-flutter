@@ -15,52 +15,52 @@ This repo is a boilerplate to create flutter application easily. It is based on 
 ## File structure
 
 chat_app_flutter<br/>
-├───assets<br/>
-│   ├───fonts<br/>
-│   │   ├───others<br/>
-│   │   └───roboto_font<br/>
-│   ├───icons<br/>
-│   ├───images<br/>
-│   └───svgs<br/>
-└───lib<br/>
-├───api_service<br/>
-├───base<br/>
-├───helper<br/>
-├───models<br/>
-│   ├───commons<br/>
-│   ├───requests<br/>
-│   └───responses<br/>
-│       ├───auth_responses<br/>
-│       ├───post_responses<br/>
-│       └───somes<br/>
-├───pages<br/>
-│   ├───auth<br/>
-│   │   ├───change_password<br/>
-│   │   ├───login<br/>
-│   │   └───register<br/>
-│   ├───chat<br/>
-│   │   └───search_chat<br/>
-│   ├───comment_post<br/>
-│   ├───edit_profile<br/>
-│   ├───home<br/>
-│   │   ├───account<br/>
-│   │   ├───create_post<br/>
-│   │   ├───newsfeeds<br/>
-│   │   ├───notification<br/>
-│   │   └───search<br/>
-│   ├───list_all_posts<br/>
-│   ├───list_user<br/>
-│   ├───splash<br/>
-│   ├───story_view<br/>
-│   └───user_profile<br/>
-├───routes<br/>
-├───service<br/>
-└───utils<br/>
-├───extensions<br/>
-├───shared<br/>
-├───themes<br/>
-└───widgets
-
+ ├───assets<br/>
+ │   ├───fonts<br/>
+ │   │   ├───others<br/>
+ │   │   └───roboto_font<br/>
+ │   ├───icons<br/>
+ │   ├───images<br/>
+ │   └───svgs<br/>
+ └───lib<br/>
+ ├───api_service<br/>
+ ├───base<br/>
+ ├───helper<br/>
+ ├───models<br/>
+ │   ├───commons<br/>
+ │   ├───requests<br/>
+ │   └───responses<br/>
+ │       ├───auth_responses<br/>
+ │       ├───post_responses<br/>
+ │       └───somes<br/>
+ ├───pages<br/>
+ │   ├───auth<br/>
+ │   │   ├───change_password<br/>
+ │   │   ├───login<br/>
+ │   │   └───register<br/>
+ │   ├───chat<br/>
+ │   │   └───search_chat<br/>
+ │   ├───comment_post<br/>
+ │   ├───edit_profile<br/>
+ │   ├───home<br/>
+ │   │   ├───account<br/>
+ │   │   ├───create_post<br/>
+ │   │   ├───newsfeeds<br/>
+ │   │   ├───notification<br/>
+ │   │   └───search<br/>
+ │    ├───list_all_posts<br/>
+ │   ├───list_user<br/>
+ │   ├───splash<br/>
+ │   ├───story_view<br/>
+ │   └───user_profile<br/>
+ ├───routes<br/>
+ ├───service<br/>
+ └───utils<br/>
+ ├───extensions<br/>
+ ├───shared<br/>
+ ├───themes<br/>
+ └───widgets
+ 
 ## How to use
 - A screen UI and its controller should be created in the 'pages' folder
 - Each page should be created 'bindings' to add dependencies of screen such as controller or repository
