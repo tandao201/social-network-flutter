@@ -14,51 +14,51 @@ This repo is a boilerplate to create flutter application easily. It is based on 
 
 ## File structure
 
-chat_app_flutter<br/>
- ├───assets<br/>
- │   ├───fonts<br/>
- │   │   ├───others<br/>
- │   │   └───roboto_font<br/>
- │   ├───icons<br/>
- │   ├───images<br/>
- │   └───svgs<br/>
- └───lib<br/>
- ├───api_service<br/>
- ├───base<br/>
- ├───helper<br/>
- ├───models<br/>
- │   ├───commons<br/>
- │   ├───requests<br/>
- │   └───responses<br/>
- │       ├───auth_responses<br/>
- │       ├───post_responses<br/>
- │       └───somes<br/>
- ├───pages<br/>
- │   ├───auth<br/>
- │   │   ├───change_password<br/>
- │   │   ├───login<br/>
- │   │   └───register<br/>
- │   ├───chat<br/>
- │   │   └───search_chat<br/>
- │   ├───comment_post<br/>
- │   ├───edit_profile<br/>
- │   ├───home<br/>
- │   │   ├───account<br/>
- │   │   ├───create_post<br/>
- │   │   ├───newsfeeds<br/>
- │   │   ├───notification<br/>
- │   │   └───search<br/>
- │    ├───list_all_posts<br/>
- │   ├───list_user<br/>
- │   ├───splash<br/>
- │   ├───story_view<br/>
- │   └───user_profile<br/>
- ├───routes<br/>
- ├───service<br/>
- └───utils<br/>
- ├───extensions<br/>
- ├───shared<br/>
- ├───themes<br/>
+chat_app_flutter__
+ ├───assets__
+ │   ├───fonts__
+ │   │   ├───others__
+ │   │   └───roboto_font__
+ │   ├───icons__
+ │   ├───images__
+ │   └───svgs__
+ └───lib__
+ ├───api_service__
+ ├───base__
+ ├───helper__
+ ├───models__
+ │   ├───commons__
+ │   ├───requests__
+ │   └───responses__
+ │       ├───auth_responses__
+ │       ├───post_responses__
+ │       └───somes__
+ ├───pages__
+ │   ├───auth__
+ │   │   ├───change_password__
+ │   │   ├───login__
+ │   │   └───register__
+ │   ├───chat__
+ │   │   └───search_chat__
+ │   ├───comment_post__
+ │   ├───edit_profile__
+ │   ├───home__
+ │   │   ├───account__
+ │   │   ├───create_post__
+ │   │   ├───newsfeeds__
+ │   │   ├───notification__
+ │   │   └───search__
+ │    ├───list_all_posts__
+ │   ├───list_user__
+ │   ├───splash__
+ │   ├───story_view__
+ │   └───user_profile__
+ ├───routes__
+ ├───service__
+ └───utils__
+ ├───extensions__
+ ├───shared__
+ ├───themes__
  └───widgets
  
 ## How to use
