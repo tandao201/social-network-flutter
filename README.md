@@ -13,7 +13,7 @@ This repo is a boilerplate to create flutter application easily. It is based on 
 5. Run app.
 
 ## File structure
-chat_app_flutter
+chat_app_flutter<br/>
 ├───assets<br/>
 │   ├───fonts<br/>
 │   │   ├───others<br/>
