@@ -6,9 +6,9 @@ class CreatePostResponse {
 
   CreatePostResponse({this.errorCode, this.data});
 
-  CreatePostResponse.fromJson(Map<String, dynamic> json) {
+  CreatePostResponse.fromJson(Map<String, dynamic> json, {bool isCreatePost = false}) {
     errorCode = json['error_code'];
-    data = json['data'] != null ? Post.fromJson(json['data']) : null;
+    data = json['data'] != null ? Post.fromJson(isCreatePost ? json['data'][0] : json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {

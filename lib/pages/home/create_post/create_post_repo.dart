@@ -14,7 +14,7 @@ class CreatePostRepo extends BaseRepo {
           method: Method.POST,
           params: bodyData
       );
-      createPostResponse = CreatePostResponse.fromJson(response.data);
+      createPostResponse = CreatePostResponse.fromJson(response.data, isCreatePost: true);
     } catch (e) {
       debugPrint('Request failed: $e}');
     }

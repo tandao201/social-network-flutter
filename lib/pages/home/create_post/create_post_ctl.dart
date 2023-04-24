@@ -128,6 +128,8 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
     } catch (e) {
       isLoading.value = false;
       print('Exception');
+    } finally {
+      isLoading.value = false;
     }
   }
 
