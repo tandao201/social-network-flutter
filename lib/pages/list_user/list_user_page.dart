@@ -62,14 +62,17 @@ class ListUserPage extends BaseView<ListUserCtl> {
             Tab(icon: Text(
               'Người theo dõi',
               style: ThemeTextStyle.heading13.copyWith(color: controller.currentTab.value == 0 ? AppColor.black : AppColor.grey),
+              textAlign: TextAlign.center,
             )),
             Tab(icon: Text(
               'Đang theo dõi',
               style: ThemeTextStyle.heading13.copyWith(color: controller.currentTab.value == 1 ? AppColor.black : AppColor.grey),
+                textAlign: TextAlign.center
             )),
             Tab(icon: Text(
               'Yêu cầu theo dõi',
               style: ThemeTextStyle.heading13.copyWith(color: controller.currentTab.value == 2 ? AppColor.black : AppColor.grey),
+                textAlign: TextAlign.center
             )),
           ],
           indicatorColor: AppColor.black,

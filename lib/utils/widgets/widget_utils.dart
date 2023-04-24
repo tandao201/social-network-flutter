@@ -541,7 +541,7 @@ class WidgetUtils {
                   ),
                 ),
                 const SizedBox(height: 5,),
-                Text('${newsfeed.amountComment} bình luận', style: ThemeTextStyle.body12.copyWith(color: AppColor.grey),),
+                Text('${newsfeed.amountComment ?? "0"} bình luận', style: ThemeTextStyle.body12.copyWith(color: AppColor.grey),),
                 Text('${newsfeed.createdTime}'.timeAgo(), style: BaseTextStyle(fontSize: 12, color: AppColor.grey),),
                 const SizedBox(height: 8,),
               ],

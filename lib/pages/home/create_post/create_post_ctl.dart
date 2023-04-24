@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:chat_app_flutter/base/base_ctl.dart';
 import 'package:chat_app_flutter/models/commons/upload_image_response.dart';
+import 'package:chat_app_flutter/models/responses/auth_responses/login_response.dart';
 import 'package:chat_app_flutter/models/responses/post_responses/create_post_response.dart';
 import 'package:chat_app_flutter/models/responses/post_responses/newsfeed_response.dart';
 import 'package:chat_app_flutter/pages/home/create_post/create_post_repo.dart';
@@ -112,7 +113,9 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
         var newsfeed = Post(
           userId: createPostResponse.data?.userId,
           content: createPostResponse.data?.content,
+          image: createPostResponse.data?.image,
           createdTime: createPostResponse.data?.createdTime,
+          user: createPostResponse.data?.user
           // image: createPostResponse.data?.image,
         );
         newsCtl.newsFeeds.insert(0, newsfeed);
