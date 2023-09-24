@@ -1,4 +1,5 @@
 import 'package:chat_app_flutter/utils/extensions/string_extension.dart';
+import 'package:chat_app_flutter/utils/shared/enums.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -101,7 +102,10 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
                                 avatar: comment.userComment?.avatar ?? "",
                                 userComment: comment.userComment?.username ?? "Người dùng",
                                 content: comment.content ?? "",
-                                timeAgo: '${comment.createdTime}'.timeAgo()
+                                timeAgo: '${comment.createdTime}'.timeAgo(),
+                                likeStatus: comment.likeStatus ?? LikeStatus.dislike.index,
+                                commentId: comment.id ?? -1,
+                                likeAmount: comment.likeAmount
                             ),
                           );
                         }),
@@ -189,8 +193,11 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
     String userComment = "",
     String timeAgo = "",
     String content = "",
+    int? likeStatus,
+    int commentId = -1,
+    int? likeAmount
   }) {
-    RxBool liked = false.obs;
+    RxBool liked = (likeStatus == LikeStatus.like.index).obs;
     return GestureDetector(
       onDoubleTap: () {
         if (isShowLike && !liked.value) {
@@ -233,6 +240,8 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
                               const SizedBox(height: 2,),
                               Text(content, style: ThemeTextStyle.body13,),
                               const SizedBox(height: 8,),
+                              if (isShowLike && (likeAmount ?? 0) > 0)
+                                Text("${likeAmount} Lượt thích", style: BaseTextStyle(color: AppColor.grey, fontSize: 12, fontWeight: FontWeight.w600),)
                               // if (isShowLike)
                               //   GestureDetector(
                               //     onTap: () {
@@ -247,17 +256,18 @@ class CommentPostPage extends BaseView<CommentPostCtl> {
                     )
                 ),
                 const SizedBox(width: 10,),
-                // if (isShowLike)
-                //   Obx(() => IconButton(
-                //     padding: EdgeInsets.zero,
-                //     constraints: const BoxConstraints(),
-                //     onPressed: () {
-                //       liked.value = !liked.value;
-                //     },
-                //     icon: !liked.value
-                //         ? const Icon(Icons.favorite_outline_rounded, color: AppColor.black,size: 16,)
-                //         : const Icon(Icons.favorite_rounded, color: AppColor.red,size: 16,),
-                //   )),
+                if (isShowLike)
+                  Obx(() => IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () {
+                      liked.value = !liked.value;
+                      controller.likeComment(commentId: commentId);
+                    },
+                    icon: !liked.value
+                        ? const Icon(Icons.favorite_outline_rounded, color: AppColor.black,size: 16,)
+                        : const Icon(Icons.favorite_rounded, color: AppColor.red,size: 16,),
+                  )),
               ],
             ),
           ),

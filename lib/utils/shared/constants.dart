@@ -39,6 +39,7 @@ class Constants {
   static const String listComment = "/comment/list-comment";
   static const String createComment = "/comment/create";
   static const String deleteComment = "/comment/delete-comment";
+  static const String likeComment = "/comment/like";
 
 }
 

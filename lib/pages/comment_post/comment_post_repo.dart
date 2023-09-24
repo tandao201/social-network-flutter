@@ -53,4 +53,22 @@ class CommentPostRepo extends BaseRepo {
     }
     return commonResponse;
   }
+
+  Future<CommonResponse?> likeComment(int commentId) async {
+    CommonResponse? commonResponse;
+    Map<String, dynamic> bodyData = {
+      'comment_id': commentId,
+    };
+    try {
+      Response response = await request(
+          url: Constants.likeComment,
+          method: Method.GET,
+          params: bodyData
+      );
+      commonResponse = CommonResponse.fromJson(response.data);
+    } catch (e) {
+      print('Request failed: $e}');
+    }
+    return commonResponse;
+  }
 }

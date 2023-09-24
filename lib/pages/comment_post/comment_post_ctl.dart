@@ -38,6 +38,8 @@ class CommentPostCtl extends BaseCtl<CommentPostRepo> {
     isLoading.value = true;
     Map<String, dynamic> bodyData = {
       'post_id': selectedPost?.id ?? -1,
+      'order_by': 'amount_like',
+      'second_order': 'updated_time'
     };
     try {
       ListCommentResponse? listCommentResponse = await api.listComment(bodyData: bodyData);
@@ -46,7 +48,7 @@ class CommentPostCtl extends BaseCtl<CommentPostRepo> {
         return ;
       }
       if (listCommentResponse.errorCode!.isEmpty) {
-        comments.value = listCommentResponse.data ?? [];
+        comments.value = listCommentResponse.data?.data ?? [];
       } else {
         showSnackBar(
             Get.context!,
@@ -132,6 +134,14 @@ class CommentPostCtl extends BaseCtl<CommentPostRepo> {
       isCommenting.value = false;
     }
     hideKeyboard();
+  }
+
+  void likeComment({required int commentId}) async {
+    try {
+      CommonResponse? commonResponse = await api.likeComment(commentId);
+    } catch (e) {
+      print('Ex: ${e.toString()}');
+    }
   }
 
   void onTapReplyComment(String username, int index) {
