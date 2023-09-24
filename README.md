@@ -4,7 +4,7 @@ This repo is a boilerplate to create flutter application easily. It is based on 
 
 ## Getting Started
 
-1. Install [Flutter SDK](https://flutter.dev/docs/get-started/install).
+1. Install [Flutter SDK v3.3.10](https://docs.flutter.dev/release/archive).
 2. Install plugins in Android Studio
     * [Dart Data Class](https://plugins.jetbrains.com/plugin/12429-dart-data-class)
     * [GetX](https://plugins.jetbrains.com/plugin/15919-getx)
