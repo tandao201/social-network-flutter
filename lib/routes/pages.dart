@@ -4,6 +4,7 @@ import 'package:chat_app_flutter/pages/chat/search_chat/search_chat_ctl.dart';
 import 'package:chat_app_flutter/pages/chat/search_chat/search_chat_page.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_bindings.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_page.dart';
+import 'package:chat_app_flutter/pages/health_info/health_info_page.dart';
 import 'package:chat_app_flutter/pages/home/create_post/create_post_bindings.dart';
 import 'package:chat_app_flutter/pages/home/create_post/create_post_page.dart';
 import 'package:chat_app_flutter/pages/home/home_bindings.dart';
@@ -19,6 +20,7 @@ import 'package:get/get.dart';
 import '../pages/auth/login/login_bindings.dart';
 import '../pages/comment_post/comment_post_bindings.dart';
 import '../pages/comment_post/comment_post_page.dart';
+import '../pages/health_info/health_info_bindings.dart';
 import '../pages/list_all_posts/list_all_post_page.dart';
 import '../pages/list_all_posts/list_all_posts_bindings.dart';
 import '../pages/list_user/list_user_bindings.dart';
@@ -95,6 +97,12 @@ class Pages {
           name: RouteNames.listUser,
           page: () => const ListUserPage(),
           binding: ListUserBindings(),
+          transition: Transition.downToUp
+      ),
+      GetPage(
+          name: RouteNames.addHealthInfo,
+          page: () => const HealthInfoPage(),
+          binding: HealthInfoBindings(),
           transition: Transition.downToUp
       ),
     ];

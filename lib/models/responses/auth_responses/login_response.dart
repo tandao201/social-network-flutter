@@ -1,3 +1,4 @@
+import '../../commons/health_entity.dart';
 import '../post_responses/create_post_response.dart';
 
 class LoginResponse {
@@ -61,6 +62,7 @@ class UserInfo {
   int? friend;
   int? listFollow;
   int? listFollowing;
+  HealthEntity? healthEntity;
 
   UserInfo(
       {this.id,
@@ -75,7 +77,8 @@ class UserInfo {
         this.friend,
         this.listFollow,
         this.listFollowing,
-        this.bio
+        this.bio,
+        this.healthEntity
       });
 
   UserInfo.fromJson(Map<String, dynamic> json) {
@@ -97,6 +100,9 @@ class UserInfo {
     listFollow = json['listFollow'];
     listFollowing = json['listFollowing'];
     bio = json['bio'];
+    if (json['health'] != null) {
+      healthEntity = HealthEntity.fromJson(json['health']);
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -116,6 +122,9 @@ class UserInfo {
     data['listFollow'] = listFollow;
     data['listFollowing'] = listFollowing;
     data['bio'] = bio;
+    if (healthEntity != null) {
+      data['health'] = healthEntity?.toJson();
+    }
     return data;
   }
 }

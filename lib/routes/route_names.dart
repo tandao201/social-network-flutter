@@ -10,4 +10,5 @@ class RouteNames {
   static const searchChat = "/search/chat";
   static const userProfile = "/user/profile";
   static const listUser = "/user/list";
+  static const addHealthInfo = "/user/health-info";
 }

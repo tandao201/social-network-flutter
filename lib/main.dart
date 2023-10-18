@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chat_app_flutter/base/base_repo.dart';
 import 'package:chat_app_flutter/base/global_ctl.dart';
 import 'package:chat_app_flutter/helper/helper_function.dart';
+import 'package:chat_app_flutter/models/commons/health_entity.dart';
 import 'package:chat_app_flutter/routes/pages.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:chat_app_flutter/service/auth_service.dart';
@@ -23,10 +24,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future findRoute () async {
   var isLogin = HelperFunctions.getBool(HelperFunctions.isLoginKey);
   if (isLogin) {
-    initialRoute = RouteNames.home;
     String username = HelperFunctions.getString(HelperFunctions.userNameKey);
     String password = HelperFunctions.getString(HelperFunctions.passwordKey);
     AuthService().loginWithUserNameandPassword(username, password);
+    if (Get.find<GlobalController>().userInfo.value.healthEntity != null) {
+      initialRoute = RouteNames.home;
+    } else {
+      initialRoute = RouteNames.addHealthInfo;
+    }
   }
 }
 
@@ -34,9 +39,9 @@ Future initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await HelperFunctions.init();
-  await findRoute();
   Get.put(GlobalController());
   Get.put(BaseRepo());
+  await findRoute();
   final notificationService = Get.put(NotificationService());
   notificationService.requestAndInitNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
