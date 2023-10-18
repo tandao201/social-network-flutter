@@ -15,6 +15,7 @@ import 'package:chat_app_flutter/utils/shared/assets.dart';
 import 'package:chat_app_flutter/utils/shared/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:photo_gallery/photo_gallery.dart';
@@ -43,9 +44,9 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
-    requestPermission(toDo: initData);
+    // requestPermission(toDo: initData);
     audioPlayer.setLoopMode(LoopMode.one);
-    if (Get.arguments['from'] != null) {
+    if (isHasArguments('from')) {
       onlyStory.value = true;
       type.value = "story";
     }
@@ -222,6 +223,16 @@ class CreatePostCtl extends BaseCtl<CreatePostRepo> {
   void stopAudio() {
     if (audioPlayer.playing) {
       audioPlayer.stop();
+    }
+  }
+
+  Future pickImage({ImageSource source = ImageSource.gallery}) async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    try {
+      selectedImage.value = File(image.path);
+    } catch (e) {
+      print('Fail to pick image!');
     }
   }
 

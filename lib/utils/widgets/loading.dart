@@ -122,7 +122,7 @@ class LoadingState extends State<Loading> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff272727).withOpacity(0.8),
+      backgroundColor: const Color(0xff272727).withOpacity(0.3),
       body: Center(
         child: SizedBox(
           height: 50,

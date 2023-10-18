@@ -64,7 +64,11 @@ class Utilities {
   }
 
   bool isHasArguments(String key) {
-    return Get.arguments[key] != null;
+    try {
+      return Get.arguments[key] != null;
+    } catch (e) {
+      return false;
+    }
   }
 
   dynamic getArguments(String key) {
