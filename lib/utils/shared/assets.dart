@@ -22,4 +22,6 @@ class Assets {
   // ---------------------- default image ----------------------------
   static const String defaultImage = "assets/images/default_image.jpg";
   static const String changePassImage = "assets/images/change_pass.png";
+  static const String menImage = "assets/images/men.png";
+  static const String womenImage = "assets/images/women.png";
 }

@@ -20,19 +20,25 @@ class WidgetUtils {
     String? title,
     Function? onClickLeading,
     Color? backgroundColor,
+    List<Widget>? actions,
+    bool isShowLeading = true
   }) {
     return AppBar(
       backgroundColor: backgroundColor ?? AppColor.white,
       elevation: 0,
-      leading: IconButton(
-        icon: const Icon(
-          Icons.arrow_back_ios_new,
-          size: 15,
-          color: AppColor.black,
-        ),
-        onPressed: () => onClickLeading!(),
-      ),
-      title: title != null ? Text(title) : Container(),
+      leading: isShowLeading
+        ? IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              size: 15,
+              color: AppColor.black,
+            ),
+            onPressed: () => onClickLeading?.call(),
+          )
+        : null,
+      title: title != null ? Text(title, style: const BaseTextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),) : Container(),
+      centerTitle: true,
+      actions: actions,
     );
   }
 
@@ -45,8 +51,10 @@ class WidgetUtils {
     Function(String value)? onTextChange,
     Function(String value)? onFieldSubmitted,
     bool obscureText = false,
+    TextInputType? keyboardType
   }) {
     return TextFormField(
+      keyboardType: keyboardType,
       controller: controller,
       focusNode: focusNode,
       onChanged: (value) {

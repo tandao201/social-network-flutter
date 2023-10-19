@@ -41,11 +41,11 @@ Future initApp() async {
   await HelperFunctions.init();
   Get.put(GlobalController());
   Get.put(BaseRepo());
-  await findRoute();
   final notificationService = Get.put(NotificationService());
   notificationService.requestAndInitNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = MyHttpOverrides();
+  await findRoute();
 }
 
 void main() async {
