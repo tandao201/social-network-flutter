@@ -36,9 +36,19 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
           padding: const EdgeInsets.symmetric(horizontal: 14),
           height: AppBar().preferredSize.height-8,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SvgPicture.asset(Assets.svgLogo, width: 95.w,),
+              const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  controller.toPage(routeUrl: RouteNames.notification);
+                },
+                child: const Icon(
+                  Icons.favorite_border_sharp,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 8,),
               GestureDetector(
                 onTap: () {
                   controller.animateToIndex(1);

@@ -237,10 +237,10 @@ class MenuAccount extends StatelessWidget with WidgetUtils {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      padding: const EdgeInsets.only(top: 24),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       color: AppColor.lightGrey,
-      height: Constants.heightScreen/3,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           InkWell(
             onTap: () {

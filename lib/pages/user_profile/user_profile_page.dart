@@ -377,8 +377,8 @@ class FollowBottomSheet extends StatelessWidget with WidgetUtils {
     return Container(
       padding: const EdgeInsets.fromLTRB(16,8,16,16),
       color: AppColor.lightGrey,
-      height: Constants.heightScreen/3,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(

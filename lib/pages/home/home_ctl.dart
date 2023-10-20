@@ -10,6 +10,7 @@ import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../health_info_result/health_info_result_page.dart';
 import 'notification/notification_ctl.dart';
 import 'notification/notification_repo.dart';
 
@@ -19,7 +20,7 @@ class HomeCtl extends BaseCtl<HomeRepo> {
     const NewsFeedPage(),
     const SearchPage(),
     Container(),
-    const NotificationPage(),
+    const HealthInfoResultPage(showLeading: false,),
     const AccountPage(),
   ];
 
@@ -46,10 +47,6 @@ class HomeCtl extends BaseCtl<HomeRepo> {
     if (index == 1) {
       Get.put(SearchRepo());
       Get.put(SearchCtl());
-    }
-    if (index == 3) {
-      Get.put(NotificationRepo());
-      Get.put(NotificationCtl());
     }
     pageIndex.value = index;
     pageController.jumpToPage(index);

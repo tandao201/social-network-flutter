@@ -13,39 +13,46 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'models/responses/auth_responses/login_response.dart';
 
 String initialRoute = RouteNames.login;
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Notification Message data: ${message.data}');
 }
 
-Future findRoute () async {
+Future findRoute (UserInfo userInfo) async {
   var isLogin = HelperFunctions.getBool(HelperFunctions.isLoginKey);
   if (isLogin) {
     String username = HelperFunctions.getString(HelperFunctions.userNameKey);
     String password = HelperFunctions.getString(HelperFunctions.passwordKey);
     AuthService().loginWithUserNameandPassword(username, password);
-    if (Get.find<GlobalController>().userInfo.value.healthEntity != null) {
+    if (userInfo.healthEntity != null) {
       initialRoute = RouteNames.home;
     } else {
       initialRoute = RouteNames.addHealthInfo;
     }
+    FlutterNativeSplash.remove();
   }
 }
 
 Future initApp() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
   await HelperFunctions.init();
-  Get.put(GlobalController());
+  await Get.put(GlobalController()).initData().then((value) {
+    print('User init: ${value.userInfo.value.toJson()}');
+    findRoute(value.userInfo.value);
+  });
   Get.put(BaseRepo());
   final notificationService = Get.put(NotificationService());
   notificationService.requestAndInitNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = MyHttpOverrides();
-  await findRoute();
 }
 
 void main() async {

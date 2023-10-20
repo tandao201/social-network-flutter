@@ -16,21 +16,15 @@ class NotificationPage extends BaseView<NotificationCtl> {
   Widget viewBuilder(BuildContext context) {
     // TODO: implement viewBuilder
     return Scaffold(
+      appBar: appBar(
+        title: "Thông báo",
+        onClickLeading: () {
+          Get.back();
+        }
+      ),
       body: SafeArea(
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                width: double.infinity,
-                height: AppBar().preferredSize.height-8,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Thông báo', style: ThemeTextStyle.heading16,),
-                    SizedBox(),
-                  ],
-                ),
-              ),
               Expanded(
                 child: controller.isLoading.value
                   ? _buildLoading()

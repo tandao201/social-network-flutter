@@ -4,55 +4,96 @@ import 'package:chat_app_flutter/utils/themes/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../routes/route_names.dart';
+import '../../utils/shared/colors.dart';
 import 'health_info_result_ctl.dart';
 
 class HealthInfoResultPage extends BaseView<HealthInfoResultCtl> {
-  const HealthInfoResultPage({super.key});
+  final bool showLeading;
+
+  const HealthInfoResultPage({super.key, this.showLeading = true});
 
   @override
   Widget viewBuilder(BuildContext context) {
     return Scaffold(
       appBar: appBar(
         title: "BMI",
+        isShowLeading: showLeading,
         onClickLeading: () {
           Get.back();
-        }
+        },
+        actions: [
+          GestureDetector(
+            onTap: () {
+              controller.toPage(routeUrl: RouteNames.addHealthInfo);
+            },
+            child: const Icon(
+              Icons.edit_note_rounded,
+              size: 28,
+            ),
+          )
+        ]
       ),
       body: SafeArea(
         child: Container(
           width: Get.width,
           padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 32,),
-                Text(
-                  controller.bmi.value.toStringAsFixed(2),
-                  style: BaseTextStyle(
-                      fontSize: 48,
-                      fontWeight:
-                      FontWeight.bold,
-                      color: controller.bmi.value.getColor()
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 32,),
+                      Text(
+                        controller.bmi.value.toStringAsFixed(2),
+                        style: BaseTextStyle(
+                            fontSize: 48,
+                            fontWeight:
+                            FontWeight.bold,
+                            color: controller.bmi.value.getColor()
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8,),
+                      Text(
+                        controller.bmi.value.getBodyShapeString(),
+                        style: BaseTextStyle(
+                            fontSize: 18,
+                            color: controller.bmi.value.getColor()
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 48,),
+                      buildRisk(),
+                      const SizedBox(height: 16,),
+                      buildShouldDo(),
+                      const SizedBox(height: 16,),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8,),
-                Text(
-                  controller.bmi.value.getBodyShapeString(),
-                  style: BaseTextStyle(
-                      fontSize: 18,
-                      color: controller.bmi.value.getColor()
+              ),
+              if (showLeading)
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(top: 8),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(40),
+                    onTap: () {
+                      controller.toPagePopUtil(routeUrl: RouteNames.home);
+                    },
+                    child: Container(
+                        height: 50,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            gradient: AppColor.gradientPrimary,
+                            borderRadius: BorderRadius.circular(40)
+                        ),
+                        child: const Text("Bắt đầu", style:  BaseTextStyle(color: AppColor.white, fontSize: 15))),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 48,),
-                buildRisk(),
-                const SizedBox(height: 16,),
-                buildShouldDo(),
-                const SizedBox(height: 16,),
-              ],
-            ),
+                )
+            ],
           ),
         ),
       ),

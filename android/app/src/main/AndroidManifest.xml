@@ -20,7 +20,6 @@
            android:resource="@mipmap/ic_noti" />
         <activity
             android:name=".MainActivity"
-            android:showWhenLocked="true"
             android:turnScreenOn="true"
             android:exported="true"
             android:launchMode="singleTop"

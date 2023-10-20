@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import '../models/responses/auth_responses/login_response.dart';
 
-class GlobalController extends GetxController {
+class GlobalController extends GetxService {
   RxBool isLogin = false.obs;
   Rx<UserInfo> userInfo = UserInfo().obs;
 
@@ -13,11 +13,20 @@ class GlobalController extends GetxController {
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
+    // isLogin.value = HelperFunctions.getBool(HelperFunctions.isLoginKey);
+    // LoginData? loginData = await HelperFunctions.readLoginData();
+    // if (loginData != null) {
+    //   userInfo.value = loginData.userInfo!;
+    // }
+  }
+
+  Future<GlobalController> initData() async {
     isLogin.value = HelperFunctions.getBool(HelperFunctions.isLoginKey);
     LoginData? loginData = await HelperFunctions.readLoginData();
     if (loginData != null) {
       userInfo.value = loginData.userInfo!;
     }
+    return this;
   }
 
   void saveUser(UserInfo userInfo) {
