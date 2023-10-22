@@ -22,24 +22,9 @@ class NotificationService extends GetxService with Utilities {
   }
 
   Future requestAndInitNotification() async {
-    NotificationSettings settings = await messaging!.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized || settings.authorizationStatus == AuthorizationStatus.provisional) {
-      print('User granted permission');
-      initFCM();
-      registerNotification();
-      getTokenFCM();
-    } else {
-      print('User declined or has not accepted permission');
-    }
+    initFCM();
+    registerNotification();
+    getTokenFCM();
   }
 
   Future<void> initFCM() async {

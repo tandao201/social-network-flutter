@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:chat_app_flutter/helper/helper_function.dart';
+import 'package:chat_app_flutter/models/commons/health_entity.dart';
 import 'package:get/get.dart';
 
 import '../models/responses/auth_responses/login_response.dart';
@@ -30,6 +31,8 @@ class GlobalController extends GetxService {
   }
 
   void saveUser(UserInfo userInfo) {
+    HealthEntity? healthEntity = this.userInfo.value.healthEntity;
+    userInfo.healthEntity = healthEntity;
     this.userInfo.value = userInfo;
     HelperFunctions.saveUserInfo(userInfo);
   }

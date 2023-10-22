@@ -88,7 +88,7 @@ class LoginCtl extends BaseCtl<LoginRepo> with GetSingleTickerProviderStateMixin
             "Đăng nhập thành công."
         );
         saveInfoLogin(loginResponse);
-        toPagePopUtil(routeUrl: RouteNames.home);
+        toPagePopUtil(routeUrl: RouteNames.addHealthInfo);
       } else {
         showSnackBar(
             Get.context!,

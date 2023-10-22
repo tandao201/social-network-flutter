@@ -35,8 +35,8 @@ Future findRoute (UserInfo userInfo) async {
     } else {
       initialRoute = RouteNames.addHealthInfo;
     }
-    FlutterNativeSplash.remove();
   }
+  FlutterNativeSplash.remove();
 }
 
 Future initApp() async {
@@ -46,6 +46,7 @@ Future initApp() async {
   await HelperFunctions.init();
   await Get.put(GlobalController()).initData().then((value) {
     print('User init: ${value.userInfo.value.toJson()}');
+    print('User init: ${value.userInfo.value.healthEntity?.toJson()}');
     findRoute(value.userInfo.value);
   });
   Get.put(BaseRepo());
