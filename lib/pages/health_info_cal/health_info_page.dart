@@ -15,6 +15,12 @@ class HealthInfoPage extends BaseView<HealthInfoCtl> {
   @override
   Widget viewBuilder(BuildContext context) {
     return Scaffold(
+      appBar: !controller.showAppBar.value
+        ? null
+        : appBar(
+            title: "Chỉnh sửa",
+            onClickLeading: () => Get.back(),
+          ),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16),

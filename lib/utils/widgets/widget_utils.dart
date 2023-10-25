@@ -21,7 +21,8 @@ class WidgetUtils {
     Function? onClickLeading,
     Color? backgroundColor,
     List<Widget>? actions,
-    bool isShowLeading = true
+    bool isShowLeading = true,
+    bool centerTitle = true
   }) {
     return AppBar(
       backgroundColor: backgroundColor ?? AppColor.white,
@@ -37,7 +38,7 @@ class WidgetUtils {
           )
         : null,
       title: title != null ? Text(title, style: const BaseTextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),) : Container(),
-      centerTitle: true,
+      centerTitle: centerTitle,
       actions: actions,
     );
   }

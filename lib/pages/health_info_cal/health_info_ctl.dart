@@ -16,21 +16,41 @@ class HealthInfoCtl extends BaseCtl<HealthInfoRepo> {
   TextEditingController ageCtl = TextEditingController();
   TextEditingController heightCtl = TextEditingController();
   TextEditingController weightCtl = TextEditingController();
+  RxBool showAppBar = false.obs;
 
-  void onClickCalculate() {
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    if (isHasArguments("showAppBar")) {
+      showAppBar.value = getArguments("showAppBar");
+      if (showAppBar.value) {
+        HealthEntity? healthEntity = globalController?.userInfo.value.healthEntity;
+        ageCtl.text = (healthEntity?.age ?? "").toString();
+        heightCtl.text = (healthEntity?.height ?? "").toString();
+        weightCtl.text = (healthEntity?.weight ?? "").toString();
+      }
+    }
+  }
+
+  void onClickCalculate() async {
     globalController?.userInfo.value.healthEntity = HealthEntity(
       age: int.tryParse(ageCtl.text) ?? 0,
       height: double.tryParse(heightCtl.text) ?? (0.0),
       weight: double.tryParse(weightCtl.text) ?? (0.0),
     );
     // globalController?.userInfo.value.;
-    globalController?.saveUser(globalController?.userInfo.value ?? UserInfo());
+    await globalController?.saveUser(globalController?.userInfo.value ?? UserInfo());
 
-    toPage(routeUrl: RouteNames.addHealthInfoResult, arguments: {
-      "gender": gender.value,
-      "age": ageCtl.text,
-      "height": heightCtl.text,
-      "weight": weightCtl.text,
-    });
+    if (showAppBar.value) {
+      Get.back(result: true);
+    } else {
+      toPagePopUtil(routeUrl: RouteNames.addHealthInfoResult, arguments: {
+        "gender": gender.value,
+        "age": ageCtl.text,
+        "height": heightCtl.text,
+        "weight": weightCtl.text,
+      });
+    }
   }
 }

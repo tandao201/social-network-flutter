@@ -30,7 +30,7 @@ class GlobalController extends GetxService {
     return this;
   }
 
-  void saveUser(UserInfo userInfo) {
+  Future saveUser(UserInfo userInfo) async {
     HealthEntity? healthEntity = this.userInfo.value.healthEntity;
     userInfo.healthEntity = healthEntity;
     this.userInfo.value = userInfo;

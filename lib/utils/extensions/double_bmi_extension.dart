@@ -20,6 +20,10 @@ extension DoubleBmiEx on double {
     return "Béo phì độ II trở lên";
   }
 
+  bool needRisk() {
+    return !(this >= 18.5 && this <= 25);
+  }
+
   String getRiskString() {
     if (this <= 18.5) {
       return "· Thiếu dinh dưỡng: Thiếu cân có thể chỉ ra rằng cơ thể không nhận đủ dưỡng chất cần thiết để duy trì sức khỏe. Điều này có thể dẫn đến suy dinh dưỡng, yếu đề kháng và suy giảm sức khỏe tổng quát."
