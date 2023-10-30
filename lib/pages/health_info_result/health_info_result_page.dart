@@ -51,19 +51,22 @@ class HealthInfoResultPage extends BaseView<HealthInfoResultCtl> {
             width: Get.width,
             child: Column(
               children: [
-                TabBar(
-                  controller: controller.tabController,
-                  tabs: const [
-                    Tab(text: "BMI",),
-                    Tab(text: "Uống nước",),
-                  ],
-                ),
+                if (!showLeading)
+                  TabBar(
+                    controller: controller.tabController,
+                    tabs: const [
+                      Tab(text: "Uống nước",),
+                      Tab(text: "BMI",),
+                    ],
+                  ),
                 Expanded(
                   child: TabBarView(
                     controller: controller.tabController,
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
+                      if (!showLeading)
+                        WaterPage(),
                       BmiPage(),
-                      WaterPage(),
                     ],
                   ),
                 ),

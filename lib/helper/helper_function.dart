@@ -14,6 +14,7 @@ class HelperFunctions {
   static const String passwordKey = "passwordKey";
   static const String usernameKey = "usernameKey";
   static const String tokenKey = "tokenKey";
+  static const String water = "water";
 
   // init singleton
   static Future<SharedPreferences> get _instance async => _prefsInstance ??= await SharedPreferences.getInstance();

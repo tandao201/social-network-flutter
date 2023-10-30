@@ -11,8 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../health_info_result/health_info_result_page.dart';
-import 'notification/notification_ctl.dart';
-import 'notification/notification_repo.dart';
 
 class HomeCtl extends BaseCtl<HomeRepo> {
 
@@ -32,6 +30,10 @@ class HomeCtl extends BaseCtl<HomeRepo> {
     // TODO: implement onInit
     super.onInit();
     pageController = PageController();
+    if (globalController?.specificIndexTabHome != -1) {
+      clickBottomNavItem(globalController?.specificIndexTabHome ?? 0);
+      globalController?.specificIndexTabHome = -1;
+    }
   }
 
   Future initData() async {

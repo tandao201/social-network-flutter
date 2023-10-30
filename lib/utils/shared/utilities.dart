@@ -21,6 +21,10 @@ class Utilities {
     Get.offAndToNamed(routeUrl, arguments: arguments);
   }
 
+  static Future backToPage({required String routeUrl, Map<String, dynamic>? arguments}) async {
+    Navigator.popUntil(Get.context!, ModalRoute.withName(routeUrl));
+  }
+
   void hideKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }

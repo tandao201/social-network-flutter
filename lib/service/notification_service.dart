@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:chat_app_flutter/pages/home/home_ctl.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'package:chat_app_flutter/utils/shared/utilities.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -82,6 +85,12 @@ class NotificationService extends GetxService with Utilities {
     if (initialMessage != null) {
       handleInitialNotification(initialMessage);
     }
+
+    NotificationAppLaunchDetails? localNotificationLaunch = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+
+    if (localNotificationLaunch != null) {
+      handleClickNotification(jsonDecode(localNotificationLaunch.notificationResponse?.payload ?? ""));
+    }
   }
 
   /// when app on foreground
@@ -107,22 +116,41 @@ class NotificationService extends GetxService with Utilities {
         notification.hashCode,
         notification.title,
         notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channelDescription: channel.description,
-            // TODO add a proper drawable resource to android, for now using
-            //      one that already exists in example app.
-            icon: '@mipmap/ic_noti',
-            importance: Importance.max,
-            priority: Priority.high,
-          ),
-        ),
+        notificationDetail,
         payload: jsonEncode(message.data),
       );
     }
   }
+
+  void scheduleNotification() async {
+    flutterLocalNotificationsPlugin.zonedSchedule(
+        Random().nextInt(10000),
+        "Hãy uống nước thôi nào!",
+        "Sau khi hoàn thành hãy chọn lượng nước tương ứng để xác nhận và ghi nhớ đã uống nhé!",
+        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 30)),
+        notificationDetail,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true,
+        payload: jsonEncode({
+          "type": "navigate",
+          "to": RouteNames.home,
+          "data": 3
+        })
+    );
+  }
+
+  NotificationDetails get notificationDetail => NotificationDetails(
+    android: AndroidNotificationDetails(
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+      // TODO add a proper drawable resource to android, for now using
+      //      one that already exists in example app.
+      icon: '@mipmap/ic_noti',
+      importance: Importance.max,
+      priority: Priority.high,
+    ),
+  );
 
   static void onSelectNotification(NotificationResponse response) {
     /*Do whatever you want to do on notification click. In this case, I'll show an alert dialog*/
@@ -150,6 +178,17 @@ class NotificationService extends GetxService with Utilities {
               userName: globalCtl.userInfo.value.username!,
               colorPage: Colors.pink,
             ));
+        break;
+      case "navigate":
+        if (data["to"] == RouteNames.home) {
+          int index = data['data'];
+          if (Get.isRegistered<HomeCtl>() && Get.find<HomeCtl>().pageController.position.hasContentDimensions) {
+            Get.find<HomeCtl>().clickBottomNavItem(index);
+          } else {
+            Get.find<GlobalController>().specificIndexTabHome = index;
+          }
+          Utilities.backToPage(routeUrl: RouteNames.home);
+        }
         break;
       case "1":
         /// request follow notification

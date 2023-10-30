@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:chat_app_flutter/base/base_repo.dart';
 import 'package:chat_app_flutter/base/global_ctl.dart';
 import 'package:chat_app_flutter/helper/helper_function.dart';
-import 'package:chat_app_flutter/models/commons/health_entity.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:chat_app_flutter/routes/pages.dart';
 import 'package:chat_app_flutter/routes/route_names.dart';
 import 'package:chat_app_flutter/service/auth_service.dart';
@@ -52,6 +52,7 @@ Future initApp() async {
   Get.put(BaseRepo());
   final notificationService = Get.put(NotificationService());
   notificationService.requestAndInitNotification();
+  tz.initializeTimeZones();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = MyHttpOverrides();
 }

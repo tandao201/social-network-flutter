@@ -27,29 +27,37 @@ class WaterPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Container(
-        width: Get.width,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 32,),
-              _buildWaterAmount(),
-              const SizedBox(height: 32,),
-              _buildGoal(),
-              const SizedBox(height: 32,),
-              _buildAmountSelect()
-            ],
+      body: Obx(() {
+        return RefreshIndicator(
+          onRefresh: () async {
+            await controller.initData();
+          },
+          child: Container(
+            width: Get.width,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 32,),
+                  _buildWaterAmount(),
+                  const SizedBox(height: 32,),
+                  _buildGoal(),
+                  const SizedBox(height: 32,),
+                  _buildAmountSelect()
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
   Widget _buildWaterAmount() {
     double percentDone = controller.inDayWaterAmount.value / controller.waterAmount.value;
     double percent = 1 - percentDone;
+    if (percent <= 0) percent = 0;
 
     return Stack(
       children: [
@@ -171,7 +179,7 @@ class WaterPage extends StatelessWidget {
                 leadingIcon: FontAwesomeIcons.glassWaterDroplet,
                 color: const Color(0xffa7a2b6),
                 onPressed: () {
-
+                  controller.addDayWaterAmount(0.1);
                 }
               ),
             ),
@@ -182,7 +190,7 @@ class WaterPage extends StatelessWidget {
                   leadingIcon: FontAwesomeIcons.glassWater,
                   color: const Color(0xffeeeeff),
                   onPressed: () {
-
+                    controller.addDayWaterAmount(0.18);
                   }
               ),
             ),
@@ -197,7 +205,7 @@ class WaterPage extends StatelessWidget {
                   leadingIcon: FontAwesomeIcons.water,
                   color: const Color(0xfffff8ed),
                   onPressed: () {
-
+                    controller.addDayWaterAmount(0.25);
                   }
               ),
             ),
@@ -208,7 +216,7 @@ class WaterPage extends StatelessWidget {
                   leadingIcon: FontAwesomeIcons.bottleWater,
                   color: const Color(0xfff8e9e5),
                   onPressed: () {
-
+                    controller.addDayWaterAmount(0.5);
                   }
               ),
             ),

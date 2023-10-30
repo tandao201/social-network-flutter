@@ -9,6 +9,7 @@ import '../models/responses/auth_responses/login_response.dart';
 class GlobalController extends GetxService {
   RxBool isLogin = false.obs;
   Rx<UserInfo> userInfo = UserInfo().obs;
+  int specificIndexTabHome = -1;
 
   @override
   void onInit() async {
