@@ -8,6 +8,8 @@ import '../health_info_result/health_info_result_ctl.dart';
 import '../health_info_result/health_info_result_repo.dart';
 import 'account/account_ctl.dart';
 import 'account/account_repo.dart';
+import 'health_prediction/health_prediction_ctl.dart';
+import 'health_prediction/health_prediction_repo.dart';
 
 class HomeBindings extends Bindings {
   @override
@@ -16,11 +18,13 @@ class HomeBindings extends Bindings {
     Get.put(NewsFeedRepo());
     Get.put(HealthInfoResultRepo());
     Get.put(AccountRepo());
+    Get.put(HealthPredictionRepo());
 
     Get.put(HomeCtl());
     Get.put(NewsFeedCtl());
     Get.put(HealthInfoResultCtl());
     Get.put(AccountCtl());
+    Get.put(HealthPredictionCtl());
   }
 
 }

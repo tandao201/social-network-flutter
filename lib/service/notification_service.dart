@@ -89,7 +89,9 @@ class NotificationService extends GetxService with Utilities {
     NotificationAppLaunchDetails? localNotificationLaunch = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
     if (localNotificationLaunch != null) {
-      handleClickNotification(jsonDecode(localNotificationLaunch.notificationResponse?.payload ?? ""));
+      if ((localNotificationLaunch.notificationResponse?.payload ?? "").isNotEmpty) {
+        handleClickNotification(jsonDecode(localNotificationLaunch.notificationResponse?.payload ?? ""));
+      }
     }
   }
 

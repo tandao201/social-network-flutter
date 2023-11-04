@@ -9,6 +9,7 @@ import '../../../models/commons/user.dart';
 import '../../../models/responses/post_responses/create_post_response.dart';
 import '../../../utils/shared/colors.dart';
 import '../../../utils/shared/constants.dart';
+import '../health_prediction/health_prediction_ctl.dart';
 
 class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
   PageController pageController = PageController();
@@ -44,10 +45,13 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
   }
 
   Future initData() async {
+    HealthPredictionCtl().symptomSearch();
     currentPage = 1;
     totalItem = 2;
-    getNewsfeed();
-    getStories();
+    await Future.wait([
+      getNewsfeed(),
+      getStories()
+    ]);
   }
 
   Future getNewsfeed() async {

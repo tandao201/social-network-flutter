@@ -23,6 +23,8 @@ import '../pages/comment_post/comment_post_page.dart';
 import '../pages/health_info_cal/health_info_bindings.dart';
 import '../pages/health_info_cal/health_info_page.dart';
 import '../pages/health_info_result/health_info_result_bindings.dart';
+import '../pages/home/health_prediction/health_prediction_bindings.dart';
+import '../pages/home/health_prediction/health_prediction_page.dart';
 import '../pages/home/notification/notification_bindings.dart';
 import '../pages/list_all_posts/list_all_post_page.dart';
 import '../pages/list_all_posts/list_all_posts_bindings.dart';
@@ -118,6 +120,12 @@ class Pages {
           name: RouteNames.notification,
           page: () => const NotificationPage(),
           binding: NotificationBindings(),
+          transition: Transition.rightToLeft
+      ),
+      GetPage(
+          name: RouteNames.healthPrediction,
+          page: () => const HealthPredictionPage(),
+          binding: HealthPredictionBindings(),
           transition: Transition.rightToLeft
       ),
     ];

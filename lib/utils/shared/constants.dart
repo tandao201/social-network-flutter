@@ -11,6 +11,13 @@ class Constants {
   static const String baseUrl = "https://project-api-4222.onrender.com";
   static const String imageUploadUrl = "https://api.imgbb.com/1/upload";
   static const String keyImageUpload = "f044fa8f4cb65404a2affe6334d7fef5";
+  static const String healthPredictionApi = "https://medius-disease-prediction.p.rapidapi.com/api/v2";
+  static const Map<String, String> predictionApiHeader = {
+    'content-type': 'application/json',
+    'Content-Type': 'application/json',
+    'X-RapidAPI-Key': 'dde826ed3emsh28e5598c354f300p1e924fjsnfc564c5fede3',
+    'X-RapidAPI-Host': 'medius-disease-prediction.p.rapidapi.com'
+  };
 
   static const String login = "/auth/login";
   static const String register = "/auth/register";
@@ -40,6 +47,11 @@ class Constants {
   static const String createComment = "/comment/create";
   static const String deleteComment = "/comment/delete-comment";
   static const String likeComment = "/comment/like";
+
+
+  static const String symptomSearch = "/symptom-search";
+  static const String frequentSymptomSearch = "/frequent-symptoms";
+  static const String diseasePrediction = "/disease-prediction";
 
 }
 

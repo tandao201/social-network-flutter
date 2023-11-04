@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:chat_app_flutter/models/commons/upload_image_response.dart';
 import 'package:chat_app_flutter/models/responses/post_responses/create_post_response.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../api_service/api_dio_intercepter.dart';
 import 'package:dio/dio.dart';
@@ -13,13 +15,17 @@ import '../utils/shared/enums.dart';
 enum Method { POST, GET, PUT, DELETE, PATCH }
 
 class BaseRepo {
-  final dio = AppApi.dio;
+  var dio = AppApi.dio;
   Future<dynamic> request({
     required String url,
     required Method method,
     var params,
+    Map<String, dynamic>? headers,
   }) async {
     Response? response;
+    if (headers != null) {
+      dio?.options.headers = headers;
+    }
 
     try {
       if (method == Method.POST) {
@@ -41,7 +47,62 @@ class BaseRepo {
       throw Exception("No Internet Connection");
     } on FormatException {
       throw Exception("Bad Response Format!");
-    } on DioError catch (e){
+    } on DioException catch (e){
+      return e.response;
+    } catch (e) {
+      throw Exception("Something Went Wrong");
+    }
+  }
+
+  Future<dynamic> requestSpecificUrl({
+    required String url,
+    required Method method,
+    var params,
+    Map<String, dynamic>? headers,
+  }) async {
+    Response? response;
+    Dio dioSpecific = Dio(
+      BaseOptions(
+        headers: headers
+      )
+    )..interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          debugPrint("│ 🚀️ApiInterceptor-options--START🚀️");
+          debugPrint("│ ${method.name}: $url");
+          debugPrint("│ Headers: $headers");
+        },
+        onResponse: (response, handler) {
+          debugPrint("│ ☘️ApiInterceptor-response--START☘️");
+          debugPrint("│ ${method.name}: $url");
+          debugPrint("│ Status code: ${response.statusCode}");
+          debugPrint("│ Status message: ${response.statusMessage}");
+          debugPrint('│ Data response: ${jsonEncode(response.data)}');
+        }
+      )
+    );
+
+    try {
+      if (method == Method.POST) {
+        response = await dioSpecific.post(url, data: params);
+      } else if (method == Method.PUT) {
+        response = await dioSpecific.put(url, data: params);
+      } else if (method == Method.DELETE) {
+        response = await dioSpecific.delete(url);
+      } else if (method == Method.PATCH) {
+        response = await dioSpecific.patch(url);
+      } else {
+        response = await dioSpecific.get(
+          url,
+          queryParameters: params,
+        );
+      }
+      return response;
+    } on SocketException catch(e) {
+      throw Exception("No Internet Connection");
+    } on FormatException {
+      throw Exception("Bad Response Format!");
+    } on DioException catch (e){
       return e.response;
     } catch (e) {
       throw Exception("Something Went Wrong");
