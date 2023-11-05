@@ -45,7 +45,6 @@ class NewsFeedCtl extends BaseCtl<NewsFeedRepo> {
   }
 
   Future initData() async {
-    HealthPredictionCtl().symptomSearch();
     currentPage = 1;
     totalItem = 2;
     await Future.wait([

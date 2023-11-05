@@ -58,19 +58,21 @@ class HealthInfoResultCtl extends BaseCtl<HealthInfoResultRepo> with GetSingleTi
   Future getWaterPlans() async {
     try {
       String dataStr = HelperFunctions.getString(HelperFunctions.water);
-      var jsonMap = json.decode(dataStr);
-      var water = WaterAmountEntity.fromJson(jsonMap);
-      var today = DateTime.now();
-      String todayStr = DateFormat('yyyy/MM/dd').format(today);
-      if (water.date != todayStr) {
-        water.date = todayStr;
-        water.inDayWaterAmount = 0.0;
-        water.waterAmount = waterAmount.value;
+      if (dataStr.isNotEmpty) {
+        var jsonMap = json.decode(dataStr);
+        var water = WaterAmountEntity.fromJson(jsonMap);
+        var today = DateTime.now();
+        String todayStr = DateFormat('yyyy/MM/dd').format(today);
+        if (water.date != todayStr) {
+          water.date = todayStr;
+          water.inDayWaterAmount = 0.0;
+          water.waterAmount = waterAmount.value;
+          waterPlans = water;
+          saveWaterPlans();
+        }
         waterPlans = water;
-        saveWaterPlans();
+        inDayWaterAmount.value = waterPlans.inDayWaterAmount ?? 0.0;
       }
-      waterPlans = water;
-      inDayWaterAmount.value = waterPlans.inDayWaterAmount ?? 0.0;
     } catch (e) {
       print('Ex get water plans: ${e.toString()}');
     }

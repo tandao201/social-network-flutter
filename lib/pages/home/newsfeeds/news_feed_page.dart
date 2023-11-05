@@ -13,6 +13,7 @@ import '../../../utils/shared/assets.dart';
 import '../../../utils/shared/colors.dart';
 import '../../../utils/shared/constants.dart';
 import '../../../utils/themes/text_style.dart';
+import 'items/newsfeed_loading.dart';
 
 class NewsFeedPage extends BaseView<NewsFeedCtl> {
   const NewsFeedPage({Key? key}) : super(key: key);
@@ -39,6 +40,16 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
             children: [
               SvgPicture.asset(Assets.svgLogo, width: 95.w,),
               const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  controller.toPage(routeUrl: RouteNames.searchApp);
+                },
+                child: const Icon(
+                  Icons.search_outlined,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 8,),
               GestureDetector(
                 onTap: () {
                   controller.toPage(routeUrl: RouteNames.notification);
@@ -70,7 +81,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
                   buildListStories(),
                   divider(),
                   controller.isLoading.value
-                    ? loadingList()
+                    ? const NewsfeedLoading()
                     : buildNewsfeed(context),
                   controller.isLoadMore.value
                     ? const Padding(
@@ -85,16 +96,6 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
             ),
           ),
         ),
-      ],
-    );
-  }
-
-  Widget loadingList() {
-    return Column(
-      children: [
-        _loadingNewsfeed(),
-        _loadingNewsfeed(),
-        _loadingNewsfeed(),
       ],
     );
   }
@@ -262,89 +263,6 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
         ],
       ),
     ));
-  }
-
-  Widget _loadingNewsfeed({
-    double width = 375,
-  }) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                          color: Colors.white,
-                          height: 32.w,
-                          width: 32.w
-                      ),
-                    ),
-                    const SizedBox(width: 10,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            height: 20.w,
-                            width: 100.w,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: Colors.white,
-                            ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                SvgPicture.asset(Assets.moreOption)
-              ],
-            ),
-          ),
-          Container(
-              height: width,
-              width: width,
-              color: Colors.white,
-          ),
-          const SizedBox(height: 8,),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 20.w,
-                  width: 200.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 4,),
-                Container(
-                  height: 20.w,
-                  width: 100.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 4,),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
   }
 
   Widget _loadingStory() {

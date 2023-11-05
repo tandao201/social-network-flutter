@@ -53,16 +53,18 @@ class CreatePostPage extends BaseView<CreatePostCtl> {
                                       fontWeight: controller.type.value == "post" ? FontWeight.bold : FontWeight.normal
                                   ),),
                                 ),
-                          const SizedBox(width: 12,),
-                          InkWell(
-                            onTap: () {
-                              controller.changeType("story");
-                            },
-                            child: Text('Story', style: ThemeTextStyle.body14.copyWith(
-                                color: controller.type.value == "story" ? AppColor.white : AppColor.white.withOpacity(0.7),
-                                fontWeight: controller.type.value == "story" ? FontWeight.bold : FontWeight.normal
-                            ),),
-                          )
+                          if (!controller.hideStory.value) ... {
+                            const SizedBox(width: 12,),
+                            InkWell(
+                              onTap: () {
+                                controller.changeType("story");
+                              },
+                              child: Text('Story', style: ThemeTextStyle.body14.copyWith(
+                                  color: controller.type.value == "story" ? AppColor.white : AppColor.white.withOpacity(0.7),
+                                  fontWeight: controller.type.value == "story" ? FontWeight.bold : FontWeight.normal
+                              ),),
+                            )
+                          }
                         ],
                       ),
                     ),

@@ -48,6 +48,14 @@ class Constants {
   static const String deleteComment = "/comment/delete-comment";
   static const String likeComment = "/comment/like";
 
+  static const String listGroup = "/group/list";
+  static const String myListGroup = "/group/my-list";
+  static const String groupDetail = "/group/get";
+  static const String groupMember = "/group/list-member";
+  static const String groupNewsfeed = "/group/new-feed";
+  static const String createPostGroup = "/group/create-post";
+  static const String joinGroup = "/group/join";
+  static const String outGroup = "/group/out";
 
   static const String symptomSearch = "/symptom-search";
   static const String frequentSymptomSearch = "/frequent-symptoms";

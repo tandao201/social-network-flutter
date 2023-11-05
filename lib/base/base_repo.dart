@@ -219,6 +219,42 @@ class BaseRepo {
     }
     return detailPostResponse;
   }
+
+  Future<CommonResponse?> joinGroup(int groupId) async {
+    CommonResponse? commonResponse;
+    Map<String, dynamic> bodyData = {
+      'group_id': groupId,
+    };
+    try {
+      Response response = await request(
+          url: Constants.joinGroup,
+          method: Method.POST,
+          params: bodyData
+      );
+      commonResponse = CommonResponse.fromJson(response.data);
+    } catch (e) {
+      print('Request failed: $e}');
+    }
+    return commonResponse;
+  }
+
+  Future<CommonResponse?> outGroup(int groupId) async {
+    CommonResponse? commonResponse;
+    Map<String, dynamic> bodyData = {
+      'group_id': groupId,
+    };
+    try {
+      Response response = await request(
+          url: Constants.outGroup,
+          method: Method.POST,
+          params: bodyData
+      );
+      commonResponse = CommonResponse.fromJson(response.data);
+    } catch (e) {
+      print('Request failed: $e}');
+    }
+    return commonResponse;
+  }
 }
 // import 'package:dio/dio.dart';
 // Future changePass({required Map<String, dynamic> bodyData}) async {

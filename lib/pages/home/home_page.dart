@@ -32,8 +32,8 @@ class HomePage extends BaseView<HomeCtl> {
           ),
           BottomNavigationBarItem(
             icon: controller.pageIndex.value != 1
-              ? const Icon(Icons.search_outlined, color: AppColor.black)
-              : const Icon(Icons.search_rounded, color: AppColor.black),
+              ? const Icon(Icons.group_outlined, color: AppColor.black)
+              : const Icon(Icons.group, color: AppColor.black),
             backgroundColor: AppColor.white,
             label: "",
           ),

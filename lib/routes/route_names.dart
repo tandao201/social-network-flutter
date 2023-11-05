@@ -14,4 +14,7 @@ class RouteNames {
   static const addHealthInfoResult = "/user/health-info-result";
   static const notification = "/notification";
   static const healthPrediction = "/healthPrediction";
+  static const listGroup = "/listGroup";
+  static const searchApp = "/searchApp";
+  static const groupDetail = "/groupDetail";
 }

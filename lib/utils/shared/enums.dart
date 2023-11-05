@@ -36,6 +36,18 @@ enum Gender {
   female
 }
 
+enum GroupJoinStatus {
+  _,
+  joined,
+  notJoin
+}
+
+enum GroupOwnerStatus {
+  _,
+  owner,
+  notOwner
+}
+
 extension GenderEx on Gender {
   IconData getGenderIcon() {
     switch(this) {

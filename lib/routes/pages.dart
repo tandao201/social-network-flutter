@@ -3,12 +3,15 @@ import 'package:chat_app_flutter/pages/chat/search_chat/search_chat_bindings.dar
 import 'package:chat_app_flutter/pages/chat/search_chat/search_chat_page.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_bindings.dart';
 import 'package:chat_app_flutter/pages/edit_profile/edit_profile_page.dart';
+import 'package:chat_app_flutter/pages/group_detail/group_detail_page.dart';
 import 'package:chat_app_flutter/pages/health_info_result/health_info_result_page.dart';
 import 'package:chat_app_flutter/pages/home/create_post/create_post_bindings.dart';
 import 'package:chat_app_flutter/pages/home/create_post/create_post_page.dart';
+import 'package:chat_app_flutter/pages/home/groups/list_group_page.dart';
 import 'package:chat_app_flutter/pages/home/home_bindings.dart';
 import 'package:chat_app_flutter/pages/home/home_page.dart';
 import 'package:chat_app_flutter/pages/home/notification/notification_page.dart';
+import 'package:chat_app_flutter/pages/home/search/search_page.dart';
 import 'package:chat_app_flutter/pages/list_user/list_user_page.dart';
 import 'package:chat_app_flutter/pages/splash/splash_bindings.dart';
 import 'package:chat_app_flutter/pages/splash/splash_page.dart';
@@ -20,12 +23,15 @@ import 'package:get/get.dart';
 import '../pages/auth/login/login_bindings.dart';
 import '../pages/comment_post/comment_post_bindings.dart';
 import '../pages/comment_post/comment_post_page.dart';
+import '../pages/group_detail/group_detail_bindings.dart';
 import '../pages/health_info_cal/health_info_bindings.dart';
 import '../pages/health_info_cal/health_info_page.dart';
 import '../pages/health_info_result/health_info_result_bindings.dart';
+import '../pages/home/groups/list_group_bindings.dart';
 import '../pages/home/health_prediction/health_prediction_bindings.dart';
 import '../pages/home/health_prediction/health_prediction_page.dart';
 import '../pages/home/notification/notification_bindings.dart';
+import '../pages/home/search/search_bindings.dart';
 import '../pages/list_all_posts/list_all_post_page.dart';
 import '../pages/list_all_posts/list_all_posts_bindings.dart';
 import '../pages/list_user/list_user_bindings.dart';
@@ -126,6 +132,24 @@ class Pages {
           name: RouteNames.healthPrediction,
           page: () => const HealthPredictionPage(),
           binding: HealthPredictionBindings(),
+          transition: Transition.rightToLeft
+      ),
+      GetPage(
+          name: RouteNames.listGroup,
+          page: () => const ListGroupPage(),
+          binding: ListGroupBindings(),
+          transition: Transition.rightToLeft
+      ),
+      GetPage(
+          name: RouteNames.searchApp,
+          page: () => const SearchPage(),
+          binding: SearchBindings(),
+          transition: Transition.rightToLeft
+      ),
+      GetPage(
+          name: RouteNames.groupDetail,
+          page: () => const GroupDetailPage(),
+          binding: GroupDetailBindings(),
           transition: Transition.rightToLeft
       ),
     ];

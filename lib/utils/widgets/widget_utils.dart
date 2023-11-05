@@ -166,27 +166,42 @@ class WidgetUtils {
     );
   }
 
-  CachedNetworkImage cacheImage({
+  Widget cacheImage({
     String imgUrl = "",
     double height = 56,
     double width = 56,
     BoxFit fit = BoxFit.fill,
     bool isAvatar = true,
+    double borderRadius = 0,
   }) {
+    if (!GetUtils.isURL(imgUrl)) {
+      return Container(
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+            color: AppColor.lightGrey1,
+            borderRadius: BorderRadius.circular(isAvatar ? 60 : borderRadius)
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(isAvatar ? 60 : borderRadius) ,
+          child: Image.asset(Assets.defaultImage, fit: BoxFit.fill,),
+        ),
+      );
+    }
     return CachedNetworkImage(
       imageUrl: imgUrl,
       height: height,
       width: width,
-      placeholder: (context, url) => ClipRRect(borderRadius: BorderRadius.circular(isAvatar ? 60 : 0),child: loadingImage(width: height, height: width),),
+      placeholder: (context, url) => ClipRRect(borderRadius: BorderRadius.circular(isAvatar ? 60 : borderRadius),child: loadingImage(width: height, height: width),),
       errorWidget: (context, url, error) => Container(
         height: height,
         width: width,
         decoration: BoxDecoration(
           color: AppColor.lightGrey1,
-          borderRadius: BorderRadius.circular(isAvatar ? 60 : 0)
+          borderRadius: BorderRadius.circular(isAvatar ? 60 : borderRadius)
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(isAvatar ? 60 : 0) ,
+          borderRadius: BorderRadius.circular(isAvatar ? 60 : borderRadius) ,
           child: Image.asset(Assets.defaultImage, fit: BoxFit.fill,),
         ),
       ),
