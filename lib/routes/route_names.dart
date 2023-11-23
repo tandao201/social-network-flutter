@@ -17,4 +17,5 @@ class RouteNames {
   static const listGroup = "/listGroup";
   static const searchApp = "/searchApp";
   static const groupDetail = "/groupDetail";
+  static const createGroup = "/createGroup";
 }

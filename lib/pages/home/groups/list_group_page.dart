@@ -1,8 +1,9 @@
 import 'package:chat_app_flutter/base/base_view.dart';
-import 'package:chat_app_flutter/utils/shared/enums.dart';
 import 'package:chat_app_flutter/utils/themes/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../../routes/route_names.dart';
 import 'items/group_item.dart';
 import 'list_group_ctl.dart';
 
@@ -12,6 +13,24 @@ class ListGroupPage extends BaseView<ListGroupCtl> {
   @override
   Widget viewBuilder(BuildContext context) {
     return Scaffold(
+      appBar: appBar(
+          centerTitle: false,
+          title: "Nhóm",
+          isShowLeading: false,
+          actions: [
+            GestureDetector(
+              onTap: () {
+                controller.toPage(routeUrl: RouteNames.createGroup);
+              },
+              child: const Icon(
+                Icons.add,
+                size: 28,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(width: 16,)
+          ]
+      ),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () => controller.initData(),

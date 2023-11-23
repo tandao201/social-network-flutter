@@ -4,6 +4,7 @@ class Assets {
 
   // ----------------------- image ------------------
   static const String image = "assets/images/";
+  static const String loginBanner = "assets/icons/ic_logo.png";
 
   // ----------------------- svg ------------------
   static const String svgLogo = "assets/svgs/svg_logo.svg";

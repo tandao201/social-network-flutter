@@ -23,6 +23,8 @@ import 'package:get/get.dart';
 import '../pages/auth/login/login_bindings.dart';
 import '../pages/comment_post/comment_post_bindings.dart';
 import '../pages/comment_post/comment_post_page.dart';
+import '../pages/create_group/create_group_bindings.dart';
+import '../pages/create_group/create_group_page.dart';
 import '../pages/group_detail/group_detail_bindings.dart';
 import '../pages/health_info_cal/health_info_bindings.dart';
 import '../pages/health_info_cal/health_info_page.dart';
@@ -150,6 +152,12 @@ class Pages {
           name: RouteNames.groupDetail,
           page: () => const GroupDetailPage(),
           binding: GroupDetailBindings(),
+          transition: Transition.rightToLeft
+      ),
+      GetPage(
+          name: RouteNames.createGroup,
+          page: () => const CreateGroupPage(),
+          binding: CreateGroupBindings(),
           transition: Transition.rightToLeft
       ),
     ];

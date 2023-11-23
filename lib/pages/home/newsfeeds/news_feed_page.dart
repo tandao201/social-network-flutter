@@ -34,11 +34,15 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
     return Column(
       children: [
         Container(
+          margin: const EdgeInsets.only(top: 8),
           padding: const EdgeInsets.symmetric(horizontal: 14),
           height: AppBar().preferredSize.height-8,
           child: Row(
             children: [
-              SvgPicture.asset(Assets.svgLogo, width: 95.w,),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.w),
+                child: Image.asset(Assets.loginBanner, width: 50.w, height: 50.w,),
+              ),
               const Spacer(),
               GestureDetector(
                 onTap: () {

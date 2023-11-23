@@ -31,9 +31,17 @@ class LoginPage extends BaseView<LoginCtl> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 50.h,),
-                      SvgPicture.asset(Assets.svgLogo),
                       SizedBox(height: 30.h,),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16.w),
+                        child: Image.asset(
+                          Assets.loginBanner,
+                          width: 100.h,
+                          height: 100.h,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(height: 10.h,),
                       TabBar(
                         controller: controller.tabController,
                         tabs: const [

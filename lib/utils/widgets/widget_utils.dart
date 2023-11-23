@@ -494,12 +494,13 @@ class WidgetUtils {
           },
           child: Stack(
             children: [
-              cacheImage(
-                  imgUrl: newsfeed.image ?? "",
-                  height: width,
-                  width: width,
-                  isAvatar: false
-              ),
+              if ((newsfeed.image ?? "").isNotEmpty)
+                cacheImage(
+                    imgUrl: newsfeed.image ?? "",
+                    height: width,
+                    width: width,
+                    isAvatar: false
+                ),
               Visibility(
                 visible: isShowHeart.value,
                 child: const Positioned(

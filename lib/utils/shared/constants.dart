@@ -56,6 +56,7 @@ class Constants {
   static const String createPostGroup = "/group/create-post";
   static const String joinGroup = "/group/join";
   static const String outGroup = "/group/out";
+  static const String createGroup = "/group/create";
 
   static const String symptomSearch = "/symptom-search";
   static const String frequentSymptomSearch = "/frequent-symptoms";
