@@ -63,7 +63,9 @@ class BaseRepo {
     Response? response;
     Dio dioSpecific = Dio(
       BaseOptions(
-        headers: headers
+        headers: headers,
+        connectTimeout: const Duration(seconds: 60), // 60 seconds
+        receiveTimeout: const Duration(seconds: 60)
       )
     )..interceptors.add(
       InterceptorsWrapper(
@@ -71,6 +73,9 @@ class BaseRepo {
           debugPrint("│ 🚀️ApiInterceptor-options--START🚀️");
           debugPrint("│ ${method.name}: $url");
           debugPrint("│ Headers: $headers");
+          debugPrint("│ Params: $params");
+          debugPrint("│ 🚀️ApiInterceptor-options--END🚀️");
+          handler.next(options);
         },
         onResponse: (response, handler) {
           debugPrint("│ ☘️ApiInterceptor-response--START☘️");
@@ -78,6 +83,15 @@ class BaseRepo {
           debugPrint("│ Status code: ${response.statusCode}");
           debugPrint("│ Status message: ${response.statusMessage}");
           debugPrint('│ Data response: ${jsonEncode(response.data)}');
+          debugPrint("│ ☘️ApiInterceptor-response--END☘️");
+          handler.next(response);
+        },
+        onError: (error, handler) {
+          debugPrint("│ ☘ERROR--START");
+          debugPrint("│ ${method.name}: $url");
+          debugPrint("│ Status message: ${error.message}");
+          debugPrint("│ ☘ERROR-START--END");
+          handler.next(error);
         }
       )
     );

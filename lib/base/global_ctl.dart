@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:chat_app_flutter/helper/helper_function.dart';
 import 'package:chat_app_flutter/models/commons/health_entity.dart';
+import 'package:chat_app_flutter/utils/shared/constants.dart';
 import 'package:get/get.dart';
+import 'package:translator/translator.dart';
 
 import '../models/responses/auth_responses/login_response.dart';
 
@@ -10,6 +12,8 @@ class GlobalController extends GetxService {
   RxBool isLogin = false.obs;
   Rx<UserInfo> userInfo = UserInfo().obs;
   int specificIndexTabHome = -1;
+  String healthApiToken = "";
+  final translator = GoogleTranslator();
 
   @override
   void onInit() async {
@@ -20,6 +24,7 @@ class GlobalController extends GetxService {
     // if (loginData != null) {
     //   userInfo.value = loginData.userInfo!;
     // }
+    healthApiToken = Constants.healthApiToken;
   }
 
   Future<GlobalController> initData() async {

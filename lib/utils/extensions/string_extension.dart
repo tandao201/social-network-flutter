@@ -1,3 +1,5 @@
+import 'package:translator/translator.dart';
+
 extension StringExtension on String {
   String timeAgo() {
     String timeRoot = this;
@@ -42,5 +44,12 @@ extension StringExtension on String {
     timeAgo = '$timeValue $timeUnit';
 
     return '$timeAgo trước';
+  }
+
+  Future<String> translateToVi(GoogleTranslator translator) async {
+    String result = this;
+    Translation translation = await translator.translate(this, from: 'en', to: 'vi');
+    result = translation.text;
+    return result;
   }
 }

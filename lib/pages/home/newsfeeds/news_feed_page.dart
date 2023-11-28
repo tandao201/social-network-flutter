@@ -13,6 +13,7 @@ import '../../../utils/shared/assets.dart';
 import '../../../utils/shared/colors.dart';
 import '../../../utils/shared/constants.dart';
 import '../../../utils/themes/text_style.dart';
+import '../health_prediction/health_prediction_page.dart';
 import 'items/newsfeed_loading.dart';
 
 class NewsFeedPage extends BaseView<NewsFeedCtl> {
@@ -25,6 +26,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
       controller: controller.pageController,
       physics: const BouncingScrollPhysics(),
       children: [
+        const HealthPredictionPage(),
         homeNewsFeed(context),
         const ChatHomePage(),
       ],
@@ -66,7 +68,7 @@ class NewsFeedPage extends BaseView<NewsFeedCtl> {
               const SizedBox(width: 8,),
               GestureDetector(
                 onTap: () {
-                  controller.animateToIndex(1);
+                  controller.animateToIndex(2);
                 },
                 child: SvgPicture.asset(Assets.message, ),
               )

@@ -21,12 +21,14 @@ class HomeBindings extends Bindings {
     Get.put(HealthInfoResultRepo());
     Get.put(AccountRepo());
     Get.put(ListGroupRepo());
+    Get.put(HealthPredictionRepo());
 
     Get.put(HomeCtl());
     Get.put(NewsFeedCtl());
     Get.put(HealthInfoResultCtl());
     Get.put(AccountCtl());
     Get.put(ListGroupCtl());
+    Get.put(HealthPredictionCtl());
   }
 
 }

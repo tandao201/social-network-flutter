@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -173,6 +174,12 @@ class Utilities {
       default:
         return "Không xác định";
     }
+  }
+
+  static Color getColorAccuracy(int accuracy) {
+    if (accuracy >= 80) return Colors.green;
+    if (accuracy >= 40) return Colors.yellow;
+    return Colors.red;
   }
 
 }

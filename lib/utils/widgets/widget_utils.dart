@@ -634,4 +634,24 @@ class WidgetUtils {
     );
   }
 
+  Widget contentText({
+    String title = "",
+    String content = "",
+  }) {
+    return RichText(
+      text: TextSpan(
+          text: title,
+          style: ThemeTextStyle.heading14.copyWith(
+              fontWeight: FontWeight.bold
+          ),
+          children: [
+            TextSpan(
+                text: content,
+                style: ThemeTextStyle.body14
+            )
+          ]
+      ),
+    );
+  }
+
 }
