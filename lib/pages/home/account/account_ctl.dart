@@ -5,6 +5,7 @@ import 'package:chat_app_flutter/models/responses/post_responses/create_post_res
 import 'package:chat_app_flutter/pages/home/account/account_page.dart';
 import 'package:chat_app_flutter/pages/home/account/account_repo.dart';
 import 'package:chat_app_flutter/service/auth_service.dart';
+import 'package:chat_app_flutter/utils/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -25,6 +26,8 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
   Rx<String> name = "Tên".obs;
   Rx<String> bio = "Tiểu sử".obs;
   RxList<Post> userPosts = <Post>[].obs;
+
+  TextEditingController tokenCtl = TextEditingController();
 
   @override
   void onInit() {
@@ -137,6 +140,11 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
     toPage(routeUrl: RouteNames.listUser, arguments: {
       'index': index
     });
+  }
+
+  void saveToken() {
+    globalController?.healthApiToken = tokenCtl.text;
+    showSnackbar(Get.context!, Colors.green, "Thành công");
   }
 
   @override

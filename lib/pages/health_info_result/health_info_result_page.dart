@@ -73,7 +73,7 @@ class HealthInfoResultPage extends BaseView<HealthInfoResultCtl> {
                 if (showLeading)
                   Container(
                     color: Colors.white,
-                    padding: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(40),
                       onTap: () {

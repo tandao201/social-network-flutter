@@ -216,11 +216,36 @@ class AccountPage extends BaseView<AccountCtl> {
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          SizedBox(height: 20,),
-          Text('Ảnh và video của bạn.', style: ThemeTextStyle.heading18),
-          SizedBox(height: 20,),
-          Text('Khi mọi người nhắc đến bạn trong ảnh và video, chúng sẽ xuất hiện ở đây.', textAlign: TextAlign.center,)
+        children: [
+          const SizedBox(height: 16,),
+          editTextChangeProfile(
+              hintText: "Thêm token...",
+              maxLines: null,
+              textInputType: TextInputType.multiline,
+              controller: controller.tokenCtl,
+              onTextChange: (value) {
+
+              }
+          ),
+          const SizedBox(height: 16,),
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(40),
+              onTap: () {
+                controller.saveToken();
+              },
+              child: Container(
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      gradient: AppColor.gradientPrimary,
+                      borderRadius: BorderRadius.circular(40)
+                  ),
+                  child: const Text("Lưu", style:  BaseTextStyle(color: AppColor.white, fontSize: 15))),
+            ),
+          )
         ],
       ),
     );
