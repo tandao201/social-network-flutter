@@ -11,7 +11,7 @@ class Constants {
   static const String baseUrl = "https://project-api-4222.onrender.com";
   static const String imageUploadUrl = "https://api.imgbb.com/1/upload";
   static const String keyImageUpload = "f044fa8f4cb65404a2affe6334d7fef5";
-  static const String healthPredictionApi = "https://sandbox-healthservice.priaid.ch";
+  static const String healthPredictionApi = "https://healthservice.priaid.ch";
   static const String healthLoginApi = "https://sandbox-authservice.priaid.ch";
   static const String healthApiToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRhbi4yNi4xMGEyQGdtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc2lkIjoiMTMyNjgiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3ZlcnNpb24iOiIyMDAiLCJodHRwOi8vZXhhbXBsZS5vcmcvY2xhaW1zL2xpbWl0IjoiOTk5OTk5OTk5IiwiaHR0cDovL2V4YW1wbGUub3JnL2NsYWltcy9tZW1iZXJzaGlwIjoiUHJlbWl1bSIsImh0dHA6Ly9leGFtcGxlLm9yZy9jbGFpbXMvbGFuZ3VhZ2UiOiJlbi1nYiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjIwOTktMTItMzEiLCJodHRwOi8vZXhhbXBsZS5vcmcvY2xhaW1zL21lbWJlcnNoaXBzdGFydCI6IjIwMjMtMTEtMjYiLCJpc3MiOiJodHRwczovL3NhbmRib3gtYXV0aHNlcnZpY2UucHJpYWlkLmNoIiwiYXVkIjoiaHR0cHM6Ly9oZWFsdGhzZXJ2aWNlLnByaWFpZC5jaCIsImV4cCI6MTcwMTE5NjY0OCwibmJmIjoxNzAxMTg5NDQ4fQ.01vanWLj5G0_Ha_-ynPyUrnrHzwNtd9ZdwHtu80DjUQ";
   static const String healthUsername = "tan.26.10a2@gmail.com";
