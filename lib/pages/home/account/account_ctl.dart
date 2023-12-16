@@ -143,6 +143,7 @@ class AccountCtl extends BaseCtl<AccountRepo> with GetSingleTickerProviderStateM
   }
 
   void saveToken() {
+    Constants.healthApiToken = tokenCtl.text;
     globalController?.healthApiToken = tokenCtl.text;
     showSnackbar(Get.context!, Colors.green, "Thành công");
   }
