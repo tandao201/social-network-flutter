@@ -62,7 +62,7 @@ class HealthPredictionCtl extends BaseCtl<HealthPredictionRepo> {
       }
     } catch (e) {
       isLoading.value = false;
-      print('Exception');
+      print('Exception in here');
     } finally {
       isLoading.value = false;
     }
